@@ -12,10 +12,10 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure.ApiClient
         {
         }
 
-        public async Task CalculateFirstPayment(Guid claimId)
+        public Task CalculateFirstPayment(Guid claimId)
         {
             // TODO: integrate with outer API
-
+            return Task.CompletedTask;
         }
     }
 }
