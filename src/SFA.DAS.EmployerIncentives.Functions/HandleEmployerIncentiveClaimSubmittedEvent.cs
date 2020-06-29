@@ -27,7 +27,7 @@ namespace SFA.DAS.EmployerIncentives.Functions
         [FunctionName("HandleEmployerIncentiveClaimSubmittedEvent")]
         public async Task Run([NServiceBusTrigger(Endpoint = QueueNames.EmployerIncentiveClaimSubmitted)] EmployerIncentiveClaimSubmittedEvent message)
         {
-            await _handler.Handle(new EmployerIncentiveClaimSubmittedCommand(message.ClaimId));
+            await _handler.Handle(new EmployerIncentiveClaimSubmittedCommand(message.IncentiveClaimApprenticeshipId));
         }
     }
 }

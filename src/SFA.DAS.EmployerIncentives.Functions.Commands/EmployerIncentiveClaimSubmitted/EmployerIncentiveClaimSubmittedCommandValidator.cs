@@ -9,9 +9,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.Commands.EmployerIncentiveClaimSu
         {
             var result = new ValidationResult();
 
-            if (item.ClaimId == default)
+            if (item.IncentiveClaimApprenticeshipId == default)
             {
-                result.AddError("ClaimId", "Is not set");
+                result.AddError("IncentiveClaimApprenticeshipId", "Is not set");
             }
 
             return Task.FromResult(result);

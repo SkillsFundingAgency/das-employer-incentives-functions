@@ -7,6 +7,6 @@ namespace SFA.DAS.EmployerIncentives.Functions
 
     public class EmployerIncentiveClaimSubmittedEvent : Event
     {
-        public Guid ClaimId { get; set; }
+        public Guid IncentiveClaimApprenticeshipId { get; set; }
     }
 }
