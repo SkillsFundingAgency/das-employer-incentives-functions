@@ -28,8 +28,7 @@ resources:
 pool:
   name: 'DAS - Continuous Integration'
   demands: 
-  - msbuild
-  - visualstudio
+  - dotnet
   - Agent.OS -equals Linux
     
 steps:
