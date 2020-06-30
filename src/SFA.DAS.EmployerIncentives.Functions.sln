@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.EmployerIncentives.Functions", "SFA.DAS.EmployerIncentives.Functions\SFA.DAS.EmployerIncentives.Functions.csproj", "{B17D0E33-143B-4990-AA30-0895DF640166}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.EmployerIncentives.Functions", "SFA.DAS.EmployerIncentives.Functions\SFA.DAS.EmployerIncentives.Functions.csproj", "{B17D0E33-143B-4990-AA30-0895DF640166}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.EmployerIncentives.Functions.Commands", "SFA.DAS.EmployerIncentives.Functions.Commands\SFA.DAS.EmployerIncentives.Functions.Commands.csproj", "{21072605-2B22-409F-B12A-E3426AF186D5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.EmployerIncentives.Handlers", "SFA.DAS.EmployerIncentives.Handlers\SFA.DAS.EmployerIncentives.Handlers.csproj", "{EF6363BB-CC43-4616-9166-E0D38DA76C3F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.EmployerIncentives.Infrastructure", "SFA.DAS.EmployerIncentives.Infrastructure\SFA.DAS.EmployerIncentives.Infrastructure.csproj", "{F2E65893-0B78-4C4B-9289-DB754E4D4DFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{035EBAF4-F89E-44BB-907D-99D8A9F6AF24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.EmployerIncentives.Handlers.Tests", "SFA.DAS.EmployerIncentives.Handlers.Tests\SFA.DAS.EmployerIncentives.Handlers.Tests.csproj", "{9D5B1020-2557-4E7D-B974-D1677EA79995}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.EmployerIncentives.Functions.Commands.Tests", "SFA.DAS.EmployerIncentives.Functions.Commands.Tests\SFA.DAS.EmployerIncentives.Functions.Commands.Tests.csproj", "{0323CDD0-36BC-44D6-A6FE-3B67D67ACB0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +27,33 @@ Global
 		{B17D0E33-143B-4990-AA30-0895DF640166}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B17D0E33-143B-4990-AA30-0895DF640166}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B17D0E33-143B-4990-AA30-0895DF640166}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21072605-2B22-409F-B12A-E3426AF186D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21072605-2B22-409F-B12A-E3426AF186D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21072605-2B22-409F-B12A-E3426AF186D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21072605-2B22-409F-B12A-E3426AF186D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF6363BB-CC43-4616-9166-E0D38DA76C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF6363BB-CC43-4616-9166-E0D38DA76C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF6363BB-CC43-4616-9166-E0D38DA76C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF6363BB-CC43-4616-9166-E0D38DA76C3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2E65893-0B78-4C4B-9289-DB754E4D4DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2E65893-0B78-4C4B-9289-DB754E4D4DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2E65893-0B78-4C4B-9289-DB754E4D4DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2E65893-0B78-4C4B-9289-DB754E4D4DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D5B1020-2557-4E7D-B974-D1677EA79995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D5B1020-2557-4E7D-B974-D1677EA79995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D5B1020-2557-4E7D-B974-D1677EA79995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D5B1020-2557-4E7D-B974-D1677EA79995}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0323CDD0-36BC-44D6-A6FE-3B67D67ACB0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0323CDD0-36BC-44D6-A6FE-3B67D67ACB0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0323CDD0-36BC-44D6-A6FE-3B67D67ACB0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0323CDD0-36BC-44D6-A6FE-3B67D67ACB0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9D5B1020-2557-4E7D-B974-D1677EA79995} = {035EBAF4-F89E-44BB-907D-99D8A9F6AF24}
+		{0323CDD0-36BC-44D6-A6FE-3B67D67ACB0F} = {035EBAF4-F89E-44BB-907D-99D8A9F6AF24}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF42D002-5CCF-4E5E-A235-8AFC74A94C69}
