@@ -30,6 +30,7 @@ pool:
   demands: 
   - msbuild
   - visualstudio
+  - Agent.OS -equals Linux
     
 steps:
 - task: UseGitVersion@5
