@@ -4,7 +4,7 @@ using SFA.DAS.EmployerIncentives.Infrastructure.Commands;
 using SFA.DAS.EmployerIncentives.Functions.Commands.EmployerIncentiveClaimSubmitted;
 using SFA.DAS.NServiceBus.AzureFunction.Attributes;
 using SFA.DAS.EmployerIncentives.Infrastructure;
-using SFA.DAS.EmployerIncentives.Messages;
+using SFA.DAS.EmployerIncentives.Messages.Events;
 
 namespace SFA.DAS.EmployerIncentives.Functions
 {
