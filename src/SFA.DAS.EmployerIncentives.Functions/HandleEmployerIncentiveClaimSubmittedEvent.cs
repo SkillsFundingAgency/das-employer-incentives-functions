@@ -5,6 +5,7 @@ using SFA.DAS.EmployerIncentives.Functions.Commands.EmployerIncentiveClaimSubmit
 using SFA.DAS.NServiceBus.AzureFunction.Attributes;
 using SFA.DAS.EmployerIncentives.Infrastructure;
 using SFA.DAS.EmployerIncentives.Messages.Events;
+using Microsoft.Extensions.Configuration;
 
 namespace SFA.DAS.EmployerIncentives.Functions
 {
@@ -21,7 +22,7 @@ namespace SFA.DAS.EmployerIncentives.Functions
         [FunctionName("HandleEmployerIncentiveClaimSubmittedEvent")]
         public async Task Run([NServiceBusTrigger(Endpoint = QueueNames.EmployerIncentiveClaimSubmitted)] EmployerIncentiveClaimSubmittedEvent message)
         {
-            await _handler.Handle(new EmployerIncentiveClaimSubmittedCommand(message.IncentiveClaimApprenticeshipId));
+            await _handler.Handle(new EmployerIncentiveClaimSubmittedCommand(message.AccountId, message.IncentiveClaimApprenticeshipId));
         }
     }
 }

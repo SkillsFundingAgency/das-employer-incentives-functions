@@ -17,7 +17,7 @@ namespace SFA.DAS.EmployerIncentives.Handlers
 
         public async Task Handle(EmployerIncentiveClaimSubmittedCommand command)
         {
-            await ApiClient.CalculateFirstPayment(command.IncentiveClaimApprenticeshipId);
+            await ApiClient.CalculateFirstPayment(command.AccountId, command.IncentiveClaimApprenticeshipId);
         }
     }
 }

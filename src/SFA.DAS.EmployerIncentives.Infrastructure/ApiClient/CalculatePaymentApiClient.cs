@@ -16,10 +16,11 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure.ApiClient
             _logger = logger;
         }
 
-        public async Task CalculateFirstPayment(Guid claimId)
+        public async Task CalculateFirstPayment(long accountId, Guid claimId)
         {
-            // TODO: integrate with outer API
-            //await PostAsJson<Obj>("url");
+            _logger.LogInformation($"Submitting calculate first payment request for account {accountId} claim {claimId}");
+
+            await PostAsJson($"/account/{accountId}/claim/{claimId}", false);
         }
     }
 }

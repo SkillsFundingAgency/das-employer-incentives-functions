@@ -24,13 +24,14 @@ namespace SFA.DAS.EmployerIncentives.Handlers.Tests.EmployerIncentiveClaimSubmit
         public async Task Then_calculation_of_first_payment_is_requested()
         {
             // Arrange
+            var accountId = 1234;
             var incentiveClaimApprenticeshipId = Guid.NewGuid();
 
             // Act
-            await _handler.Handle(new EmployerIncentiveClaimSubmittedCommand(incentiveClaimApprenticeshipId));
+            await _handler.Handle(new EmployerIncentiveClaimSubmittedCommand(accountId, incentiveClaimApprenticeshipId));
 
             // Assert
-            _apiClient.Verify(x => x.CalculateFirstPayment(incentiveClaimApprenticeshipId), Times.Once);
+            _apiClient.Verify(x => x.CalculateFirstPayment(accountId, incentiveClaimApprenticeshipId), Times.Once);
         }
     }
 }

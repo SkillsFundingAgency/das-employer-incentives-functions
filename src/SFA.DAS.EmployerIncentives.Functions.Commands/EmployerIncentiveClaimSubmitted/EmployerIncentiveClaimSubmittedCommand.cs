@@ -5,10 +5,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.Commands.EmployerIncentiveClaimSu
 {
     public class EmployerIncentiveClaimSubmittedCommand : ICommand
     {
+        public long AccountId { get; private set; }
         public Guid IncentiveClaimApprenticeshipId { get; private set; }
 
-        public EmployerIncentiveClaimSubmittedCommand(Guid claimId)
+        public EmployerIncentiveClaimSubmittedCommand(long accountId, Guid claimId)
         {
+            AccountId = accountId;
             IncentiveClaimApprenticeshipId = claimId;
         }
     }
