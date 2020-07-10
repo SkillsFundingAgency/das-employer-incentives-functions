@@ -1,10 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug\netcoreapp2.2\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.0.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.3" />
+    <PackageReference Include="SFA.DAS.Configuration.AzureTableStorage" Version="3.0.84" />
+    <PackageReference Include="SFA.DAS.EmployerAccounts.Messages" Version="1.6.2933" />
+    <PackageReference Include="SFA.DAS.EmployerIncentives.Messages" Version="0.1.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SFA.DAS.EmployerIncentives.Functions.Commands\SFA.DAS.EmployerIncentives.Functions.Commands.csproj" />
+    <ProjectReference Include="..\SFA.DAS.EmployerIncentives.Handlers\SFA.DAS.EmployerIncentives.Handlers.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
