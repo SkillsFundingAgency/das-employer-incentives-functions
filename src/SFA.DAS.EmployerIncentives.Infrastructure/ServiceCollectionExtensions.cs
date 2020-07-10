@@ -1,16 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Azure.WebJobs.Host.Config;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using SFA.DAS.EmployerIncentives.Infrastructure.Logging;
-using Microsoft.Azure.WebJobs.Host.Config;
-using NServiceBus;
 using SFA.DAS.NServiceBus.AzureFunction.Configuration;
 using SFA.DAS.NServiceBus.AzureFunction.Hosting;
-using SFA.DAS.EmployerIncentives.Infrastructure.Decorators;
-using SFA.DAS.EmployerIncentives.Infrastructure.Commands;
-using SFA.DAS.EmployerIncentives.Infrastructure.DistributedLock;
-using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
-using Microsoft.Extensions.Options;
+using System;
 
 namespace SFA.DAS.EmployerIncentives.Infrastructure
 {
@@ -37,7 +32,10 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure
             return serviceCollection;
         }
 
-        public static IServiceCollection AddNServiceBus(this IServiceCollection serviceCollection, ILogger logger, string testStorageDirectory = null)
+        public static IServiceCollection AddNServiceBus(
+            this IServiceCollection serviceCollection,
+            ILogger logger,
+            Action<NServiceBusOptions> OnConfigureOptions = null)
         {
             serviceCollection.AddSingleton<IExtensionConfigProvider, NServiceBusExtensionConfigProvider>((c) =>
             {
@@ -62,41 +60,15 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure
                     }
                 };
 
-                if(testStorageDirectory != null)
+                if(OnConfigureOptions != null)
                 {
-                    options.EndpointConfiguration = (endpoint) =>
-                    {
-                        endpoint.UseTransport<LearningTransport>().StorageDirectory(testStorageDirectory);
-                        return endpoint;
-                    };
-                }
+                    OnConfigureOptions.Invoke(options);
+                }                
 
                return new NServiceBusExtensionConfigProvider(options);
              });
 
             return serviceCollection;
-        }
-
-        public static IServiceCollection AddCommandHandlerDecorators(this IServiceCollection serviceCollection)
-        {
-            serviceCollection
-                .Decorate(typeof(ICommandHandler<>), typeof(CommandHandlerWithDistributedLock<>))
-                .Decorate(typeof(ICommandHandler<>), typeof(CommandHandlerWithRetry<>))
-                .Decorate(typeof(ICommandHandler<>), typeof(CommandHandlerWithValidator<>))
-                .Decorate(typeof(ICommandHandler<>), typeof(CommandHandlerWithLogging<>));
-
-            return serviceCollection;
-        }
-
-        public static IServiceCollection AddDistributedLockProvider(this IServiceCollection serviceCollection)
-        {
-            serviceCollection.AddSingleton<IDistributedLockProvider, AzureDistributedLockProvider>(s =>
-               new AzureDistributedLockProvider(
-                   s.GetRequiredService<IOptions<ApplicationSettings>>(),
-                   s.GetRequiredService<ILogger<AzureDistributedLockProvider>>(),
-                   "employer-incentives-distributed-locks"));
-
-            return serviceCollection;
-        }
+        }       
     }
 }
