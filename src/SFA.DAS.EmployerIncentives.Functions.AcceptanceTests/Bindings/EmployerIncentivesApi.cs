@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow;
+﻿using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services;
+using TechTalk.SpecFlow;
 
 namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
 {

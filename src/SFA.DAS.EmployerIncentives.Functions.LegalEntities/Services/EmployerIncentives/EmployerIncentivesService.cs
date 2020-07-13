@@ -1,8 +1,6 @@
-﻿using Newtonsoft.Json;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives.Types;
+﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives.Types;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives

@@ -3,6 +3,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
@@ -16,9 +17,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         }
 
         [FunctionName("HttpTriggerRefreshLegalEntities")]
-        public Task RunHttp([HttpTrigger(AuthorizationLevel.Function)] HttpRequest request)
+        public async Task<IActionResult> RunHttp([HttpTrigger(AuthorizationLevel.Function)] HttpRequest request)
         {
-            return _employerIncentivesService.RefreshLegalEntities();
+            await _employerIncentivesService.RefreshLegalEntities();
+
+            return new OkResult();
         }
     }
 }

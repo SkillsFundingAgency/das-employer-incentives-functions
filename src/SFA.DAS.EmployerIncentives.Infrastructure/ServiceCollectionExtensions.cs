@@ -63,7 +63,7 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure
                 if(OnConfigureOptions != null)
                 {
                     OnConfigureOptions.Invoke(options);
-                }                
+                }
 
                return new NServiceBusExtensionConfigProvider(options);
              });

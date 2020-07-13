@@ -13,7 +13,7 @@ Scenario: A legal entity is removed from an account
 	Then the event is forwarded to the Employer Incentives system
 
 Scenario: A job to load all legal entities is requested
-	When a request to refresh legal entities is received
+	When a request to refresh legal entities is received	
 	Then the request is forwarded to the Employer Incentives system
 
 Scenario: A job to load a page of legal entities is requested

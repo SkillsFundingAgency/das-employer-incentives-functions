@@ -1,7 +1,7 @@
 ﻿using System;
 using WireMock.Server;
 
-namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests
+namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 {
     public class TestEmployerIncentivesApi : IDisposable
     {

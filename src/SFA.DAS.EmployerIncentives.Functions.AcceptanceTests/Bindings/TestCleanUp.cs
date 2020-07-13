@@ -21,7 +21,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
                 await _context.TestMessageBus.Stop();
             }
             Directory.Delete(_context.TestDirectory.FullName, true);
-            _context.FunctionsHost.Dispose();
+            _context.LegalEntitiesFunctions?.Dispose();
             _context.EmployerIncentivesApi?.Dispose();
         }
     }

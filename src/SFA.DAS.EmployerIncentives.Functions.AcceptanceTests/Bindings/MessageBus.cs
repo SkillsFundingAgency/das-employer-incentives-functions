@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using NServiceBus.Transport;
+using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks;
+using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
@@ -15,11 +17,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
             _context = context;
         }
 
-        [BeforeScenario()]
+        [BeforeScenario(Order = 1)]
         public Task InitialiseMessageBus()
         {
             _context.TestMessageBus = new TestMessageBus();
-            return _context.TestMessageBus.Start(new DirectoryInfo(Path.Combine(_context.TestDirectory.FullName, ".learningtransport")));
+            _context.Hooks.Add(new Hook<MessageContext>());
+            return _context.TestMessageBus.Start(_context.TestDirectory);
         }
     }
 }

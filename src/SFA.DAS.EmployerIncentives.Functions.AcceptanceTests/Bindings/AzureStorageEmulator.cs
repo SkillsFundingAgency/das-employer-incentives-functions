@@ -6,10 +6,10 @@ using System.IO;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
-namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks
+namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
 {
     [Binding]
-    public class AzureStorageEmulatorHook
+    public class AzureStorageEmulator
     {
         [BeforeTestRun]
         public static async Task StartAzureStorageEmulator()
@@ -32,7 +32,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks
             var client = storageAccount.CreateCloudTableClient();
             var table = client.GetTableReference("Configuration");
             await table.CreateIfNotExistsAsync();
-            await table.ExecuteAsync(TableOperation.InsertOrReplace(new Config()));
+            await table.ExecuteAsync(TableOperation.InsertOrReplace(new Config("LOCAL", "SFA.DAS.EmployerIncentives.Functions_1.0")));         
         }
 
         private class Config : ITableEntity
@@ -44,10 +44,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks
 
             private readonly Dictionary<string, EntityProperty> _data;
 
-            public Config()
+            public Config(string partitionKey, string rowKey)
             {
-                PartitionKey = "LOCAL";
-                RowKey = "SFA.DAS.EmployerIncentives.Functions_1.0";
+                PartitionKey = partitionKey;
+                RowKey = rowKey;
                 Timestamp = DateTimeOffset.Now;
                 _data = new Dictionary<string, EntityProperty>
                 {
