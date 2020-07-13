@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
@@ -27,10 +26,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         private readonly List<IHook> _messageHooks;
         private IHost host;
         private bool isDisposed;
-        public HandleRefreshLegalEntitiesRequest HttpTriggerRefreshLegalEntities { get; set;}
+        public HandleRefreshLegalEntitiesRequest HttpTriggerRefreshLegalEntities { get; set; }
 
         public TestLegalEntitiesFunctions(
-            TestEmployerIncentivesApi testEmployerIncentivesApi, 
+            TestEmployerIncentivesApi testEmployerIncentivesApi,
             TestMessageBus testMessageBus,
             List<IHook> messageHooks)
         {
@@ -72,29 +71,38 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                     a.ClientId = "";
                 });
 
-                s.AddNServiceBus(new LoggerFactory().CreateLogger<TestLegalEntitiesFunctions>(),
+                _ = s.AddNServiceBus(new LoggerFactory().CreateLogger<TestLegalEntitiesFunctions>(),
                     (o) =>
                     {
                         o.EndpointConfiguration = (endpoint) =>
                         {
-                            
+
                             endpoint.UseTransport<LearningTransport>().StorageDirectory(_testMessageBus.StorageDirectory.FullName);
                             return endpoint;
                         };
-                        o.OnMessageReceived = (message) =>
+
+                        var hook = _messageHooks.SingleOrDefault(h => h is Hook<MessageContext>) as Hook<MessageContext>;
+                        if (hook != null)
                         {
-                            var hook = _messageHooks.SingleOrDefault(h => h is Hook<MessageContext>);                            
-                            if (hook != null)
+                            o.OnMessageReceived = (message) =>
                             {
-                                (hook as Hook<MessageContext>)?.OnReceived(message);
-                            }
-                        };
+                                hook?.OnReceived(message);
+                            };
+                            o.OnMessageProcessed = (message) =>
+                            {
+                                hook?.OnProcessed(message);
+                            };
+                            o.OnMessageErrored = (exception, message) =>
+                            {
+                                hook?.OnErrored(exception, message);
+                            };
+                        }
                     });
             });
 
             hostBuilder.UseEnvironment("LOCAL");
 
-            host = await hostBuilder.StartAsync();            
+            host = await hostBuilder.StartAsync();
 
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(IEmployerIncentivesService)) as IEmployerIncentivesService);
@@ -112,7 +120,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             if (disposing && host != null)
             {
-                host.StopAsync();                
+                host.StopAsync();
             }
 
             isDisposed = true;

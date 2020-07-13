@@ -57,9 +57,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                     .WithHeader("location", $"/accounts/{addLegalEntityRequest.AccountId}/LegalEntities"));
             
            await _testContext.WaitFor<MessageContext>(async () => 
-                await _testContext.TestMessageBus.Publish(addedEvent),
-                assertOnTimeout: false, 
-                timeoutInMs: 5000);
+                await _testContext.TestMessageBus.Publish(addedEvent));
         }
 
         [When(@"a legal entity is removed from an account")]
@@ -81,9 +79,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                      .WithHeader("Content-Type", "application/json"));
 
             await _testContext.WaitFor<MessageContext>(async () =>
-                 await _testContext.TestMessageBus.Publish(removedEvent),
-                 assertOnTimeout: false,
-                 timeoutInMs: 5000);
+                 await _testContext.TestMessageBus.Publish(removedEvent));
         }
 
         [When(@"a request to refresh legal entities is received")]
@@ -151,9 +147,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                      .WithHeader("Content-Type", "application/json"));
 
             await _testContext.WaitFor<MessageContext>(async () =>
-                 await _testContext.TestMessageBus.Publish(refreshEvent),
-                 assertOnTimeout: false,
-                 timeoutInMs: 5000);
+                 await _testContext.TestMessageBus.Publish(refreshEvent));
         }
 
         [Then(@"the event is forwarded to the Employer Incentives system")]
