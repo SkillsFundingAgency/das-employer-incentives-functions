@@ -15,6 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.EmployerIncentives.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.EmployerIncentives.Functions.UnitTests", "SFA.DAS.EmployerIncentives.Functions.UnitTests\SFA.DAS.EmployerIncentives.Functions.UnitTests.csproj", "{37C08D93-B533-42E2-9FE4-E271B291C90C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{B85060B3-BE66-45CC-823B-34A34F5C61CE}"
+	ProjectSection(SolutionItems) = preProject
+		start_azure_storage_emulator.cmd = start_azure_storage_emulator.cmd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
