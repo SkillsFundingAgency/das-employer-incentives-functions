@@ -63,7 +63,7 @@ steps:
   displayName: 'Publish - dotnet publish application $(SolutionBaseName)'
   inputs:
     command: 'publish'
-    projects: 'src/$(SolutionBaseName).Web/$(SolutionBaseName).Web.csproj'
+    projects: 'src/$(SolutionBaseName).Functions/$(SolutionBaseName).Functions.csproj'
     arguments: '-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration)'
     publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
 
