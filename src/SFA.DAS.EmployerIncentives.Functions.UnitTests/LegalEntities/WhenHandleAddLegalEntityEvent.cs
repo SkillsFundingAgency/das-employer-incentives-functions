@@ -3,8 +3,8 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.EmployerAccounts.Messages.Events;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
@@ -12,20 +12,20 @@ namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
     public class WhenHandleAddLegalEntityEvent
     {
         private HandleAddLegalEntityEvent _sut;
-        private Mock<IEmployerIncentivesService> _mockEmployerIncentivesService;
+        private Mock<ILegalEntitiesService> _mockILegalEntitiesService;
         private Fixture _fixture;
 
         [SetUp]
         public void Setup()
         {
-            _mockEmployerIncentivesService = new Mock<IEmployerIncentivesService>();
+            _mockILegalEntitiesService = new Mock<ILegalEntitiesService>();
             _fixture = new Fixture();
 
-            _mockEmployerIncentivesService
-                .Setup(m => m.AddLegalEntity(It.IsAny<AddLegalEntityRequest>()))
+            _mockILegalEntitiesService
+                .Setup(m => m.Add(It.IsAny<AddRequest>()))
                 .Verifiable();
 
-            _sut = new HandleAddLegalEntityEvent(_mockEmployerIncentivesService.Object);
+            _sut = new HandleAddLegalEntityEvent(_mockILegalEntitiesService.Object);
 
         }
 
@@ -39,8 +39,8 @@ namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
             await _sut.RunEvent(request);
 
             // Assert
-            _mockEmployerIncentivesService
-                .Verify(m => m.AddLegalEntity(It.Is<AddLegalEntityRequest>(r => 
+            _mockILegalEntitiesService
+                .Verify(m => m.Add(It.Is<AddRequest>(r => 
                     r.AccountId == request.AccountId && 
                     r.AccountLegalEntityId == request.AccountLegalEntityId &&
                     r.LegalEntityId == request.LegalEntityId &&

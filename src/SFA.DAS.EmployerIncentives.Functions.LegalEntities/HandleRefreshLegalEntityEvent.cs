@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.WebJobs;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
 using SFA.DAS.EmployerIncentives.Infrastructure;
 using SFA.DAS.EmployerIncentives.Messages.Events;
 using SFA.DAS.NServiceBus.AzureFunction.Attributes;
@@ -10,17 +10,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
     public class HandleRefreshLegalEntityEvent
     {
-        private readonly IEmployerIncentivesService _employerIncentivesService;
+        private readonly ILegalEntitiesService _legalEntitiesService;
 
-        public HandleRefreshLegalEntityEvent(IEmployerIncentivesService employerIncentivesService)
+        public HandleRefreshLegalEntityEvent(ILegalEntitiesService legalEntitiesService)
         {
-            _employerIncentivesService = employerIncentivesService;
+            _legalEntitiesService = legalEntitiesService;
         }
 
         [FunctionName("HandleRefreshLegalEntityEvent")]
         public Task RunEvent([NServiceBusTrigger(Endpoint = QueueNames.RefreshLegalEntity)] RefreshLegalEntityEvent message)
         {
-            var addRequest = new AddLegalEntityRequest
+            var addRequest = new AddRequest
             {
                 AccountId = message.AccountId,
                 AccountLegalEntityId = message.AccountLegalEntityId,
@@ -28,7 +28,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 OrganisationName = message.OrganisationName
             };
 
-            return _employerIncentivesService.AddLegalEntity(addRequest);
+            return _legalEntitiesService.Add(addRequest);
 
         }
     }

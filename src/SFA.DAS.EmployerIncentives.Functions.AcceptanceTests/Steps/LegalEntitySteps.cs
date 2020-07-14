@@ -3,7 +3,8 @@ using Newtonsoft.Json;
 using NServiceBus.Transport;
 using SFA.DAS.EmployerAccounts.Messages.Events;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Extensions;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
 using SFA.DAS.EmployerIncentives.Messages.Events;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             var addedEvent = _testContext.TestData.GetOrCreate<AddedLegalEntityEvent>();
             var addLegalEntityRequest = _testContext.TestData.GetOrCreate(onCreate: () =>
                 {
-                    return new AddLegalEntityRequest
+                    return new AddRequest
                     {
                         AccountId = addedEvent.AccountId,
                         AccountLegalEntityId = addedEvent.AccountLegalEntityId,
@@ -159,7 +160,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
 
             var addLegalEntityRequest = _testContext.TestData.GetOrCreate(onCreate: () =>
             {
-                return new AddLegalEntityRequest
+                return new AddRequest
                 {
                     AccountId = refreshEvent.AccountId,
                     AccountLegalEntityId = refreshEvent.AccountLegalEntityId,
@@ -206,7 +207,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
 
         public void ThenTheAddedEventIsForwardedToTheApi()
         {
-            var addLegalEntityRequest = _testContext.TestData.GetOrCreate<AddLegalEntityRequest>();
+            var addLegalEntityRequest = _testContext.TestData.GetOrCreate<AddRequest>();
 
             var requests = _testContext
                        .EmployerIncentivesApi

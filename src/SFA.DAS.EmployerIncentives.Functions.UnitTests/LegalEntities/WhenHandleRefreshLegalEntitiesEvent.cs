@@ -2,7 +2,7 @@ using AutoFixture;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Messages.Events;
 using System.Threading.Tasks;
 
@@ -11,20 +11,20 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
     public class WhenHandleRefreshLegalEntitiesEvent
     {
         private HandleRefreshLegalEntitiesEvent _sut;
-        private Mock<IEmployerIncentivesService> _mockEmployerIncentivesService;
+        private Mock<ILegalEntitiesService> _mockLegalEntitiesService;
         private Fixture _fixture;
 
         [SetUp]
         public void Setup()
         {
-            _mockEmployerIncentivesService = new Mock<IEmployerIncentivesService>();
+            _mockLegalEntitiesService = new Mock<ILegalEntitiesService>();
             _fixture = new Fixture();
 
-            _mockEmployerIncentivesService
-                .Setup(m => m.RefreshLegalEntities(It.IsAny<int>(), It.IsAny<int>()))
+            _mockLegalEntitiesService
+                .Setup(m => m.Refresh(It.IsAny<int>(), It.IsAny<int>()))
                 .Verifiable();
 
-            _sut = new HandleRefreshLegalEntitiesEvent(_mockEmployerIncentivesService.Object);
+            _sut = new HandleRefreshLegalEntitiesEvent(_mockLegalEntitiesService.Object);
 
         }
 
@@ -38,8 +38,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
             await _sut.RunEvent(request);
 
             // Assert
-            _mockEmployerIncentivesService
-                .Verify(m => m.RefreshLegalEntities(request.PageNumber, request.PageSize)
+            _mockLegalEntitiesService
+                .Verify(m => m.Refresh(request.PageNumber, request.PageSize)
                 , Times.Once);
         }
     }

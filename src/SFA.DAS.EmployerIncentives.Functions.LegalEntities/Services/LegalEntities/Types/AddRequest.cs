@@ -1,6 +1,6 @@
-﻿namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives.Types
+﻿namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types
 {
-    public class AddLegalEntityRequest
+    public class AddRequest
     {
         public long AccountId { get; set; }
         public long AccountLegalEntityId { get; set; }

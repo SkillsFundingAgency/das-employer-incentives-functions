@@ -6,7 +6,7 @@ using NServiceBus;
 using NServiceBus.Transport;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -75,7 +75,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                     {
                         o.EndpointConfiguration = (endpoint) =>
                         {
-
                             endpoint.UseTransport<LearningTransport>().StorageDirectory(_testMessageBus.StorageDirectory.FullName);
                             return endpoint;
                         };
@@ -104,7 +103,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             host = await hostBuilder.StartAsync();
 
             // ideally use the test server but no functions support yet.
-            HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(IEmployerIncentivesService)) as IEmployerIncentivesService);
+            HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
         }
 
         public void Dispose()

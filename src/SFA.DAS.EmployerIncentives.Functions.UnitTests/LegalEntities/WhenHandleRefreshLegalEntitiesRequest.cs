@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
@@ -11,18 +11,18 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
     public class WhenHandleRefreshLegalEntitiesRequest
     {
         private HandleRefreshLegalEntitiesRequest _sut;
-        private Mock<IEmployerIncentivesService> _mockEmployerIncentivesService;        
+        private Mock<ILegalEntitiesService> _mockLegalEntitiesService;        
 
         [SetUp]
         public void Setup()
         {
-            _mockEmployerIncentivesService = new Mock<IEmployerIncentivesService>();
+            _mockLegalEntitiesService = new Mock<ILegalEntitiesService>();
 
-            _mockEmployerIncentivesService
-                .Setup(m => m.RefreshLegalEntities())
+            _mockLegalEntitiesService
+                .Setup(m => m.Refresh())
                 .Returns(Task.FromResult<IActionResult>(new OkResult()));
 
-            _sut = new HandleRefreshLegalEntitiesRequest(_mockEmployerIncentivesService.Object);
+            _sut = new HandleRefreshLegalEntitiesRequest(_mockLegalEntitiesService.Object);
         }
 
         [Test]
@@ -35,8 +35,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
             await _sut.RunHttp(request);
 
             // Assert
-            _mockEmployerIncentivesService
-                .Verify(m => m.RefreshLegalEntities()
+            _mockLegalEntitiesService
+                .Verify(m => m.Refresh()
                 , Times.Once);
         }
 
