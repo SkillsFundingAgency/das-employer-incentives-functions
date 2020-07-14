@@ -2,24 +2,23 @@
 using Polly;
 using Polly.Retry;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
-using SFA.DAS.EmployerIncentives.Infrastructure.Exceptions;
 using System;
 
 namespace SFA.DAS.EmployerIncentives.Infrastructure.Commands
 {
     public class Policies
     {
-        public readonly AsyncRetryPolicy LockRetryPolicy;
+        public readonly AsyncRetryPolicy RetryPolicy;
 
         public Policies(IOptions<RetryPolicies> settings)
         {
             var retryPolicies = settings.Value;
 
-            LockRetryPolicy = Policy
-                .Handle<EntityLockedException>()
+            RetryPolicy = Policy
+                .Handle<Exception>()
                 .WaitAndRetryAsync(
-                    retryPolicies.LockedRetryAttempts,
-                    retryAttempt => TimeSpan.FromMilliseconds(retryPolicies.LockedRetryWaitInMilliSeconds));
+                    retryPolicies.RetryAttempts,
+                    retryAttempt => TimeSpan.FromMilliseconds(retryPolicies.RetryWaitInMilliSeconds));
         }
     }
 }

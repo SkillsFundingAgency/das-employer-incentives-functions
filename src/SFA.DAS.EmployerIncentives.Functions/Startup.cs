@@ -10,13 +10,12 @@ using SFA.DAS.EmployerIncentives.Functions.Commands.AddLegalEntity;
 using SFA.DAS.EmployerIncentives.Functions.Commands.EmployerIncentiveClaimSubmitted;
 using SFA.DAS.EmployerIncentives.Handlers;
 using SFA.DAS.EmployerIncentives.Infrastructure;
+using SFA.DAS.EmployerIncentives.Infrastructure.ApiClient;
 using SFA.DAS.EmployerIncentives.Infrastructure.Commands;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using SFA.DAS.EmployerIncentives.Infrastructure.DistributedLock;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 [assembly: FunctionsStartup(typeof(SFA.DAS.EmployerIncentives.Functions.Startup))]
 namespace SFA.DAS.EmployerIncentives.Functions
@@ -57,6 +56,7 @@ namespace SFA.DAS.EmployerIncentives.Functions
             builder.Services.AddOptions();
             builder.Services.Configure<ApplicationSettings>(config.GetSection("ApplicationSettings"));
             builder.Services.Configure<RetryPolicies>(config.GetSection("RetryPolicies"));
+            builder.Services.Configure<ClientApiConfiguration>(config.GetSection("ClientApiSettings"));
 
             builder.Services.AddSingleton<IDistributedLockProvider, AzureDistributedLockProvider>(s =>
                 new AzureDistributedLockProvider(
@@ -68,6 +68,9 @@ namespace SFA.DAS.EmployerIncentives.Functions
             builder.Services.AddSingleton(c => new Policies(c.GetService<IOptions<RetryPolicies>>()));
 
             builder.Services.AddTransient<ICommandHandler<EmployerIncentiveClaimSubmittedCommand>, EmployerIncentiveClaimSubmittedCommandHandler>();
+
+            builder.Services.AddTransient<ICalculatePaymentsApiClientFactory, CalculatePaymentsApiClientFactory>();
+            builder.Services.AddSingleton<ICalculatePaymentApiClient>(x => x.GetService<ICalculatePaymentsApiClientFactory>().CreateClient());
 
         }
     }

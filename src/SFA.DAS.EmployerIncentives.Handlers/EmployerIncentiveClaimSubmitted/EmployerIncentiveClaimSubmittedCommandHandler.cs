@@ -1,4 +1,5 @@
 ﻿using SFA.DAS.EmployerIncentives.Functions.Commands.EmployerIncentiveClaimSubmitted;
+using SFA.DAS.EmployerIncentives.Handlers.Exceptions;
 using SFA.DAS.EmployerIncentives.Infrastructure.ApiClient;
 using SFA.DAS.EmployerIncentives.Infrastructure.Commands;
 using System;
@@ -17,7 +18,12 @@ namespace SFA.DAS.EmployerIncentives.Handlers
 
         public async Task Handle(EmployerIncentiveClaimSubmittedCommand command)
         {
-            await ApiClient.CalculateFirstPayment(command.IncentiveClaimApprenticeshipId);
+            var success = await ApiClient.CalculateFirstPayment(command.AccountId, command.IncentiveClaimApprenticeshipId);
+
+            if (!success)
+            {
+                throw new CommandFailureException($"Payment calculation request failed for account {command.AccountId} claim {command.IncentiveClaimApprenticeshipId}");
+            }
         }
     }
 }

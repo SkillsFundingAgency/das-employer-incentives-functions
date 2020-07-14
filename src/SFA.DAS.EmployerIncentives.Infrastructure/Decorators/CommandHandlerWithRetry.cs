@@ -18,7 +18,7 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure.Decorators
 
         public Task Handle(T command)
         {
-            return _policies.LockRetryPolicy.ExecuteAsync(() => _handler.Handle(command));
+            return _policies.RetryPolicy.ExecuteAsync(() => _handler.Handle(command));
         }
     }
 }

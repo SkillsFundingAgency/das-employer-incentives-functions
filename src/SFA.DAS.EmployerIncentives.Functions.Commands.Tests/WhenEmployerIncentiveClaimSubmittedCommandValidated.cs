@@ -10,6 +10,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.Commands.Tests
     public class WhenEmployerIncentiveClaimSubmittedCommandValidated
     {
         private EmployerIncentiveClaimSubmittedCommandValidator _validator;
+        private const long AccountId = 1234;
 
         [SetUp]
         public void Arrange()
@@ -21,7 +22,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.Commands.Tests
         public async Task Then_command_is_valid_with_a_claim_id()
         {   
             // Arrange
-            var command = new EmployerIncentiveClaimSubmittedCommand(Guid.NewGuid());
+            var command = new EmployerIncentiveClaimSubmittedCommand(AccountId, Guid.NewGuid());
 
             // Act
             var validationResult = await _validator.Validate(command);
@@ -34,7 +35,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.Commands.Tests
         public async Task Then_command_is_invalid_with_empty_guid_for_claim_id()
         {
             // Arrange
-            var command = new EmployerIncentiveClaimSubmittedCommand(Guid.Empty);
+            var command = new EmployerIncentiveClaimSubmittedCommand(AccountId, Guid.Empty);
 
             // Act
             var validationResult = await _validator.Validate(command);

@@ -3,7 +3,7 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure.Configuration
 {
     public class RetryPolicies
     {
-        public int LockedRetryWaitInMilliSeconds { get; set; }
-        public int LockedRetryAttempts { get; set; }
+        public int RetryWaitInMilliSeconds { get; set; }
+        public int RetryAttempts { get; set; }
     }
 }

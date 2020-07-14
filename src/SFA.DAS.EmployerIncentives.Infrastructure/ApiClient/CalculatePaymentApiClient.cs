@@ -16,10 +16,20 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure.ApiClient
             _logger = logger;
         }
 
-        public async Task CalculateFirstPayment(Guid claimId)
+        public async Task<bool> CalculateFirstPayment(long accountId, Guid claimId)
         {
-            // TODO: integrate with outer API
-            //await PostAsJson<Obj>("url");
+            _logger.LogInformation($"Submitting calculate payment request for account {accountId} claim {claimId}");
+
+            try
+            {
+                await PostAsJson($"/account/{accountId}/claim/{claimId}", false);
+                return await Task.FromResult(true);
+            }
+            catch (RestHttpClientException ex)
+            {
+                _logger.LogError(ex, $"Http error code returned when submitting calculate payment request for account {accountId} claim {claimId}");
+                return await Task.FromResult(false);
+            }
         }
     }
 }
