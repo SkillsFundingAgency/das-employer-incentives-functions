@@ -3,7 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.EmployerIncentives.Functions", "SFA.DAS.EmployerIncentives.Functions\SFA.DAS.EmployerIncentives.Functions.csproj", "{B17D0E33-143B-4990-AA30-0895DF640166}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.EmployerIncentives.Infrastructure", "SFA.DAS.EmployerIncentives.Infrastructure\SFA.DAS.EmployerIncentives.Infrastructure.csproj", "{F2E65893-0B78-4C4B-9289-DB754E4D4DFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{035EBAF4-F89E-44BB-907D-99D8A9F6AF24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SystemAcceptanceTests", "SystemAcceptanceTests", "{B72EB5B5-85E8-46D9-AC13-1F75064E8E79}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.EmployerIncentives.Functions.AcceptanceTests", "SFA.DAS.EmployerIncentives.Functions.AcceptanceTests\SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.csproj", "{792E3D16-09AD-42FB-8359-63E0C8B2D338}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.EmployerIncentives.Functions.LegalEntities", "SFA.DAS.EmployerIncentives.Functions.LegalEntities\SFA.DAS.EmployerIncentives.Functions.LegalEntities.csproj", "{29FE8650-5E31-4D8E-8E9B-450FB27404AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.EmployerIncentives.Functions.UnitTests", "SFA.DAS.EmployerIncentives.Functions.UnitTests\SFA.DAS.EmployerIncentives.Functions.UnitTests.csproj", "{37C08D93-B533-42E2-9FE4-E271B291C90C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{B85060B3-BE66-45CC-823B-34A34F5C61CE}"
+	ProjectSection(SolutionItems) = preProject
+		start_azure_storage_emulator.cmd = start_azure_storage_emulator.cmd
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,13 +26,29 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B17D0E33-143B-4990-AA30-0895DF640166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B17D0E33-143B-4990-AA30-0895DF640166}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B17D0E33-143B-4990-AA30-0895DF640166}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B17D0E33-143B-4990-AA30-0895DF640166}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2E65893-0B78-4C4B-9289-DB754E4D4DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2E65893-0B78-4C4B-9289-DB754E4D4DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2E65893-0B78-4C4B-9289-DB754E4D4DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2E65893-0B78-4C4B-9289-DB754E4D4DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{792E3D16-09AD-42FB-8359-63E0C8B2D338}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{792E3D16-09AD-42FB-8359-63E0C8B2D338}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{792E3D16-09AD-42FB-8359-63E0C8B2D338}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{792E3D16-09AD-42FB-8359-63E0C8B2D338}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29FE8650-5E31-4D8E-8E9B-450FB27404AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29FE8650-5E31-4D8E-8E9B-450FB27404AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29FE8650-5E31-4D8E-8E9B-450FB27404AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29FE8650-5E31-4D8E-8E9B-450FB27404AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37C08D93-B533-42E2-9FE4-E271B291C90C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37C08D93-B533-42E2-9FE4-E271B291C90C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37C08D93-B533-42E2-9FE4-E271B291C90C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37C08D93-B533-42E2-9FE4-E271B291C90C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{792E3D16-09AD-42FB-8359-63E0C8B2D338} = {B72EB5B5-85E8-46D9-AC13-1F75064E8E79}
+		{37C08D93-B533-42E2-9FE4-E271B291C90C} = {035EBAF4-F89E-44BB-907D-99D8A9F6AF24}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF42D002-5CCF-4E5E-A235-8AFC74A94C69}
