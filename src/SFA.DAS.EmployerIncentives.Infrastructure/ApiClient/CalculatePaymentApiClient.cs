@@ -16,7 +16,7 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure.ApiClient
             _logger = logger;
         }
 
-        public async Task<bool> CalculatePayment(long accountId, Guid claimId)
+        public async Task<bool> CalculateFirstPayment(long accountId, Guid claimId)
         {
             _logger.LogInformation($"Submitting calculate payment request for account {accountId} claim {claimId}");
 

@@ -1,6 +1,6 @@
 ﻿Feature: EmployerIncentiveClaimSubmitted
 	When an employer incentive claim is submitted
-	Then a request to calculate the payment is triggered
+	Then a request to calculate the first payment is triggered
 
 Scenario: A claim is submitted successfully
 	When a claim is successfully submitted

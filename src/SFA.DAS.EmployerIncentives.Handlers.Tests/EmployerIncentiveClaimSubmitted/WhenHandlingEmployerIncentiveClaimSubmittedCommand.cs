@@ -23,7 +23,7 @@ namespace SFA.DAS.EmployerIncentives.Handlers.Tests.EmployerIncentiveClaimSubmit
             _claimId = Guid.NewGuid();
 
             _apiClient = new Mock<ICalculatePaymentApiClient>();
-            _apiClient.Setup(x => x.CalculatePayment(_accountId, _claimId)).ReturnsAsync(true);
+            _apiClient.Setup(x => x.CalculateFirstPayment(_accountId, _claimId)).ReturnsAsync(true);
 
             _handler = new EmployerIncentiveClaimSubmittedCommandHandler(_apiClient.Object);
         }
@@ -35,14 +35,14 @@ namespace SFA.DAS.EmployerIncentives.Handlers.Tests.EmployerIncentiveClaimSubmit
             await _handler.Handle(new EmployerIncentiveClaimSubmittedCommand(_accountId, _claimId));
 
             // Assert
-            _apiClient.Verify(x => x.CalculatePayment(_accountId, _claimId), Times.Once);
+            _apiClient.Verify(x => x.CalculateFirstPayment(_accountId, _claimId), Times.Once);
         }
 
         [Test]
         public async Task Then_calculation_results_in_an_error()
         {
             // Arrange
-            _apiClient.Setup(x => x.CalculatePayment(_accountId, _claimId)).ReturnsAsync(false);
+            _apiClient.Setup(x => x.CalculateFirstPayment(_accountId, _claimId)).ReturnsAsync(false);
 
             // Act/Assert
             Assert.Throws<CommandFailureException>(() => _handler.Handle(new EmployerIncentiveClaimSubmittedCommand(_accountId, _claimId)).GetAwaiter().GetResult());

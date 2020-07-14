@@ -5,6 +5,6 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure.ApiClient
 {
     public interface ICalculatePaymentApiClient 
     {
-        Task<bool> CalculatePayment(long accountId, Guid claimId);
+        Task<bool> CalculateFirstPayment(long accountId, Guid claimId);
     }
 }

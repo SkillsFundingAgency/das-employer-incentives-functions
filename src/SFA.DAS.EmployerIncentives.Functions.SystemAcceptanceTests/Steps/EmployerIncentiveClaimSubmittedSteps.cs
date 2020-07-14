@@ -9,7 +9,6 @@ using SFA.DAS.EmployerIncentives.Infrastructure.ApiClient;
 using SFA.DAS.EmployerIncentives.Infrastructure.Commands;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using SFA.DAS.EmployerIncentives.Infrastructure.Decorators;
-using SFA.DAS.NServiceBus;
 using System;
 using System.Linq;
 using System.Net.Http;

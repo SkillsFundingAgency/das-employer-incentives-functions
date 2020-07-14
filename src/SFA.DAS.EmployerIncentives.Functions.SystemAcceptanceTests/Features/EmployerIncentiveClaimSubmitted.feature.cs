@@ -36,7 +36,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.SystemAcceptanceTests.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EmployerIncentiveClaimSubmitted", "\tWhen an employer incentive claim is submitted\r\n\tThen a request to calculate the " +
-                    "payment is triggered", ProgrammingLanguage.CSharp, ((string[])(null)));
+                    "first payment is triggered", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
