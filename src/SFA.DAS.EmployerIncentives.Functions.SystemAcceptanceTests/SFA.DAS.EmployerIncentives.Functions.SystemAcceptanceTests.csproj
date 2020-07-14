@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Bindings\Functions.cs" />
+    <Compile Remove="Bindings\MessageBus.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="SFA.DAS.EmployerIncentives.Functions.LegalEntities.AcceptanceTests.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SpecFlowObsoleteCodeBehindFiles Remove="Features\LegalEntityDeleted - Copy.feature.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+     <PackageReference Include="AutoFixture" Version="4.11.0" />
+     <PackageReference Include="Dapper" Version="2.0.35" />
+     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.5" />
+     <PackageReference Include="Moq" Version="4.14.2" />
+     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="nunit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="SpecFlow" Version="3.1.97" />
+    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.1.97" />
+    <PackageReference Include="SpecFlow.NUnit" Version="3.1.97" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.5" />
+    <PackageReference Include="Microsoft.SqlServer.DACFx" Version="150.4769.1" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.1" />
+    <PackageReference Include="WireMock.Net" Version="1.2.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SpecFlowFeatureFiles Update="Features\EmployerIncentiveClaimSubmitted.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Hooks\" />
+    <Folder Include="TestHelpers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SFA.DAS.EmployerIncentives.Handlers\SFA.DAS.EmployerIncentives.Handlers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Features\EmployerIncentiveClaimSubmitted.feature.cs">
+      <DependentUpon>EmployerIncentiveClaimSubmitted.feature</DependentUpon>
+    </Compile>
+  </ItemGroup>     
+
+</Project>

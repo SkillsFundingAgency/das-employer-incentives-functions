@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
 using SFA.DAS.EmployerIncentives.Functions.Commands.EmployerIncentiveClaimSubmitted;
+using SFA.DAS.EmployerIncentives.Handlers.Exceptions;
 using SFA.DAS.EmployerIncentives.Infrastructure.ApiClient;
 using System;
 using System.Threading.Tasks;
@@ -12,26 +13,39 @@ namespace SFA.DAS.EmployerIncentives.Handlers.Tests.EmployerIncentiveClaimSubmit
     {
         private Mock<ICalculatePaymentApiClient> _apiClient;
         private EmployerIncentiveClaimSubmittedCommandHandler _handler;
+        private long _accountId;
+        private Guid _claimId = Guid.NewGuid();
 
         [SetUp]
         public void Arrange()
         {
+            _accountId = 1234;
+            _claimId = Guid.NewGuid();
+
             _apiClient = new Mock<ICalculatePaymentApiClient>();
+            _apiClient.Setup(x => x.CalculatePayment(_accountId, _claimId)).ReturnsAsync(true);
+
             _handler = new EmployerIncentiveClaimSubmittedCommandHandler(_apiClient.Object);
         }
 
         [Test]
-        public async Task Then_calculation_of_first_payment_is_requested()
+        public async Task Then_calculation_of_payment_is_requested()
         {
-            // Arrange
-            var accountId = 1234;
-            var incentiveClaimApprenticeshipId = Guid.NewGuid();
-
             // Act
-            await _handler.Handle(new EmployerIncentiveClaimSubmittedCommand(accountId, incentiveClaimApprenticeshipId));
+            await _handler.Handle(new EmployerIncentiveClaimSubmittedCommand(_accountId, _claimId));
 
             // Assert
-            _apiClient.Verify(x => x.CalculateFirstPayment(accountId, incentiveClaimApprenticeshipId), Times.Once);
+            _apiClient.Verify(x => x.CalculatePayment(_accountId, _claimId), Times.Once);
+        }
+
+        [Test]
+        public async Task Then_calculation_results_in_an_error()
+        {
+            // Arrange
+            _apiClient.Setup(x => x.CalculatePayment(_accountId, _claimId)).ReturnsAsync(false);
+
+            // Act/Assert
+            Assert.Throws<CommandFailureException>(() => _handler.Handle(new EmployerIncentiveClaimSubmittedCommand(_accountId, _claimId)).GetAwaiter().GetResult());
         }
     }
 }
