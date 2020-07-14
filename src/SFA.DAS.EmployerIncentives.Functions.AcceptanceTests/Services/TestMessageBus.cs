@@ -1,4 +1,5 @@
 ﻿using NServiceBus;
+using SFA.DAS.NServiceBus.Configuration;
 using SFA.DAS.NServiceBus.Configuration.NewtonsoftJsonSerializer;
 using System.IO;
 using System.Threading.Tasks;
@@ -21,9 +22,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             var endpointConfiguration = new EndpointConfiguration("SFA.DAS.EmployerIncentives.Functions.Legalentities.TestMessageBus");
             endpointConfiguration
                 .UseNewtonsoftJsonSerializer()
-                .UseTransport<LearningTransport>()
+                .UseMessageConventions()
+                .UseTransport<LearningTransport>()                
                 .StorageDirectory(StorageDirectory.FullName);
-
+            
             _endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
             IsRunning = true;
         }

@@ -4,6 +4,7 @@ using NServiceBus.Transport;
 using SFA.DAS.EmployerAccounts.Messages.Events;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Extensions;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmployerIncentives.Types;
+using SFA.DAS.EmployerIncentives.Messages.Events;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -150,12 +151,48 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                  await _testContext.TestMessageBus.Publish(refreshEvent));
         }
 
+        [When(@"a request to refresh a legal entity is received")]
+        public async Task WhenRefreshLegalEntityEventIsReceived()
+        {
+            requestType = "refreshLegalEntity";
+            var refreshEvent = _testContext.TestData.GetOrCreate<RefreshLegalEntityEvent>();
+
+            var addLegalEntityRequest = _testContext.TestData.GetOrCreate(onCreate: () =>
+            {
+                return new AddLegalEntityRequest
+                {
+                    AccountId = refreshEvent.AccountId,
+                    AccountLegalEntityId = refreshEvent.AccountLegalEntityId,
+                    LegalEntityId = refreshEvent.LegalEntityId,
+                    OrganisationName = refreshEvent.OrganisationName
+                };
+            });
+
+            _testContext.EmployerIncentivesApi.MockServer
+                .Given(
+                        Request
+                        .Create()
+                        .WithPath($"/accounts/{addLegalEntityRequest.AccountId}/legalEntities")
+                        .WithBody(JsonConvert.SerializeObject(addLegalEntityRequest))
+                        .UsingPost()
+                        )
+                    .RespondWith(
+                Response.Create()
+                    .WithStatusCode(HttpStatusCode.Created)
+                    .WithHeader("Content-Type", "application/json")
+                    .WithHeader("location", $"/accounts/{addLegalEntityRequest.AccountId}/LegalEntities"));
+
+            await _testContext.WaitFor<MessageContext>(async () =>
+                 await _testContext.TestMessageBus.Publish(refreshEvent));
+        }
+
         [Then(@"the event is forwarded to the Employer Incentives system")]
         public void ThenTheEventIsForwardedToTheApi()
         {
             switch(requestType)
             {
                 case "added":
+                case "refreshLegalEntity":                    
                     ThenTheAddedEventIsForwardedToTheApi();
                     break;
                 case "removed":
