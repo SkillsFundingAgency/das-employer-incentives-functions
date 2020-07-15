@@ -89,16 +89,16 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "app-service",
+            "name": "function-app",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('deploymentUrlBase'),'app-service.json')]",
+                    "uri": "[concat(variables('deploymentUrlBase'),'function-app.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "funcAppName": {
+                    "functionAppName": {
                         "value": "[variables('funcAppName')]"
                     },
                     "appServicePlanName": {
@@ -107,7 +107,7 @@
                     "appServicePlanResourceGroup": {
                         "value": "[resourceGroup().name]"
                     },
-                    "appServiceAppSettings": {
+                    "functionAppAppSettings": {
                         "value": [
                             {
                                 "name": "ASPNETCORE_ENVIRONMENT",
