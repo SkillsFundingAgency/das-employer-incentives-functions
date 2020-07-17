@@ -47,7 +47,8 @@ steps:
   displayName: Build UnitTests
   inputs:
     command: 'build'
-    projects: 'src/**/*.Tests.csproj'
+    projects: |
+      'src/**/*.UnitTests.csproj'
     arguments: '--configuration $(buildConfiguration) --no-restore'
  
 - task: DotNetCoreCLI@2
