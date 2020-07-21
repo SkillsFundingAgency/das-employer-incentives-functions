@@ -39,7 +39,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             _hostConfig = new Dictionary<string, string>();
             _appConfig = new Dictionary<string, string>
             {
-                { "EnvironmentName", "LOCAL" },
+                { "Environment", "LOCAL" },
                 { "ConfigurationStorageConnectionString", "UseDevelopmentStorage=true" },
                 { "ConfigNames", "SFA.DAS.EmployerIncentives.Functions" },
                 { "Values:AzureWebJobsStorage", "UseDevelopmentStorage=true" }
@@ -53,10 +53,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             var hostBuilder = new HostBuilder()
                 .ConfigureHostConfiguration(a =>
                 {
+                    a.Sources.Clear();
                     a.AddInMemoryCollection(_hostConfig);
                 })
                 .ConfigureAppConfiguration(a =>
                 {
+                    a.Sources.Clear();
                     a.AddInMemoryCollection(_appConfig);
                     a.SetBasePath(_testMessageBus.StorageDirectory.FullName);
                 })
@@ -64,10 +66,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             _ = hostBuilder.ConfigureServices((s) =>
             {
-                s.Configure<Config.EmployerIncentivesApi>(a =>
+                s.Configure<Config.EmployerIncentivesApiOptions>(a =>
                 {
                     a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
-                    a.ClientId = "";
+                    a.SubscriptionKey = "";
                 });
 
                 _ = s.AddNServiceBus(new LoggerFactory().CreateLogger<TestLegalEntitiesFunctions>(),

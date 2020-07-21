@@ -2,16 +2,11 @@
 
 namespace SFA.DAS.EmployerIncentives.Infrastructure.Configuration
 {
-    public class EmployerIncentivesApi : IAzureActiveDirectoryClientConfiguration
+    public class EmployerIncentivesApiOptions : IApimClientConfiguration
     {
+        public const string EmployerIncentivesApi = "EmployerIncentivesApi";
         public string ApiBaseUrl { get; set; }
-
-        public string Tenant { get; set; }
-
-        public string ClientId { get; set; }
-
-        public string ClientSecret { get; set; }
-
-        public string IdentifierUri { get; set; }
+        public string SubscriptionKey { get; set; }
+        public string ApiVersion { get; set; }
     }
 }
