@@ -5,7 +5,6 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using SFA.DAS.Http;
-using SFA.DAS.Http.TokenGenerators;
 using System;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
@@ -16,16 +15,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         {
             serviceCollection.AddTransient<IJobsService>(s =>
             {
-                var settings = s.GetService<IOptions<EmployerIncentivesApi>>().Value;
+                var settings = s.GetService<IOptions<EmployerIncentivesApiOptions>>().Value;
 
                 var clientBuilder = new HttpClientBuilder()
                     .WithDefaultHeaders()
+                    .WithApimAuthorisationHeader(settings)
                     .WithLogging(s.GetService<ILoggerFactory>());
-
-                if (!string.IsNullOrEmpty(settings.ClientId))
-                {
-                    clientBuilder.WithBearerAuthorisationHeader(new AzureActiveDirectoryBearerTokenGenerator(settings));
-                }
 
                 var httpClient = clientBuilder.Build();
 
@@ -36,16 +31,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
             serviceCollection.AddTransient<ILegalEntitiesService>(s =>
             {
-                var settings = s.GetService<IOptions<EmployerIncentivesApi>>().Value;
+                var settings = s.GetService<IOptions<EmployerIncentivesApiOptions>>().Value;
 
                 var clientBuilder = new HttpClientBuilder()
                     .WithDefaultHeaders()
+                    .WithApimAuthorisationHeader(settings)
                     .WithLogging(s.GetService<ILoggerFactory>());
-
-                if (!string.IsNullOrEmpty(settings.ClientId))
-                {
-                    clientBuilder.WithBearerAuthorisationHeader(new AzureActiveDirectoryBearerTokenGenerator(settings));
-                }
 
                 var httpClient = clientBuilder.Build();
 
