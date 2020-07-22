@@ -62,10 +62,10 @@ steps:
 - template: azure-pipelines-templates/dependency-check.yml@das-platform-building-blocks
 
 - task: DotNetCoreCLI@2
-  displayName: 'Publish - dotnet publish application $(SolutionBaseName)'
+  displayName: 'Publish - dotnet publish application $(SolutionBaseName).Functions.LegalEntities'
   inputs:
     command: 'publish'
-    projects: src/$(SolutionBaseName).Functions/$(SolutionBaseName).Functions.csproj
+    projects: src/$(SolutionBaseName).Functions.LegalEntities/$(SolutionBaseName).Functions.LegalEntities.csproj
     arguments: '-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration)'
     publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
 
