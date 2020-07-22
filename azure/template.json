@@ -222,7 +222,7 @@
                 },
                 "parameters": {
                     "principalId": {
-                        "value": "[reference('api-app-service').outputs.managedServiceIdentityId.value]"
+                        "value": "[reference('function-app').outputs.managedServiceIdentityId.value]"
                     },
                     "assignmentType": {
                         "value": "ServiceBusOwner"
