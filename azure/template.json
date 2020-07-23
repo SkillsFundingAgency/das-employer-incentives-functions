@@ -32,6 +32,12 @@
         "serviceName": {
             "type": "string"
         },
+        "sharedApimName": {
+            "type": "string"
+        },
+        "sharedApimResourceGroup": {
+            "type": "string"
+        },
         "sharedEnvResourceGroup": {
             "type": "string"
         },
@@ -62,6 +68,30 @@
         "funcAppName": "[concat(variables('resourceNamePrefix'), '-fa')]"
     },
     "resources": [
+        {
+            "apiVersion": "2017-05-10",
+            "name": "apim-subscription",
+            "resourceGroup": "[parameters('sharedApimResourceGroup')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'apim/apim-subscription.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "apimName": {
+                        "value": "[parameters('sharedApimName')]"
+                    },
+                    "subscriptionName": {
+                        "value": "[variables('funcAppName')]"
+                    },
+                    "subscriptionScope": {
+                        "value": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('sharedApimResourceGroup'), '/providers/Microsoft.ApiManagement/service/', 'das-at-shared-apim', '/products/EmployerIncentivesOuterApi')]"
+                    }
+                }
+            }
+        }, 
         {
             "apiVersion": "2017-05-10",
             "name": "worker-app-service-plan",
