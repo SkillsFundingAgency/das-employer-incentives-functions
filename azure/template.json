@@ -87,7 +87,7 @@
                         "value": "[variables('funcAppName')]"
                     },
                     "subscriptionScope": {
-                        "value": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('sharedApimResourceGroup'), '/providers/Microsoft.ApiManagement/service/', 'das-at-shared-apim', '/products/EmployerIncentivesOuterApi')]"
+                        "value": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('sharedApimResourceGroup'), '/providers/Microsoft.ApiManagement/service/', parameters('sharedApimName'), '/products/EmployerIncentivesOuterApi')]"
                     }
                 }
             }
