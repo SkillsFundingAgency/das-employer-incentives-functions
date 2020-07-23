@@ -32,7 +32,7 @@
         "serviceName": {
             "type": "string"
         },
-        "sharedApimName": {
+        "sharedApimServiceName": {
             "type": "string"
         },
         "sharedApimResourceGroup": {
@@ -81,7 +81,7 @@
                 },
                 "parameters": {
                     "apimName": {
-                        "value": "[parameters('sharedApimName')]"
+                        "value": "[parameters('sharedApimServiceName')]"
                     },
                     "subscriptionName": {
                         "value": "[variables('funcAppName')]"
