@@ -17,7 +17,7 @@
         "configurationStorageConnectionString": {
             "type": "securestring"
         },
-        "SharedStorageAccountConnectionString": {
+        "sharedStorageAccountConnectionString": {
             "type": "securestring"
         },
         "environmentName": {
@@ -207,7 +207,7 @@
                             },
                             {
                                 "name": "AzureWebJobsStorage",
-                                "value": "[parameters('SharedStorageAccountConnectionString')]"
+                                "value": "[parameters('sharedStorageAccountConnectionString')]"
                             },
                             {
                                 "name": "ConfigurationStorageConnectionString",
