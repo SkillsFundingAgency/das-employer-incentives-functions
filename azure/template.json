@@ -17,6 +17,9 @@
         "configurationStorageConnectionString": {
             "type": "securestring"
         },
+        "SharedStorageAccountConnectionString": {
+            "type": "securestring"
+        },
         "environmentName": {
             "type": "string"
         },
@@ -203,6 +206,10 @@
                                 "value": "[parameters('configNames')]"
                             },
                             {
+                                "name": "AzureWebJobsStorage",
+                                "value": "[parameters('SharedStorageAccountConnectionString')]"
+                            },
+                            {
                                 "name": "ConfigurationStorageConnectionString",
                                 "value": "[parameters('configurationStorageConnectionString')]"
                             },
@@ -221,6 +228,10 @@
                             {
                                 "name": "FUNCTIONS_WORKER_RUNTIME",
                                 "value": "dotnet"
+                            },
+                            {
+                                "name": "AppName",
+                                "value": "das-employer-incentives-functions"
                             },
                             {
                                 "name": "LoggingRedisConnectionString",
