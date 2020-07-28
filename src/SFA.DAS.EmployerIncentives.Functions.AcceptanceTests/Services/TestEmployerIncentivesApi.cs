@@ -15,6 +15,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         {
             MockServer = WireMockServer.Start(ssl: true);
             BaseAddress = MockServer.Urls[0];
+            BaseAddress += "/api";
         }
 
         public void Dispose()

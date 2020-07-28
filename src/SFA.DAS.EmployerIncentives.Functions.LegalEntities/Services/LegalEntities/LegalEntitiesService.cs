@@ -28,13 +28,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
 
         public async Task Add(AddRequest request)
         {
-            var response = await _client.PostAsJsonAsync($"/accounts/{request.AccountId}/legalEntities", request);
+            var response = await _client.PostAsJsonAsync($"accounts/{request.AccountId}/legalEntities", request);
             response.EnsureSuccessStatusCode();
         }
 
         public async Task Remove(RemoveRequest request)
         {
-            var response = await _client.DeleteAsync($"/accounts/{request.AccountId}/legalEntities/{request.AccountLegalEntityId}");
+            var response = await _client.DeleteAsync($"accounts/{request.AccountId}/legalEntities/{request.AccountLegalEntityId}");
             response.EnsureSuccessStatusCode();
         }
     }

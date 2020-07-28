@@ -24,6 +24,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
                 var httpClient = clientBuilder.Build();
 
+                if(!settings.ApiBaseUrl.EndsWith("/"))
+                {
+                    settings.ApiBaseUrl += "/";
+                }
                 httpClient.BaseAddress = new Uri(settings.ApiBaseUrl);
 
                 return new JobsService(httpClient);
@@ -40,6 +44,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
                 var httpClient = clientBuilder.Build();
 
+                if (!settings.ApiBaseUrl.EndsWith("/"))
+                {
+                    settings.ApiBaseUrl += "/";
+                }
                 httpClient.BaseAddress = new Uri(settings.ApiBaseUrl);
 
                 return new LegalEntitiesService(httpClient, s.GetRequiredService<IJobsService>());

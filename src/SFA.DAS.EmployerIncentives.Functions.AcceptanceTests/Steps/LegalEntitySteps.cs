@@ -48,7 +48,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .Given(
                         Request
                         .Create()
-                        .WithPath($"/accounts/{addLegalEntityRequest.AccountId}/legalEntities")
+                        .WithPath($"/api/accounts/{addLegalEntityRequest.AccountId}/legalEntities")
                         .WithBody(JsonConvert.SerializeObject(addLegalEntityRequest))
                         .UsingPost()
                         )
@@ -56,7 +56,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 Response.Create()
                     .WithStatusCode(HttpStatusCode.Created)
                     .WithHeader("Content-Type", "application/json")
-                    .WithHeader("location", $"/accounts/{addLegalEntityRequest.AccountId}/LegalEntities"));
+                    .WithHeader("location", $"/api/accounts/{addLegalEntityRequest.AccountId}/LegalEntities"));
             
            await _testContext.WaitFor<MessageContext>(async () => 
                 await _testContext.TestMessageBus.Publish(addedEvent));
@@ -72,7 +72,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                  .Given(
                          Request
                          .Create()
-                         .WithPath($"/accounts/{removedEvent.AccountId}/legalEntities/{removedEvent.AccountLegalEntityId}")
+                         .WithPath($"/api/accounts/{removedEvent.AccountId}/legalEntities/{removedEvent.AccountLegalEntityId}")
                          .UsingDelete()
                          )
                      .RespondWith(
@@ -104,7 +104,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                .Given(
                        Request
                        .Create()
-                       .WithPath($"/jobs")
+                       .WithPath($"/api/jobs")
                        .WithBody(JsonConvert.SerializeObject(jobRequest))
                        .UsingPut()
                        )
@@ -139,7 +139,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                  .Given(
                          Request
                          .Create()
-                         .WithPath($"/jobs")
+                         .WithPath($"/api/jobs")
                          .WithBody(JsonConvert.SerializeObject(jobRequest))
                          .UsingPut()
                          )
@@ -173,7 +173,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .Given(
                         Request
                         .Create()
-                        .WithPath($"/accounts/{addLegalEntityRequest.AccountId}/legalEntities")
+                        .WithPath($"/api/accounts/{addLegalEntityRequest.AccountId}/legalEntities")
                         .WithBody(JsonConvert.SerializeObject(addLegalEntityRequest))
                         .UsingPost()
                         )
@@ -181,7 +181,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 Response.Create()
                     .WithStatusCode(HttpStatusCode.Created)
                     .WithHeader("Content-Type", "application/json")
-                    .WithHeader("location", $"/accounts/{addLegalEntityRequest.AccountId}/LegalEntities"));
+                    .WithHeader("location", $"/api/accounts/{addLegalEntityRequest.AccountId}/LegalEntities"));
 
             await _testContext.WaitFor<MessageContext>(async () =>
                  await _testContext.TestMessageBus.Publish(refreshEvent));
@@ -215,7 +215,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                        .FindLogEntries(
                            Request
                            .Create()
-                           .WithPath($"/accounts/{addLegalEntityRequest.AccountId}/legalEntities")
+                           .WithPath($"/api/accounts/{addLegalEntityRequest.AccountId}/legalEntities")
                            .WithBody(JsonConvert.SerializeObject(addLegalEntityRequest))
                            .UsingPost());
             
@@ -232,7 +232,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                        .FindLogEntries(
                            Request
                            .Create()
-                           .WithPath($"/accounts/{removedEvent.AccountId}/legalEntities/{removedEvent.AccountLegalEntityId}")
+                           .WithPath($"/api/accounts/{removedEvent.AccountId}/legalEntities/{removedEvent.AccountLegalEntityId}")
                          .UsingDelete());
 
             requests.AsEnumerable().Count().Should().Be(1);
@@ -249,7 +249,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                        .FindLogEntries(
                            Request
                            .Create()
-                           .WithPath($"/jobs")
+                           .WithPath($"/api/jobs")
                             .WithBody(JsonConvert.SerializeObject(jobRequest))
                             );
 
