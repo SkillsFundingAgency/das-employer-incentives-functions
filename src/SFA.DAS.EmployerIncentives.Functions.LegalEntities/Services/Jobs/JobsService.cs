@@ -23,7 +23,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs
             };
 
             var response = await _client.PutAsJsonAsync(
-                "/jobs", 
+                $"{_client.BaseAddress.AbsolutePath.TrimEnd('/')}/jobs", 
                 new JobRequest { Type = JobType.RefreshLegalEntities, Data = data 
                 });
 
