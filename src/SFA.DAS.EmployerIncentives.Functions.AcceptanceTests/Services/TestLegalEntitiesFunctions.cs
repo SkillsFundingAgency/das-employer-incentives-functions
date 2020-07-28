@@ -39,7 +39,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             _hostConfig = new Dictionary<string, string>();
             _appConfig = new Dictionary<string, string>
             {
-                { "Environment", "LOCAL" },
+                { "EnvironmentName", "LOCAL" },
                 { "ConfigurationStorageConnectionString", "UseDevelopmentStorage=true" },
                 { "ConfigNames", "SFA.DAS.EmployerIncentives.Functions" },
                 { "Values:AzureWebJobsStorage", "UseDevelopmentStorage=true" }
