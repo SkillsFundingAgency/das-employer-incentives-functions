@@ -26,13 +26,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddEnvironmentVariables();
 
-            if (!configuration["Environment"].Equals("LOCAL", StringComparison.CurrentCultureIgnoreCase))
+            if (!configuration["EnvironmentName"].Equals("LOCAL", StringComparison.CurrentCultureIgnoreCase))
             {
                 configBuilder.AddAzureTableStorage(options =>
                 {
                     options.ConfigurationKeys = configuration["ConfigNames"].Split(",");
                     options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
-                    options.EnvironmentName = configuration["Environment"];
+                    options.EnvironmentName = configuration["EnvironmentName"];
                     options.PreFixConfigurationKeys = false;
                 });
            }
