@@ -14,6 +14,12 @@
             "type": "string",
             "defaultValue": "SFA.DAS.EmployerIncentives.Functions"
         },
+        "nServiceBusConnectionString": {
+            "type": "string"
+        },
+        "nServiceBusLicense": {
+            "type": "string"
+        },
         "configurationStorageConnectionString": {
             "type": "securestring"
         },
@@ -204,6 +210,14 @@
                             {
                                 "name": "ConfigNames",
                                 "value": "[parameters('configNames')]"
+                            },
+                            {
+                                "name": "NServiceBusConnectionString",
+                                "value": "[parameters('nServiceBusConnectionString')]"
+                            },
+                            {
+                                "name": "NServiceBusLicense",
+                                "value": "[parameters('nServiceBusLicense')]"
                             },
                             {
                                 "name": "AzureWebJobsStorage",
