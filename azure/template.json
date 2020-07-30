@@ -89,7 +89,7 @@
                 "input": {
                     "ipAddress": "[parameters('functionAppIpRestrictions')[copyIndex('functionAppIpRestrictions')]]",
                     "action": "Deny",
-                    "priority": "[add(copyIndex('functionAppIpRestrictions'), 1)]",
+                    "priority": "[add(copyIndex('functionAppIpRestrictions'), 10)]",
                     "name": "[concat('Deny-', copyIndex('functionAppIpRestrictions'))]",
                     "description": "[concat('Deny ', parameters('functionAppIpRestrictions')[copyIndex('functionAppIpRestrictions')])]"
                 }
