@@ -30,7 +30,7 @@
             "type": "string"
         },
         "functionAppIpRestrictions": {
-            "type": "string",
+            "type": "array",
             "defaultValue": []
         },
         "loggingRedisConnectionString": {
