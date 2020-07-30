@@ -29,7 +29,7 @@
         "environmentName": {
             "type": "string"
         },
-        "functionAppAllowedIpAddresses": {
+        "functionAppAllowedIps": {
             "type": "array",
             "defaultValue": []
         },
