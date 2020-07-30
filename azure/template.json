@@ -29,12 +29,9 @@
         "environmentName": {
             "type": "string"
         },
-        "functionAppIpRestrictions": {
+        "functionAppAllowedIpAddresses": {
             "type": "array",
-            "defaultValue": [],
-            "metadata": {
-                "description": "An array of CIDR ranges to deny access to"
-            }
+            "defaultValue": []
         },
         "loggingRedisConnectionString": {
             "type": "securestring"
@@ -81,20 +78,7 @@
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/das-platform-building-blocks/master/templates/",
         "resourceNamePrefix": "[toLower(concat('das-', parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
-        "funcAppName": "[concat(variables('resourceNamePrefix'), '-fa')]",
-        "copy": [
-            {
-                "name": "functionAppIpRestrictions",
-                "count": "[length(parameters('functionAppIpRestrictions'))]",
-                "input": {
-                    "ipAddress": "[parameters('functionAppIpRestrictions')[copyIndex('functionAppIpRestrictions')]]",
-                    "action": "Deny",
-                    "priority": "[add(copyIndex('functionAppIpRestrictions'), 10)]",
-                    "name": "[concat('Deny-', copyIndex('functionAppIpRestrictions'))]",
-                    "description": "[concat('Deny ', parameters('functionAppIpRestrictions')[copyIndex('functionAppIpRestrictions')])]"
-                }
-            }
-        ]
+        "funcAppName": "[concat(variables('resourceNamePrefix'), '-fa')]"
     },
     "resources": [
         {
@@ -215,7 +199,7 @@
                         "value": "[resourceGroup().name]"
                     },
                     "ipSecurityRestrictions": {
-                        "value": "[variables('functionAppIpRestrictions')]"
+                        "value": "[parameters('functionAppAllowedIpAddresses')]"
                     },
                     "subnetResourceId": {
                         "value": "[reference('function-app-subnet').outputs.SubnetResourceId.value]"
