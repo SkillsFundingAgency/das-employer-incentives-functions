@@ -30,8 +30,4 @@ TBC
 #### Run the solution
 Start the project SFA.DAS.EmployerIncentives.Functions in Visual Studio
 
-#### HttpTriggerRefreshLegalEntities
-
-Access to the HTTP endpoint for this function is restricted in some environments, this restriction applies to the Azure Portal as well as tools running on your local machine (eg Postman, etc).  To gain access to this endpoint login to the [Azure Portal](https://portal.azure.com), search for the function app then navigate to Networking > Configure Access Restrictions > Add Rule and add an Allow rule for your IP Address.  Be sure to remove the Allow rule when you're done.
-
 
