@@ -87,16 +87,14 @@
                 "name": "functionAppIpRestrictions",
                 "count": "[length(parameters('functionAppIpRestrictions'))]",
                 "input": {
-                    "ipAddress": "[parameters('functionAppIpRestrictions')[copyIndex()]]",
+                    "ipAddress": "[parameters('functionAppIpRestrictions')[copyIndex('functionAppIpRestrictions')]]",
                     "action": "Deny",
-                    "tag": "string",
-                    "priority": "[add(copyIndex(), 1)]",
-                    "name": "[concat('Deny-', copyIndex())]",
-                    "description": "[concat('Deny ', parameters('functionAppIpRestrictions')[copyIndex()])]"
+                    "priority": "[add(copyIndex('functionAppIpRestrictions'), 1)]",
+                    "name": "[concat('Deny-', copyIndex('functionAppIpRestrictions'))]",
+                    "description": "[concat('Deny ', parameters('functionAppIpRestrictions')[copyIndex('functionAppIpRestrictions')])]"
                 }
             }
         ]
-
     },
     "resources": [
         {
