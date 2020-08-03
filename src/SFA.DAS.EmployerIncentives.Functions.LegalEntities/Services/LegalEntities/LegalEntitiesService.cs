@@ -37,11 +37,5 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             var response = await _client.DeleteAsync($"accounts/{request.AccountId}/legalEntities/{request.AccountLegalEntityId}");
             response.EnsureSuccessStatusCode();
         }
-
-        public async Task SignAgreement(SignAgreementRequest request)
-        {
-            var response = await _client.PatchAsync($"accounts/{request.AccountId}/legalEntities/{request.AccountLegalEntityId}", request.GetStringContent());
-            response.EnsureSuccessStatusCode();
-        }
     }
 }

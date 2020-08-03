@@ -10,11 +10,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
     public class HandleSignAgreementEvent
     {
-        private readonly ILegalEntitiesService _legalEntitiesService;
+        private readonly IAgreementsService _agreementsService;
 
-        public HandleSignAgreementEvent(ILegalEntitiesService legalEntitiesService)
+        public HandleSignAgreementEvent(IAgreementsService agreementsService)
         {
-            _legalEntitiesService = legalEntitiesService;
+            _agreementsService = agreementsService;
         }
 
         [FunctionName("HandleSignAgreementEvent")]
@@ -27,7 +27,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 AgreementVersion = message.SignedAgreementVersion
             };
             
-            return _legalEntitiesService.SignAgreement(signRequest);
+            return _agreementsService.SignAgreement(signRequest);
         }
     }
 }

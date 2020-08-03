@@ -12,16 +12,16 @@ namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
     public class WhenHandleSignAgreementEvent
     {
         private HandleSignAgreementEvent _sut;
-        private Mock<ILegalEntitiesService> _mockILegalEntitiesService;
+        private Mock<IAgreementsService> _mockIAgreementsService;
         private Fixture _fixture;
 
         [SetUp]
         public void Setup()
         {
-            _mockILegalEntitiesService = new Mock<ILegalEntitiesService>();
+            _mockIAgreementsService = new Mock<IAgreementsService>();
             _fixture = new Fixture();
             
-            _sut = new HandleSignAgreementEvent(_mockILegalEntitiesService.Object);
+            _sut = new HandleSignAgreementEvent(_mockIAgreementsService.Object);
 
         }
 
@@ -35,7 +35,7 @@ namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
             await _sut.RunEvent(request);
 
             // Assert
-            _mockILegalEntitiesService
+            _mockIAgreementsService
                 .Verify(m => m.SignAgreement(It.Is<SignAgreementRequest>(r => 
                     r.AccountId == request.AccountId && 
                     r.AccountLegalEntityId == request.AccountLegalEntityId &&
