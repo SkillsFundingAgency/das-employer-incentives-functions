@@ -187,6 +187,29 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                  await _testContext.TestMessageBus.Publish(refreshEvent));
         }
 
+        [When(@"an agreement is signed")]
+        public async Task WhenAgreementSignedEventIsReceived()
+        {
+            requestType = "agreementSigned";
+
+            var signedEvent = _testContext.TestData.GetOrCreate<SignedAgreementEvent>();
+
+            _testContext.EmployerIncentivesApi.MockServer
+                .Given(
+                    Request
+                        .Create()
+                        .WithPath($"/api/accounts/{signedEvent.AccountId}/legalEntities/{signedEvent.AccountLegalEntityId}")
+                        .UsingPatch()
+                )
+                .RespondWith(
+                    Response.Create()
+                        .WithStatusCode(HttpStatusCode.NoContent)
+                        .WithHeader("Content-Type", "application/json"));
+
+            await _testContext.WaitFor<MessageContext>(async () =>
+                await _testContext.TestMessageBus.Publish(signedEvent));
+        }
+
         [Then(@"the event is forwarded to the Employer Incentives system")]
         public void ThenTheEventIsForwardedToTheApi()
         {
@@ -252,6 +275,22 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                            .WithPath($"/api/jobs")
                             .WithBody(JsonConvert.SerializeObject(jobRequest))
                             );
+
+            requests.AsEnumerable().Count().Should().Be(1);
+        }
+
+        public void ThenTheSignedEventIsForwardedToTheApi()
+        {
+            var signedEvent = _testContext.TestData.GetOrCreate<SignedAgreementEvent>();
+
+            var requests = _testContext
+                .EmployerIncentivesApi
+                .MockServer
+                .FindLogEntries(
+                    Request
+                        .Create()
+                        .WithPath($"/api/accounts/{signedEvent.AccountId}/legalEntities/{signedEvent.AccountLegalEntityId}")
+                        .UsingPatch());
 
             requests.AsEnumerable().Count().Should().Be(1);
         }

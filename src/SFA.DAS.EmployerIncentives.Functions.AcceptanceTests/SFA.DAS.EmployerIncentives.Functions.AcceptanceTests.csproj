@@ -42,4 +42,12 @@
     <Content Include="Features\LegalEntities.feature" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Features\LegalEntities.feature.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LegalEntities.feature</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
