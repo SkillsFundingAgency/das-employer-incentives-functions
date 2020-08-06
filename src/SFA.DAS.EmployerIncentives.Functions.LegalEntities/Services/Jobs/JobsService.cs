@@ -16,10 +16,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs
 
         public async Task RefreshLegalEntities(int pageNumber, int pageSize)
         {
-            var data = new Dictionary<string, object>
+            var data = new Dictionary<string, string>
             {
-                { "PageNumber", pageNumber },
-                { "PageSize", pageSize }
+                { "PageNumber", pageNumber.ToString() },
+                { "PageSize", pageSize.ToString() }
             };
 
             var response = await _client.PutAsJsonAsync(
