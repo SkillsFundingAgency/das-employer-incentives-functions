@@ -92,10 +92,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 return new JobRequest
                 {
                     Type = JobType.RefreshLegalEntities,
-                    Data = new Dictionary<string, object>
+                    Data = new Dictionary<string, string>
                     {
-                        { "PageNumber", 1 },
-                        { "PageSize", 200 }
+                        { "PageNumber", "1" },
+                        { "PageSize", "200" }
                     }
                 };
             });
@@ -127,10 +127,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 return new JobRequest
                 {
                     Type = JobType.RefreshLegalEntities,
-                    Data = new Dictionary<string, object>
+                    Data = new Dictionary<string, string>
                     {
-                        { "PageNumber", refreshEvent.PageNumber },
-                        { "PageSize", refreshEvent.PageSize }
+                        { "PageNumber", refreshEvent.PageNumber.ToString() },
+                        { "PageSize", refreshEvent.PageSize.ToString() }
                     }
                 };
             });

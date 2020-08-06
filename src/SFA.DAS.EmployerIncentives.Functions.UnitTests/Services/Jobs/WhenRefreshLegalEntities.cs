@@ -39,10 +39,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.Jobs
             var expected = new JobRequest
             {
                 Type = JobType.RefreshLegalEntities,
-                Data = new Dictionary<string, object>
+                Data = new Dictionary<string, string>
                 {
-                    { "PageNumber", pageNumber },
-                    { "PageSize", pageSize }
+                    { "PageNumber", pageNumber.ToString() },
+                    { "PageSize", pageSize.ToString() }
                 }
             };
 
