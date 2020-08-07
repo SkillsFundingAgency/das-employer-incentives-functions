@@ -3,11 +3,8 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities
 {
-    public interface ILegalEntitiesService
+    public interface IAgreementsService
     {
-        Task Refresh();
-        Task Refresh(int pageNumber, int pageSize);
-        Task Add(AddRequest request);
-        Task Remove(RemoveRequest request);
+        Task SignAgreement(SignAgreementRequest request);
     }
 }

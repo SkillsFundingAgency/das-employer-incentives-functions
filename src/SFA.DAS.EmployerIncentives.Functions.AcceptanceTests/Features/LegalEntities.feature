@@ -23,3 +23,7 @@ Scenario: A job to load a page of legal entities is requested
 Scenario: A job to load a legal entity is requested
 	When a request to refresh a legal entity is received
 	Then the event is forwarded to the Employer Incentives system
+
+Scenario: An agreement is signed for a legal entity
+	When an agreement is signed
+	Then the event is forwarded to the Employer Incentives system
