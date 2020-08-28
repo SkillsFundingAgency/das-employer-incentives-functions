@@ -23,10 +23,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         private readonly Dictionary<string, string> _hostConfig;
         private readonly TestMessageBus _testMessageBus;
         private readonly List<IHook> _messageHooks;
-        private IHost host;
+        private IHost host;        
         private bool isDisposed;
         public HandleRefreshLegalEntitiesRequest HttpTriggerRefreshLegalEntities { get; set; }
-
+        public TestTimerFunction TestTimerFunction { get; set; }
+        
         public TestLegalEntitiesFunctions(
             TestEmployerIncentivesApi testEmployerIncentivesApi,
             TestMessageBus testMessageBus,
@@ -106,6 +107,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
+            TestTimerFunction = new TestTimerFunction(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
         }
 
         public void Dispose()

@@ -113,7 +113,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                    .WithStatusCode(HttpStatusCode.OK)
                    .WithHeader("Content-Type", "application/json"));
 
-            await _testContext.LegalEntitiesFunctions.HttpTriggerRefreshLegalEntities.RunHttp(null);
+            //await _testContext.LegalEntitiesFunctions.HttpTriggerRefreshLegalEntities.RunHttp(null);
+            await _testContext.LegalEntitiesFunctions.TestTimerFunction.Run(null);
         }
 
         [When(@"a request to refresh a page of legal entities is received")]
@@ -182,6 +183,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                     .WithStatusCode(HttpStatusCode.Created)
                     .WithHeader("Content-Type", "application/json")
                     .WithHeader("location", $"/api/accounts/{addLegalEntityRequest.AccountId}/LegalEntities"));
+
+           // var http = _testContext.LegalEntitiesFunctions
 
             await _testContext.WaitFor<MessageContext>(async () =>
                  await _testContext.TestMessageBus.Publish(refreshEvent));
