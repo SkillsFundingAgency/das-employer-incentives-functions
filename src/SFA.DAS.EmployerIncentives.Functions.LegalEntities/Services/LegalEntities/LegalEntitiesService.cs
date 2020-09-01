@@ -37,5 +37,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             var response = await _client.DeleteAsync($"accounts/{request.AccountId}/legalEntities/{request.AccountLegalEntityId}");
             response.EnsureSuccessStatusCode();
         }
+
+        public Task UpdateVrfCaseDetails()
+        {
+            return _jobsService.UpdateVrfCaseDetailsForNewApplications();
+        }
     }
 }

@@ -210,6 +210,34 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 await _testContext.TestMessageBus.Publish(signedEvent));
         }
 
+        [When(@"an application has been submitted for a legal entity")]
+        public async Task WhenAnApplicationHasBeenSubmitted()
+        {
+            var jobRequest = _testContext.TestData.GetOrCreate(onCreate: () =>
+            {
+                return new JobRequest
+                {
+                    Type = JobType.UpdateVrfCaseDetailsForNewApplications,
+                    Data = null
+                };
+            });
+
+            _testContext.EmployerIncentivesApi.MockServer
+                .Given(
+                    Request
+                        .Create()
+                        .WithPath($"/api/jobs")
+                        .WithBody(JsonConvert.SerializeObject(jobRequest))
+                        .UsingPut()
+                )
+                .RespondWith(
+                    Response.Create()
+                        .WithStatusCode(HttpStatusCode.OK)
+                        .WithHeader("Content-Type", "application/json"));
+
+            await _testContext.LegalEntitiesFunctions.TimerTriggerUpdateVrfDetails.Run(null, null);
+        }
+
         [Then(@"the event is forwarded to the Employer Incentives system")]
         public void ThenTheEventIsForwardedToTheApi()
         {
@@ -225,7 +253,28 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 case "refresh":
                     ThenTheRefreshRequestIsForwardedToTheApi();
                     break;
+                case "agreementSigned":
+                    ThenTheSignedEventIsForwardedToTheApi();
+                    break;
             }
+        }
+
+        [Then(@"a request is made to the Employer Incentives system")]
+        public void TheARequestIsMadeToTheApi()
+        {
+            var jobRequest = _testContext.TestData.GetOrCreate<JobRequest>();
+
+            var requests = _testContext
+                .EmployerIncentivesApi
+                .MockServer
+                .FindLogEntries(
+                    Request
+                        .Create()
+                        .WithPath($"/api/jobs")
+                        .WithBody(JsonConvert.SerializeObject(jobRequest))
+                );
+
+            requests.AsEnumerable().Count().Should().Be(1);
         }
 
         public void ThenTheAddedEventIsForwardedToTheApi()

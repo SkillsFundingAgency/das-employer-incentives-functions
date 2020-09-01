@@ -27,3 +27,7 @@ Scenario: A job to load a legal entity is requested
 Scenario: An agreement is signed for a legal entity
 	When an agreement is signed
 	Then the event is forwarded to the Employer Incentives system
+
+Scenario: An application is submitted for a legal entity
+	When an application has been submitted for a legal entity
+	Then a request is made to the Employer Incentives system

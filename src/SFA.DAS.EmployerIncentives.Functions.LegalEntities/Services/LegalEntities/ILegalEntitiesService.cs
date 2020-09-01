@@ -9,5 +9,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         Task Refresh(int pageNumber, int pageSize);
         Task Add(AddRequest request);
         Task Remove(RemoveRequest request);
+        Task UpdateVrfCaseDetails();
     }
 }
