@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
+using SFA.DAS.HashingService;
 
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
 {
@@ -30,7 +31,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
 
             _testClient.SetUpDeleteAsAsync(HttpStatusCode.OK);
 
-            _sut = new LegalEntitiesService(_testClient, _mockJobsService.Object);
+            _sut = new LegalEntitiesService(_testClient, _mockJobsService.Object, Mock.Of<IHashingService>());
         }
 
         [Test]

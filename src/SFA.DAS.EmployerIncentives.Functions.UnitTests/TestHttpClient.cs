@@ -60,6 +60,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests
              ), ItExpr.IsAny<CancellationToken>());
         }
 
+        public void VerifyPatchAsAsync(string relativePath, Times times)
+        {
+            _mockHttpMessageHandler
+                .Protected()
+                .Verify("SendAsync", times,
+                    ItExpr.Is<HttpRequestMessage>(r =>
+                        r.Method == HttpMethod.Patch &&
+                        r.RequestUri.AbsoluteUri == $"{BaseAddress.AbsoluteUri}{relativePath}"
+                    ), ItExpr.IsAny<CancellationToken>());
+        }
+
         public void SetUpPostAsAsync(HttpStatusCode statusCode)
         {
             _mockHttpMessageHandler
@@ -98,6 +109,16 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests
                       ItExpr.IsAny<HttpRequestMessage>(),
                       ItExpr.IsAny<CancellationToken>())
                   .ReturnsAsync(new HttpResponseMessage(statusCode)).Verifiable("");
+        }
+
+        public void SetUpPatchAsAsync(HttpStatusCode statusCode)
+        {
+            _mockHttpMessageHandler
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage(statusCode)).Verifiable("");
         }
 
         public void SetUpPutAsAsync<T>(T value, HttpStatusCode statusCode)

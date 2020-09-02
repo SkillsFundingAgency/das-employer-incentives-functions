@@ -6,6 +6,7 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using SFA.DAS.Http;
 using System;
+using SFA.DAS.HashingService;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
@@ -50,7 +51,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 }
                 httpClient.BaseAddress = new Uri(settings.ApiBaseUrl);
 
-                return new LegalEntitiesService(httpClient, s.GetRequiredService<IJobsService>());
+                return new LegalEntitiesService(httpClient, s.GetRequiredService<IJobsService>(), s.GetRequiredService<IHashingService>());
             });
 
             serviceCollection.AddTransient<IAgreementsService>(s =>
@@ -71,6 +72,16 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 httpClient.BaseAddress = new Uri(settings.ApiBaseUrl);
 
                 return new AgreementsService(httpClient);
+            });
+
+            return serviceCollection;
+        }
+
+        public static IServiceCollection AddHashingService(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton<IHashingService>(c => {
+                var settings = c.GetService<IOptions<FunctionConfigurationOptions>>().Value;
+                return new HashingService.HashingService(settings.AllowedHashstringCharacters, settings.Hashstring);
             });
 
             return serviceCollection;

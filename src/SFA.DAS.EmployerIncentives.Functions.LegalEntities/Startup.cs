@@ -43,6 +43,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
             builder.Services.AddOptions();
             builder.Services.Configure<EmployerIncentivesApiOptions>(config.GetSection(EmployerIncentivesApiOptions.EmployerIncentivesApi));
+            builder.Services.Configure<FunctionConfigurationOptions>(config.GetSection(FunctionConfigurationOptions.EmployerIncentivesFunctionsConfiguration));
 
             var logger = serviceProvider.GetService<ILoggerProvider>().CreateLogger(GetType().AssemblyQualifiedName);
             if (config["NServiceBusConnectionString"] == "UseDevelopmentStorage=true")
@@ -61,7 +62,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 builder.Services.AddNServiceBus(logger);
             }
 
-            builder.Services.AddEmployerIncentivesService();
+            builder.Services.AddHashingService().AddEmployerIncentivesService();
         }
     }
 }
