@@ -53,5 +53,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             var response = await _client.PatchAsync($"legalentities/{legalEntityId}/vendorregistrationform?hashedLegalEntityId={hashedLegalEntityId}", new StringContent(""));
             response.EnsureSuccessStatusCode();
         }
+
+        public Task UpdateVrfCaseStatus()
+        {
+            return _jobsService.UpdateVrfCaseStatusForIncompleteCases();
+        }
     }
 }

@@ -5,19 +5,19 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
-    public class UpdateVrfCaseDetailsForNewApplications
+    public class UpdateVrfCaseStatusForIncompleteCases
     {
         private readonly ILegalEntitiesService _legalEntitiesService;
 
-        public UpdateVrfCaseDetailsForNewApplications(ILegalEntitiesService legalEntitiesService)
+        public UpdateVrfCaseStatusForIncompleteCases(ILegalEntitiesService legalEntitiesService)
         {
             _legalEntitiesService = legalEntitiesService;
         }
 
-        [FunctionName("UpdateVrfCaseDetailsForNewApplications")]
-        public async Task Run([TimerTrigger("0 * */1 * * *")]TimerInfo myTimer, ILogger log)
+        [FunctionName("UpdateVrfCaseStatusForIncompleteCases")]
+        public async Task Run([TimerTrigger("0 1 * * * *")]TimerInfo myTimer, ILogger log)
         {
-            await _legalEntitiesService.UpdateVrfCaseDetails();
+            await _legalEntitiesService.UpdateVrfCaseStatus();
         }
     }
 }

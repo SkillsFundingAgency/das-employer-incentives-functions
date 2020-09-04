@@ -11,5 +11,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         Task Remove(RemoveRequest request);
         Task UpdateVrfCaseDetails();
         Task UpdateVrfCaseDetails(long legalEntityId);
+        Task UpdateVrfCaseStatus();
     }
 }

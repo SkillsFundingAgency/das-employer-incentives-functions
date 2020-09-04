@@ -6,5 +6,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs
     {
         Task RefreshLegalEntities(int pageNumber, int pageSize);
         Task UpdateVrfCaseDetailsForNewApplications();
+        Task UpdateVrfCaseStatusForIncompleteCases();
     }
 }
