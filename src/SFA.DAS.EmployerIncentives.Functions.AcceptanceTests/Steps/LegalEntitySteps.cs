@@ -261,6 +261,34 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 await _testContext.TestMessageBus.Publish(refreshEvent));
         }
 
+        [When(@"a request to update vrf case statuses for incomplete applications is received")]
+        public async Task WhenACaseStatusUpdateIsTriggered()
+        {
+            var jobRequest = _testContext.TestData.GetOrCreate(onCreate: () =>
+            {
+                return new JobRequest
+                {
+                    Type = JobType.UpdateVrfCaseStatusForIncompleteCases,
+                    Data = null
+                };
+            });
+
+            _testContext.EmployerIncentivesApi.MockServer
+                .Given(
+                    Request
+                        .Create()
+                        .WithPath($"/api/jobs")
+                        .WithBody(JsonConvert.SerializeObject(jobRequest))
+                        .UsingPut()
+                )
+                .RespondWith(
+                    Response.Create()
+                        .WithStatusCode(HttpStatusCode.OK)
+                        .WithHeader("Content-Type", "application/json"));
+
+            await _testContext.LegalEntitiesFunctions.TimerTriggerUpdateVrfStatuses.Run(null, null);
+        }
+
         [Then(@"the event is forwarded to the Employer Incentives system")]
         public void ThenTheEventIsForwardedToTheApi()
         {

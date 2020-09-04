@@ -35,3 +35,7 @@ Scenario: An application is submitted for a legal entity
 Scenario: A job to update vrf details for a legal entity is requested
 	When a request to update legal entity vrf case details is received
 	Then the event is forwarded to the Employer Incentives system
+
+Scenario: A job to update vrf case statuses for incomplete applications is requested
+	When a request to update vrf case statuses for incomplete applications is received
+	Then a request is made to the Employer Incentives system

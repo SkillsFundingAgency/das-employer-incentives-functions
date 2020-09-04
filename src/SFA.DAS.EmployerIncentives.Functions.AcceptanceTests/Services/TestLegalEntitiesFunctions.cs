@@ -27,6 +27,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         private bool isDisposed;
         public HandleRefreshLegalEntitiesRequest HttpTriggerRefreshLegalEntities { get; set; }
         public UpdateVrfCaseDetailsForNewApplications TimerTriggerUpdateVrfDetails { get; set; }
+        public UpdateVrfCaseStatusForIncompleteCases TimerTriggerUpdateVrfStatuses { get; set; }
 
         public TestLegalEntitiesFunctions(
             TestEmployerIncentivesApi testEmployerIncentivesApi,
@@ -108,6 +109,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
             TimerTriggerUpdateVrfDetails = new UpdateVrfCaseDetailsForNewApplications(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
+            TimerTriggerUpdateVrfStatuses = new UpdateVrfCaseStatusForIncompleteCases(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
         }
 
         public void Dispose()
