@@ -15,7 +15,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         }
 
         [FunctionName("UpdateVrfCaseDetailsForNewApplications")]
-        public async Task Run([TimerTrigger("0 * */1 * * *")]TimerInfo myTimer, ILogger log)
+        public async Task Run([TimerTrigger("0 1 * * * *")]TimerInfo myTimer, ILogger log)
         {
             await _legalEntitiesService.UpdateVrfCaseDetails();
         }
