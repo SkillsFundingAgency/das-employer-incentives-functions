@@ -8,6 +8,7 @@
 *.sln.docstates
 connectionStrings.Local.json
 min
+*.subscription
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
