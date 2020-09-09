@@ -2,7 +2,6 @@
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
 using System.Net.Http;
 using System.Threading.Tasks;
-using SFA.DAS.HashingService;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities
 {
@@ -10,13 +9,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
     {
         private readonly HttpClient _client;
         private readonly IJobsService _jobsService;
-        private readonly IHashingService _hashingService;
 
-        public LegalEntitiesService(HttpClient client, IJobsService jobsService, IHashingService hashingService)
+        public LegalEntitiesService(HttpClient client, IJobsService jobsService)
         {
             _client = client;
             _jobsService = jobsService;
-            _hashingService = hashingService;
         }
         
         public Task Refresh()
@@ -39,24 +36,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         {
             var response = await _client.DeleteAsync($"accounts/{request.AccountId}/legalEntities/{request.AccountLegalEntityId}");
             response.EnsureSuccessStatusCode();
-        }
-
-        public Task UpdateVrfCaseDetails()
-        {
-            return _jobsService.UpdateVrfCaseDetailsForNewApplications();
-        }
-
-        public async Task UpdateVrfCaseDetails(long legalEntityId)
-        {
-            var hashedLegalEntityId = _hashingService.HashValue(legalEntityId);
-
-            var response = await _client.PatchAsync($"legalentities/{legalEntityId}/vendorregistrationform?hashedLegalEntityId={hashedLegalEntityId}", new StringContent(""));
-            response.EnsureSuccessStatusCode();
-        }
-
-        public Task UpdateVrfCaseStatus()
-        {
-            return _jobsService.UpdateVrfCaseStatusForIncompleteCases();
         }
     }
 }

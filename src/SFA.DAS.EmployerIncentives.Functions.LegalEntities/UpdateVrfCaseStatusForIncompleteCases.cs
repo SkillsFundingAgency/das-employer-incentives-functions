@@ -7,17 +7,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
     public class UpdateVrfCaseStatusForIncompleteCases
     {
-        private readonly ILegalEntitiesService _legalEntitiesService;
+        private readonly IVendorRegistrationFormService _vendorRegistrationFormService;
 
-        public UpdateVrfCaseStatusForIncompleteCases(ILegalEntitiesService legalEntitiesService)
+        public UpdateVrfCaseStatusForIncompleteCases(IVendorRegistrationFormService vendorRegistrationFormService)
         {
-            _legalEntitiesService = legalEntitiesService;
+            _vendorRegistrationFormService = vendorRegistrationFormService;
         }
 
         [FunctionName("UpdateVrfCaseStatusForIncompleteCases")]
         public async Task Run([TimerTrigger("0 0 1 * * *")]TimerInfo myTimer, ILogger log)
         {
-            await _legalEntitiesService.UpdateVrfCaseStatus();
+            await _vendorRegistrationFormService.UpdateVrfCaseStatus();
         }
     }
 }

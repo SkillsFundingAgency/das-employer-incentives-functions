@@ -31,7 +31,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
 
             _testClient.SetUpPostAsAsync(HttpStatusCode.Created);
 
-            _sut = new LegalEntitiesService(_testClient, _mockJobsService.Object, Mock.Of<IHashingService>());
+            _sut = new LegalEntitiesService(_testClient, _mockJobsService.Object);
         }
 
         [Test]

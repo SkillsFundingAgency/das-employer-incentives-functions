@@ -108,8 +108,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
-            TimerTriggerUpdateVrfDetails = new UpdateVrfCaseDetailsForNewApplications(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
-            TimerTriggerUpdateVrfStatuses = new UpdateVrfCaseStatusForIncompleteCases(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
+            TimerTriggerUpdateVrfDetails = new UpdateVrfCaseDetailsForNewApplications(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService);
+            TimerTriggerUpdateVrfStatuses = new UpdateVrfCaseStatusForIncompleteCases(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService);
         }
 
         public void Dispose()

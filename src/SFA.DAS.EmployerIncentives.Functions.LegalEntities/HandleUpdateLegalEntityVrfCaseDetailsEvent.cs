@@ -9,17 +9,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
     public class HandleUpdateLegalEntityVrfCaseDetailsEvent
     {
-        private readonly ILegalEntitiesService _legalEntitiesService;
+        private readonly IVendorRegistrationFormService _vendorRegistrationFormService;
 
-        public HandleUpdateLegalEntityVrfCaseDetailsEvent(ILegalEntitiesService legalEntitiesService)
+        public HandleUpdateLegalEntityVrfCaseDetailsEvent(IVendorRegistrationFormService vendorRegistrationFormService)
         {
-            _legalEntitiesService = legalEntitiesService;
+            _vendorRegistrationFormService = vendorRegistrationFormService;
         }
 
         [FunctionName("HandleGetLegalEntityVrfCaseDetailsEvent")]
         public Task RunEvent([NServiceBusTrigger(Endpoint = QueueNames.UpdateLegalEntityVrfCaseDetailsEvent)] UpdateLegalEntityVrfCaseDetailsEvent message)
         {
-            return _legalEntitiesService.UpdateVrfCaseDetails(message.LegalEntityId);
+            return _vendorRegistrationFormService.UpdateVrfCaseDetails(message.LegalEntityId);
         }
     }
 }

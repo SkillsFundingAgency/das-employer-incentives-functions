@@ -10,16 +10,16 @@ namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
     public class WhenUpdateVrfCaseDetailsForNewApplications
     {
         private UpdateVrfCaseDetailsForNewApplications _sut;
-        private Mock<ILegalEntitiesService> _mockILegalEntitiesService;
+        private Mock<IVendorRegistrationFormService> _mockIVendorRegistrationFormService;
         private Fixture _fixture;
 
         [SetUp]
         public void Setup()
         {
-            _mockILegalEntitiesService = new Mock<ILegalEntitiesService>();
+            _mockIVendorRegistrationFormService = new Mock<IVendorRegistrationFormService>();
             _fixture = new Fixture();
             
-            _sut = new UpdateVrfCaseDetailsForNewApplications(_mockILegalEntitiesService.Object);
+            _sut = new UpdateVrfCaseDetailsForNewApplications(_mockIVendorRegistrationFormService.Object);
 
         }
 
@@ -30,7 +30,7 @@ namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
             await _sut.Run(null, null);
 
             // Assert
-            _mockILegalEntitiesService.Verify(m => m.UpdateVrfCaseDetails(), Times.Once);
+            _mockIVendorRegistrationFormService.Verify(m => m.UpdateVrfCaseDetails(), Times.Once);
         }
     }
 }

@@ -7,17 +7,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
     public class UpdateVrfCaseDetailsForNewApplications
     {
-        private readonly ILegalEntitiesService _legalEntitiesService;
+        private readonly IVendorRegistrationFormService _vendorRegistrationFormService;
 
-        public UpdateVrfCaseDetailsForNewApplications(ILegalEntitiesService legalEntitiesService)
+        public UpdateVrfCaseDetailsForNewApplications(IVendorRegistrationFormService vendorRegistrationFormService)
         {
-            _legalEntitiesService = legalEntitiesService;
+            _vendorRegistrationFormService = vendorRegistrationFormService;
         }
 
         [FunctionName("UpdateVrfCaseDetailsForNewApplications")]
         public async Task Run([TimerTrigger("0 1 * * * *")]TimerInfo myTimer, ILogger log)
         {
-            await _legalEntitiesService.UpdateVrfCaseDetails();
+            await _vendorRegistrationFormService.UpdateVrfCaseDetails();
         }
     }
 }
