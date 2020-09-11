@@ -16,7 +16,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             _vendorRegistrationFormService = vendorRegistrationFormService;
         }
 
-        [FunctionName("HandleGetLegalEntityVrfCaseDetailsEvent")]
+        [FunctionName("HandleGetLegalEntityVrfCaseStatusEvent")]
         public Task RunEvent([NServiceBusTrigger(Endpoint = QueueNames.UpdateLegalEntityVrfCaseStatusEvent)] UpdateLegalEntityVrfCaseStatusEvent message)
         {
             return _vendorRegistrationFormService.UpdateVrfCaseStatus(message.LegalEntityId, message.VrfCaseId);
