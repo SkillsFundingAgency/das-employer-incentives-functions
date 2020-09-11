@@ -43,7 +43,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.AgreementsServ
             var caseId = _fixture.Create<string>();
 
             // Act
-            await _sut.UpdateVrfCaseDetails(legalEntityId);
+            await _sut.UpdateVrfCaseStatus(legalEntityId, caseId);
 
             // Assert
             _testClient.VerifyPatchAsAsync($"legalentities/{legalEntityId}/vendorregistrationform/{caseId}", Times.Once());
