@@ -6,6 +6,7 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using SFA.DAS.Http;
 using System;
+using System.Net.Http;
 using SFA.DAS.HashingService;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
@@ -14,85 +15,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
     {
         public static IServiceCollection AddEmployerIncentivesService(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IJobsService>(s =>
-            {
-                var settings = s.GetService<IOptions<EmployerIncentivesApiOptions>>().Value;
-
-                var clientBuilder = new HttpClientBuilder()
-                    .WithDefaultHeaders()
-                    .WithApimAuthorisationHeader(settings)
-                    .WithLogging(s.GetService<ILoggerFactory>());
-
-                var httpClient = clientBuilder.Build();
-
-                if(!settings.ApiBaseUrl.EndsWith("/"))
-                {
-                    settings.ApiBaseUrl += "/";
-                }
-                httpClient.BaseAddress = new Uri(settings.ApiBaseUrl);
-
-                return new JobsService(httpClient);
-            });
-
-            serviceCollection.AddTransient<ILegalEntitiesService>(s =>
-            {
-                var settings = s.GetService<IOptions<EmployerIncentivesApiOptions>>().Value;
-
-                var clientBuilder = new HttpClientBuilder()
-                    .WithDefaultHeaders()
-                    .WithApimAuthorisationHeader(settings)
-                    .WithLogging(s.GetService<ILoggerFactory>());
-
-                var httpClient = clientBuilder.Build();
-
-                if (!settings.ApiBaseUrl.EndsWith("/"))
-                {
-                    settings.ApiBaseUrl += "/";
-                }
-                httpClient.BaseAddress = new Uri(settings.ApiBaseUrl);
-
-                return new LegalEntitiesService(httpClient, s.GetRequiredService<IJobsService>());
-            });
-
-            serviceCollection.AddTransient<IVendorRegistrationFormService>(s =>
-            {
-                var settings = s.GetService<IOptions<EmployerIncentivesApiOptions>>().Value;
-
-                var clientBuilder = new HttpClientBuilder()
-                    .WithDefaultHeaders()
-                    .WithApimAuthorisationHeader(settings)
-                    .WithLogging(s.GetService<ILoggerFactory>());
-
-                var httpClient = clientBuilder.Build();
-
-                if (!settings.ApiBaseUrl.EndsWith("/"))
-                {
-                    settings.ApiBaseUrl += "/";
-                }
-                httpClient.BaseAddress = new Uri(settings.ApiBaseUrl);
-
-                return new VendorRegistrationFormService(httpClient, s.GetRequiredService<IJobsService>(), s.GetRequiredService<IHashingService>());
-            });
-
-            serviceCollection.AddTransient<IAgreementsService>(s =>
-            {
-                var settings = s.GetService<IOptions<EmployerIncentivesApiOptions>>().Value;
-
-                var clientBuilder = new HttpClientBuilder()
-                    .WithDefaultHeaders()
-                    .WithApimAuthorisationHeader(settings)
-                    .WithLogging(s.GetService<ILoggerFactory>());
-
-                var httpClient = clientBuilder.Build();
-
-                if (!settings.ApiBaseUrl.EndsWith("/"))
-                {
-                    settings.ApiBaseUrl += "/";
-                }
-                httpClient.BaseAddress = new Uri(settings.ApiBaseUrl);
-
-                return new AgreementsService(httpClient);
-            });
+            serviceCollection.AddClient<IJobsService>((c, s) => new JobsService(c));
+            serviceCollection.AddClient<ILegalEntitiesService>((c, s) => new LegalEntitiesService(c, s.GetRequiredService<IJobsService>()));
+            serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c,s.GetRequiredService<IJobsService>(), s.GetRequiredService<IHashingService>()));
+            serviceCollection.AddClient<IAgreementsService>((c, s) => new AgreementsService(c));
 
             return serviceCollection;
         }
@@ -102,6 +28,31 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.AddSingleton<IHashingService>(c => {
                 var settings = c.GetService<IOptions<FunctionConfigurationOptions>>().Value;
                 return new HashingService.HashingService(settings.AllowedHashstringCharacters, settings.Hashstring);
+            });
+
+            return serviceCollection;
+        }
+
+        private static IServiceCollection AddClient<T>(this IServiceCollection serviceCollection, Func<HttpClient, IServiceProvider, T> instance) where T : class
+        {
+            serviceCollection.AddTransient(s =>
+            {
+                var settings = s.GetService<IOptions<EmployerIncentivesApiOptions>>().Value;
+
+                var clientBuilder = new HttpClientBuilder()
+                    .WithDefaultHeaders()
+                    .WithApimAuthorisationHeader(settings)
+                    .WithLogging(s.GetService<ILoggerFactory>());
+
+                var httpClient = clientBuilder.Build();
+
+                if (!settings.ApiBaseUrl.EndsWith("/"))
+                {
+                    settings.ApiBaseUrl += "/";
+                }
+                httpClient.BaseAddress = new Uri(settings.ApiBaseUrl);
+
+                return instance.Invoke(httpClient, s);
             });
 
             return serviceCollection;
