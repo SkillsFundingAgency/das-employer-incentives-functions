@@ -1,16 +1,16 @@
-﻿using Moq;
-using NUnit.Framework;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
-using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
+using Moq;
+using NUnit.Framework;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.HashingService;
 
-namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
+namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.AgreementsService
 {
-    public class WhenUpdateVrfCaseDetails
+    public class WhenUpdateVrfCaseStatus
     {
         private VendorRegistrationFormService _sut;
         private Uri _baseAddress;
@@ -37,10 +37,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
         public async Task Then_the_default_job_request_is_forwarded_to_the_jobs_service()
         {
             // Act
-            await _sut.UpdateVrfCaseDetails();
+            await _sut.UpdateVrfCaseStatus();
 
             // Assert
-            _mockJobsService.Verify(m => m.UpdateVrfCaseDetailsForNewApplications());
+            _mockJobsService.Verify(m => m.UpdateVrfCaseStatusForIncompleteCases());
         }
     }
 }

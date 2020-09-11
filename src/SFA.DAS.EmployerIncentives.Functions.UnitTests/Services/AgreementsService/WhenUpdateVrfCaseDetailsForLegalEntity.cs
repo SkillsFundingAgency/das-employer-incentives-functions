@@ -1,14 +1,14 @@
-﻿using Moq;
-using NUnit.Framework;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
-using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
+using Moq;
+using NUnit.Framework;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.HashingService;
 
-namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
+namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.AgreementsService
 {
     public class WhenUpdateVrfCaseDetailsForLegalEntity
     {
@@ -36,7 +36,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
         }
 
         [Test]
-        public async Task Then_the_default_job_request_is_forwarded_to_the_jobs_service()
+        public async Task Then_the_request_is_forwarded_to_the_client()
         {
             // Arrange
             var legalEntityId = _fixture.Create<long>();

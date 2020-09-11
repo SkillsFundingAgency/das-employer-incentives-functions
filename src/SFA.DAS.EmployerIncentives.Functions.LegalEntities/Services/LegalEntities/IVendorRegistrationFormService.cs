@@ -7,5 +7,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         Task UpdateVrfCaseDetails();
         Task UpdateVrfCaseDetails(long legalEntityId);
         Task UpdateVrfCaseStatus();
+        Task UpdateVrfCaseStatus(long legalEntityId, string caseId);
     }
 }

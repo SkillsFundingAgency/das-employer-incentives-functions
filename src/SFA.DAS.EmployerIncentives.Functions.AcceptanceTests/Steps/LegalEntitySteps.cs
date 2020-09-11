@@ -248,7 +248,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .Given(
                     Request
                         .Create()
-                        .WithPath($"/api/legalentities/{refreshEvent.LegalEntityId}/legalEntities")
+                        .WithPath($"/api/legalentities/{refreshEvent.LegalEntityId}/vendorregistrationform")
                         .WithParam("hashedLegalEntityId")
                         .UsingPatch()
                 )
@@ -289,6 +289,28 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             await _testContext.LegalEntitiesFunctions.TimerTriggerUpdateVrfStatuses.Run(null, null);
         }
 
+        [When(@"a request to update the case status for a legal entity is received")]
+        public async Task WhenUpdateLegalEntityVrfCaseStatusEventIsReceived()
+        {
+            requestType = "updateVrfStatus";
+            var updateEvent = _testContext.TestData.GetOrCreate<UpdateLegalEntityVrfCaseStatusEvent>();
+
+            _testContext.EmployerIncentivesApi.MockServer
+                .Given(
+                    Request
+                        .Create()
+                        .WithPath($"/api/legalentities/{updateEvent.LegalEntityId}/vendorregistrationform/{updateEvent.VrfCaseId}")
+                        .UsingPatch()
+                )
+                .RespondWith(
+                    Response.Create()
+                        .WithStatusCode(HttpStatusCode.NoContent)
+                        .WithHeader("Content-Type", "application/json"));
+
+            await _testContext.WaitFor<MessageContext>(async () =>
+                await _testContext.TestMessageBus.Publish(updateEvent));
+        }
+
         [Then(@"the event is forwarded to the Employer Incentives system")]
         public void ThenTheEventIsForwardedToTheApi()
         {
@@ -309,6 +331,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                     break;
                 case "updateVrfDetails":
                     ThenTheUpdateVrfDetailsEventIsForwardedToTheApi();
+                    break;
+                case "updateVrfStatus":
+                    ThenTheUpdateVrfStatusEventIsForwardedToTheApi();
                     break;
             }
         }
@@ -410,6 +435,22 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                         .Create()
                         .WithPath($"/api/legalentities/{signedEvent.LegalEntityId}/vendorregistrationform")
                         .WithParam("hashedLegalEntityId")
+                        .UsingPatch());
+
+            requests.AsEnumerable().Count().Should().Be(1);
+        }
+
+        public void ThenTheUpdateVrfStatusEventIsForwardedToTheApi()
+        {
+            var updateEvent = _testContext.TestData.GetOrCreate<UpdateLegalEntityVrfCaseStatusEvent>();
+
+            var requests = _testContext
+                .EmployerIncentivesApi
+                .MockServer
+                .FindLogEntries(
+                    Request
+                        .Create()
+                        .WithPath($"/api/legalentities/{updateEvent.LegalEntityId}/vendorregistrationform/{updateEvent.VrfCaseId}")
                         .UsingPatch());
 
             requests.AsEnumerable().Count().Should().Be(1);
