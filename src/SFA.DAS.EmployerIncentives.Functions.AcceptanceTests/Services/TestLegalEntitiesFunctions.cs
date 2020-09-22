@@ -9,6 +9,7 @@ using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Infrastructure;
+using SFA.DAS.Testing.AzureStorageEmulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -128,6 +129,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             TimerTriggerUpdateVrfStatuses = new UpdateVrfCaseStatusForIncompleteCases(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService);
             TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService,
                 host.Services.GetService(typeof(IVrfCaseRefreshConfiguration)) as IVrfCaseRefreshConfiguration, MockDateTimeProvider.Object);
+
+            AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
         }
 
         public void Dispose()
