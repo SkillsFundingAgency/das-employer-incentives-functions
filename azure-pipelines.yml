@@ -51,13 +51,17 @@ steps:
     projects: |
       src/**/*.Tests.csproj
       src/**/*.UnitTests.csproj
+      src/**/*.AcceptanceTests.csproj
     arguments: '--configuration $(buildConfiguration) --no-restore'
  
 - task: DotNetCoreCLI@2
   displayName: UnitTest
   inputs:
     command: test
-    projects: src/**/*.UnitTests.csproj
+    projects: |
+      src/**/*.Tests.csproj
+      src/**/*.UnitTests.csproj
+      src/**/*.AcceptanceTests.csproj
     arguments: '--configuration $(BuildConfiguration) --no-build --logger trx --collect "Code coverage"'
 
 - template: azure-pipelines-templates/dependency-check.yml@das-platform-building-blocks
