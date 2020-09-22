@@ -1,7 +1,8 @@
 ﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
+using SFA.DAS.HashingService;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using SFA.DAS.HashingService;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities
 {
@@ -17,7 +18,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             _jobsService = jobsService;
             _hashingService = hashingService;
         }
-        
+
         public Task UpdateVrfCaseDetails()
         {
             return _jobsService.UpdateVrfCaseDetailsForNewApplications();
@@ -39,6 +40,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         public async Task UpdateVrfCaseStatus(long legalEntityId, string caseId)
         {
             var response = await _client.PatchAsync($"legalentities/{legalEntityId}/vendorregistrationform/{caseId}", new StringContent(""));
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task RefreshVendorRegistrationFormStatuses(DateTime fromDateTime, DateTime toDateTime)
+        {
+            var url = $"/api/legalentities/vendorregistrationform/status?from={fromDateTime:yyyyMMddHHmmss}&to={toDateTime:yyyyMMddHHmmss}";
+
+            var response = await _client.PatchAsync(url, new StringContent(""));
             response.EnsureSuccessStatusCode();
         }
     }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Moq;
 using NServiceBus;
 using NServiceBus.Transport;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks;
@@ -25,9 +26,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         private readonly List<IHook> _messageHooks;
         private IHost host;
         private bool isDisposed;
+        public Mock<IDateTimeProvider> MockDateTimeProvider = new Mock<IDateTimeProvider>();
         public HandleRefreshLegalEntitiesRequest HttpTriggerRefreshLegalEntities { get; set; }
         public UpdateVrfCaseDetailsForNewApplications TimerTriggerUpdateVrfDetails { get; set; }
         public UpdateVrfCaseStatusForIncompleteCases TimerTriggerUpdateVrfStatuses { get; set; }
+        public RefreshVendorRegistrationCaseStatus TimerTriggerRefreshVendorRegistrationCaseStatus { get; set; }
 
         public TestLegalEntitiesFunctions(
             TestEmployerIncentivesApi testEmployerIncentivesApi,
@@ -44,7 +47,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                 { "EnvironmentName", "LOCAL" },
                 { "ConfigurationStorageConnectionString", "UseDevelopmentStorage=true" },
                 { "ConfigNames", "SFA.DAS.EmployerIncentives.Functions" },
-                { "Values:AzureWebJobsStorage", "UseDevelopmentStorage=true" }
+                { "AzureWebJobsStorage", "UseDevelopmentStorage=true" },
+                { "AllowedHashstringCharacters", "46789BCDFGHJKLMNPRSTVWX" },
+                { "Hashstring", "Test Hashstring" },
             };
         }
 
@@ -64,7 +69,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                     a.AddInMemoryCollection(_appConfig);
                     a.SetBasePath(_testMessageBus.StorageDirectory.FullName);
                 })
-               .ConfigureWebJobs(startUp.Configure);
+               .ConfigureWebJobs(startUp.Configure)
+               .ConfigureWebJobs(b =>
+                {
+                    b.AddAzureStorageCoreServices();
+                    b.AddAzureStorage();
+                });
 
             _ = hostBuilder.ConfigureServices((s) =>
             {
@@ -72,6 +82,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                 {
                     a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
                     a.SubscriptionKey = "";
+                });
+
+                s.Configure<Config.FunctionConfigurationOptions>(o =>
+                {
+                    o.AllowedHashstringCharacters = _appConfig["AllowedHashstringCharacters"];
+                    o.Hashstring = _appConfig["Hashstring"];
+                    o.AzureWebJobsStorage = _appConfig["AzureWebJobsStorage"];
                 });
 
                 _ = s.AddNServiceBus(new LoggerFactory().CreateLogger<TestLegalEntitiesFunctions>(),
@@ -103,13 +120,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             });
 
             hostBuilder.UseEnvironment("LOCAL");
-
             host = await hostBuilder.StartAsync();
 
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
             TimerTriggerUpdateVrfDetails = new UpdateVrfCaseDetailsForNewApplications(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService);
             TimerTriggerUpdateVrfStatuses = new UpdateVrfCaseStatusForIncompleteCases(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService);
+            TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService,
+                host.Services.GetService(typeof(IVrfCaseRefreshConfiguration)) as IVrfCaseRefreshConfiguration, MockDateTimeProvider.Object);
         }
 
         public void Dispose()

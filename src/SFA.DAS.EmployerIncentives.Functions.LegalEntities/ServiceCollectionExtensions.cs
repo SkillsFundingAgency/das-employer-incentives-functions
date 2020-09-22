@@ -4,10 +4,10 @@ using Microsoft.Extensions.Options;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
+using SFA.DAS.HashingService;
 using SFA.DAS.Http;
 using System;
 using System.Net.Http;
-using SFA.DAS.HashingService;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
@@ -17,7 +17,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         {
             serviceCollection.AddClient<IJobsService>((c, s) => new JobsService(c));
             serviceCollection.AddClient<ILegalEntitiesService>((c, s) => new LegalEntitiesService(c, s.GetRequiredService<IJobsService>()));
-            serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c,s.GetRequiredService<IJobsService>(), s.GetRequiredService<IHashingService>()));
+            serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c, s.GetRequiredService<IJobsService>(), s.GetRequiredService<IHashingService>()));
             serviceCollection.AddClient<IAgreementsService>((c, s) => new AgreementsService(c));
 
             return serviceCollection;
@@ -25,10 +25,25 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
         public static IServiceCollection AddHashingService(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<IHashingService>(c => {
+            serviceCollection.AddSingleton<IHashingService>(c =>
+            {
                 var settings = c.GetService<IOptions<FunctionConfigurationOptions>>().Value;
                 return new HashingService.HashingService(settings.AllowedHashstringCharacters, settings.Hashstring);
             });
+
+            return serviceCollection;
+        }
+
+        public static IServiceCollection AddVrfCaseRefreshConfiguration(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton<IVrfCaseRefreshConfiguration>(
+                c =>
+                {
+                    var settings = c.GetService<IOptions<FunctionConfigurationOptions>>().Value;
+                    return new VrfCaseRefreshConfiguration(settings.AzureWebJobsStorage);
+                });
+
+            serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
             return serviceCollection;
         }

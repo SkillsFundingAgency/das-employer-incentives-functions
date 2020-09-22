@@ -35,7 +35,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                     options.EnvironmentName = configuration["EnvironmentName"];
                     options.PreFixConfigurationKeys = false;
                 });
-           }
+            }
 #if DEBUG
             configBuilder.AddJsonFile($"local.settings.json", optional: true);
 #endif
@@ -62,7 +62,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 builder.Services.AddNServiceBus(logger);
             }
 
-            builder.Services.AddHashingService().AddEmployerIncentivesService();
+            builder.Services
+                .AddHashingService()
+                .AddEmployerIncentivesService()
+                .AddVrfCaseRefreshConfiguration()
+                ;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities
 {
@@ -8,5 +9,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         Task UpdateVrfCaseDetails(long legalEntityId);
         Task UpdateVrfCaseStatus();
         Task UpdateVrfCaseStatus(long legalEntityId, string caseId);
+        Task RefreshVendorRegistrationFormStatuses(DateTime fromDateTime, DateTime toDateTime);
     }
 }
