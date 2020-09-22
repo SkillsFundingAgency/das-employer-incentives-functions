@@ -28,10 +28,9 @@ resources:
 
 pool:
   name: 'DAS - Continuous Integration'
-  demands: 
-  - dotnet
-  - Agent.OS -equals Windows_NT
-    
+  demands:
+    - Agent.OS -equals Windows_NT
+
 steps:
 - task: UseGitVersion@5
   inputs:
