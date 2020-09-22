@@ -30,7 +30,7 @@ pool:
   name: 'DAS - Continuous Integration'
   demands: 
   - dotnet
-  - Agent.OS -equals WindowsNT
+  - Agent.OS -equals WinNT
     
 steps:
 - task: UseGitVersion@5
