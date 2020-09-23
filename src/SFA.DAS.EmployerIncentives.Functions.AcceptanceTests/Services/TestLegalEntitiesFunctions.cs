@@ -29,8 +29,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         private bool isDisposed;
         public Mock<IDateTimeProvider> MockDateTimeProvider = new Mock<IDateTimeProvider>();
         public HandleRefreshLegalEntitiesRequest HttpTriggerRefreshLegalEntities { get; set; }
-        public UpdateVrfCaseDetailsForNewApplications TimerTriggerUpdateVrfDetails { get; set; }
-        public UpdateVrfCaseStatusForIncompleteCases TimerTriggerUpdateVrfStatuses { get; set; }
         public RefreshVendorRegistrationCaseStatus TimerTriggerRefreshVendorRegistrationCaseStatus { get; set; }
 
         public TestLegalEntitiesFunctions(
@@ -125,8 +123,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
-            TimerTriggerUpdateVrfDetails = new UpdateVrfCaseDetailsForNewApplications(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService);
-            TimerTriggerUpdateVrfStatuses = new UpdateVrfCaseStatusForIncompleteCases(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService);
             TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService,
                 host.Services.GetService(typeof(IVrfCaseRefreshConfiguration)) as IVrfCaseRefreshConfiguration, MockDateTimeProvider.Object);
 

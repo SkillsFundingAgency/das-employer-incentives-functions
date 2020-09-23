@@ -17,7 +17,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         {
             serviceCollection.AddClient<IJobsService>((c, s) => new JobsService(c));
             serviceCollection.AddClient<ILegalEntitiesService>((c, s) => new LegalEntitiesService(c, s.GetRequiredService<IJobsService>()));
-            serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c, s.GetRequiredService<IJobsService>(), s.GetRequiredService<IHashingService>()));
+            serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c));
             serviceCollection.AddClient<IAgreementsService>((c, s) => new AgreementsService(c));
 
             return serviceCollection;

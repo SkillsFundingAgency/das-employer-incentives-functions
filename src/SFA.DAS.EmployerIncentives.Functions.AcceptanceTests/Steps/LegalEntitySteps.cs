@@ -210,107 +210,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 await _testContext.TestMessageBus.Publish(signedEvent));
         }
 
-        [When(@"an application has been submitted for a legal entity")]
-        public async Task WhenAnApplicationHasBeenSubmitted()
-        {
-            var jobRequest = _testContext.TestData.GetOrCreate(onCreate: () =>
-            {
-                return new JobRequest
-                {
-                    Type = JobType.UpdateVrfCaseDetailsForNewApplications,
-                    Data = null
-                };
-            });
-
-            _testContext.EmployerIncentivesApi.MockServer
-                .Given(
-                    Request
-                        .Create()
-                        .WithPath($"/api/jobs")
-                        .WithBody(JsonConvert.SerializeObject(jobRequest))
-                        .UsingPut()
-                )
-                .RespondWith(
-                    Response.Create()
-                        .WithStatusCode(HttpStatusCode.OK)
-                        .WithHeader("Content-Type", "application/json"));
-
-            await _testContext.LegalEntitiesFunctions.TimerTriggerUpdateVrfDetails.Run(null, null);
-        }
-
-        [When(@"a request to update legal entity vrf case details is received")]
-        public async Task WhenUpdateLegalEntityVrfCaseDetailsEventIsReceived()
-        {
-            requestType = "updateVrfDetails";
-            var refreshEvent = _testContext.TestData.GetOrCreate<UpdateLegalEntityVrfCaseDetailsEvent>();
-
-            _testContext.EmployerIncentivesApi.MockServer
-                .Given(
-                    Request
-                        .Create()
-                        .WithPath($"/api/legalentities/{refreshEvent.LegalEntityId}/vendorregistrationform")
-                        .WithParam("hashedLegalEntityId")
-                        .UsingPatch()
-                )
-                .RespondWith(
-                    Response.Create()
-                        .WithStatusCode(HttpStatusCode.NoContent)
-                        .WithHeader("Content-Type", "application/json"));
-
-            await _testContext.WaitFor<MessageContext>(async () =>
-                await _testContext.TestMessageBus.Publish(refreshEvent));
-        }
-
-        [When(@"a request to update vrf case statuses for incomplete applications is received")]
-        public async Task WhenACaseStatusUpdateIsTriggered()
-        {
-            var jobRequest = _testContext.TestData.GetOrCreate(onCreate: () =>
-            {
-                return new JobRequest
-                {
-                    Type = JobType.UpdateVrfCaseStatusForIncompleteCases,
-                    Data = null
-                };
-            });
-
-            _testContext.EmployerIncentivesApi.MockServer
-                .Given(
-                    Request
-                        .Create()
-                        .WithPath($"/api/jobs")
-                        .WithBody(JsonConvert.SerializeObject(jobRequest))
-                        .UsingPut()
-                )
-                .RespondWith(
-                    Response.Create()
-                        .WithStatusCode(HttpStatusCode.OK)
-                        .WithHeader("Content-Type", "application/json"));
-
-            await _testContext.LegalEntitiesFunctions.TimerTriggerUpdateVrfStatuses.Run(null, null);
-        }
-
-        [When(@"a request to update the case status for a legal entity is received")]
-        public async Task WhenUpdateLegalEntityVrfCaseStatusEventIsReceived()
-        {
-            requestType = "updateVrfStatus";
-            var updateEvent = _testContext.TestData.GetOrCreate<UpdateLegalEntityVrfCaseStatusEvent>();
-
-            _testContext.EmployerIncentivesApi.MockServer
-                .Given(
-                    Request
-                        .Create()
-                        .WithPath($"/api/legalentities/{updateEvent.LegalEntityId}/vendorregistrationform/{updateEvent.VrfCaseId}")
-                        .UsingPatch()
-                )
-                .RespondWith(
-                    Response.Create()
-                        .WithStatusCode(HttpStatusCode.NoContent)
-                        .WithHeader("Content-Type", "application/json"));
-
-            await _testContext.WaitFor<MessageContext>(async () =>
-                await _testContext.TestMessageBus.Publish(updateEvent));
-        }
-
         [Then(@"the event is forwarded to the Employer Incentives system")]
         public void ThenTheEventIsForwardedToTheApi()
         {
@@ -328,12 +227,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                     break;
                 case "agreementSigned":
                     ThenTheSignedEventIsForwardedToTheApi();
-                    break;
-                case "updateVrfDetails":
-                    ThenTheUpdateVrfDetailsEventIsForwardedToTheApi();
-                    break;
-                case "updateVrfStatus":
-                    ThenTheUpdateVrfStatusEventIsForwardedToTheApi();
                     break;
             }
         }
@@ -418,39 +311,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                     Request
                         .Create()
                         .WithPath($"/api/accounts/{signedEvent.AccountId}/legalEntities/{signedEvent.AccountLegalEntityId}")
-                        .UsingPatch());
-
-            requests.AsEnumerable().Count().Should().Be(1);
-        }
-
-        public void ThenTheUpdateVrfDetailsEventIsForwardedToTheApi()
-        {
-            var signedEvent = _testContext.TestData.GetOrCreate<UpdateLegalEntityVrfCaseDetailsEvent>();
-
-            var requests = _testContext
-                .EmployerIncentivesApi
-                .MockServer
-                .FindLogEntries(
-                    Request
-                        .Create()
-                        .WithPath($"/api/legalentities/{signedEvent.LegalEntityId}/vendorregistrationform")
-                        .WithParam("hashedLegalEntityId")
-                        .UsingPatch());
-
-            requests.AsEnumerable().Count().Should().Be(1);
-        }
-
-        public void ThenTheUpdateVrfStatusEventIsForwardedToTheApi()
-        {
-            var updateEvent = _testContext.TestData.GetOrCreate<UpdateLegalEntityVrfCaseStatusEvent>();
-
-            var requests = _testContext
-                .EmployerIncentivesApi
-                .MockServer
-                .FindLogEntries(
-                    Request
-                        .Create()
-                        .WithPath($"/api/legalentities/{updateEvent.LegalEntityId}/vendorregistrationform/{updateEvent.VrfCaseId}")
                         .UsingPatch());
 
             requests.AsEnumerable().Count().Should().Be(1);

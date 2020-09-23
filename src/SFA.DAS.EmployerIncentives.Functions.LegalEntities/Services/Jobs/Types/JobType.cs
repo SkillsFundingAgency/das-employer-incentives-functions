@@ -2,8 +2,6 @@
 {
     public enum JobType
     {
-        RefreshLegalEntities = 1,
-        UpdateVrfCaseDetailsForNewApplications = 2,
-        UpdateVrfCaseStatusForIncompleteCases = 3
+        RefreshLegalEntities = 1
     }
 }
