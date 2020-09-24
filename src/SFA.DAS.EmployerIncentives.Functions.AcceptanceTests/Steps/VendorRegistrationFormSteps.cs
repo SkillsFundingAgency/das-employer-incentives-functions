@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using Moq;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
+using SFA.DAS.EmployerIncentives.Infrastructure.Extensions;
 using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
-using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 
@@ -31,18 +31,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             var lastRunDate = await _configuration.GetLastRunDateTime();
 
             _testContext.EmployerIncentivesApi.MockServer
-                 .Given(
-                     Request
-                         .Create()
-                         .WithPath("/api/legalentities/vendorregistrationform/status")
-                         .WithParam("from", new ExactMatcher($"{lastRunDate:yyyyMMddHHmmss}"))
-                         .WithParam("to", new ExactMatcher("20200901020304"))
-                         .UsingPatch()
-                 )
-                 .RespondWith(
-                     Response.Create()
-                         .WithStatusCode(HttpStatusCode.NoContent)
-                         .WithHeader("Content-Type", "application/json"));
+                .Given(
+                    Request
+                        .Create()
+                        .WithPath("/api/legalentities/vendorregistrationform/status")
+                        .WithParam("from", $"{lastRunDate.ToIsoDateTime()}")
+                        .WithParam("to", $"{_fakeCurrentDateTime.ToIsoDateTime()}")
+                        .UsingPatch())
+                .RespondWith(
+                    Response.Create()
+                        .WithStatusCode(HttpStatusCode.NoContent)
+                        .WithHeader("Content-Type", "application/json"));
 
             var mockLogger = new Mock<Microsoft.Extensions.Logging.ILogger>();
             await _testContext.LegalEntitiesFunctions.TimerTriggerRefreshVendorRegistrationCaseStatus.Run(null, mockLogger.Object);

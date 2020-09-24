@@ -1,4 +1,5 @@
 ﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
+using SFA.DAS.EmployerIncentives.Infrastructure.Extensions;
 using SFA.DAS.HashingService;
 using System;
 using System.Net.Http;
@@ -45,7 +46,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
 
         public async Task RefreshVendorRegistrationFormStatuses(DateTime fromDateTime, DateTime toDateTime)
         {
-            var url = $"/api/legalentities/vendorregistrationform/status?from={fromDateTime:yyyyMMddHHmmss}&to={toDateTime:yyyyMMddHHmmss}";
+            var url = $"/api/legalentities/vendorregistrationform/status?from={fromDateTime.ToIsoDateTime()}&to={toDateTime.ToIsoDateTime()}";
 
             var response = await _client.PatchAsync(url, new StringContent(""));
             response.EnsureSuccessStatusCode();
