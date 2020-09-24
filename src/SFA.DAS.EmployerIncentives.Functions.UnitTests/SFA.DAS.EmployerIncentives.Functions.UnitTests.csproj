@@ -19,4 +19,8 @@
     <ProjectReference Include="..\SFA.DAS.EmployerIncentives.Functions.LegalEntities\SFA.DAS.EmployerIncentives.Functions.LegalEntities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\AgreementsService\" />
+  </ItemGroup>
+
 </Project>

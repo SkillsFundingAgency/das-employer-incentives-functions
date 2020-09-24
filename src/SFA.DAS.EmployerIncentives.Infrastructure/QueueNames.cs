@@ -7,7 +7,5 @@
         public const string RefreshLegalEntities = "SFA.DAS.EmployerIncentives.RefreshLegalEntities";
         public const string RefreshLegalEntity = "SFA.DAS.EmployerIncentives.RefreshLegalEntity";
         public const string AgreementSigned = "SFA.DAS.EmployerIncentives.AgreementSigned";
-        public const string UpdateLegalEntityVrfCaseDetailsEvent = "SFA.DAS.EmployerIncentives.UpdateLegalEntityVrfCaseDetailsEvent";
-        public const string UpdateLegalEntityVrfCaseStatusEvent = "SFA.DAS.EmployerIncentives.UpdateLegalEntityVrfCaseStatusEvent";
     }
 }
