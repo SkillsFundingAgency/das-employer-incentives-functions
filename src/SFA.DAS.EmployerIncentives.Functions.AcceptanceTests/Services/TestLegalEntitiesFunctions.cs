@@ -57,23 +57,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             var startUp = new Startup();
 
             var hostBuilder = new HostBuilder()
-                .ConfigureHostConfiguration(a =>
-                {
-                    a.Sources.Clear();
-                    a.AddInMemoryCollection(_hostConfig);
-                })
-                .ConfigureAppConfiguration(a =>
-                {
-                    a.Sources.Clear();
-                    a.AddInMemoryCollection(_appConfig);
-                    a.SetBasePath(_testMessageBus.StorageDirectory.FullName);
-                })
-               .ConfigureWebJobs(startUp.Configure)
-               .ConfigureWebJobs(b =>
-                {
-                    b.AddAzureStorageCoreServices();
-                    b.AddAzureStorage();
-                });
+                    .ConfigureHostConfiguration(a =>
+                    {
+                        a.Sources.Clear();
+                        a.AddInMemoryCollection(_hostConfig);
+                    })
+                    .ConfigureAppConfiguration(a =>
+                    {
+                        a.Sources.Clear();
+                        a.AddInMemoryCollection(_appConfig);
+                        a.SetBasePath(_testMessageBus.StorageDirectory.FullName);
+                    })
+                    .ConfigureWebJobs(startUp.Configure)
+                ;
 
             _ = hostBuilder.ConfigureServices((s) =>
             {
