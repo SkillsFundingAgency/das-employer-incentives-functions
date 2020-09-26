@@ -16,7 +16,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
 
         public async Task RefreshVendorRegistrationFormStatuses(DateTime fromDateTime, DateTime toDateTime)
         {
-            var url = $"/api/legalentities/vendorregistrationform/status?from={fromDateTime.ToIsoDateTime()}&to={toDateTime.ToIsoDateTime()}";
+            var url = $"/legalentities/vendorregistrationform/status?from={fromDateTime.ToIsoDateTime()}&to={toDateTime.ToIsoDateTime()}";
 
             var response = await _client.PatchAsync(url, new StringContent(""));
             response.EnsureSuccessStatusCode();
