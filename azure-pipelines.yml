@@ -60,8 +60,7 @@ steps:
     projects: |
       src/**/*.Tests.csproj
       src/**/*.UnitTests.csproj
-      src/**/*.AcceptanceTests.csproj
-      !src/**/LegalEntities.feature
+      !src/**/*.AcceptanceTests.csproj
     arguments: '--configuration $(BuildConfiguration) --no-build --logger trx --collect "Code coverage"'
 
 - template: azure-pipelines-templates/dependency-check.yml@das-platform-building-blocks
