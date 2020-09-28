@@ -4,7 +4,6 @@ using Microsoft.Extensions.Options;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
-using SFA.DAS.HashingService;
 using SFA.DAS.Http;
 using System;
 using System.Net.Http;
@@ -19,17 +18,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.AddClient<ILegalEntitiesService>((c, s) => new LegalEntitiesService(c, s.GetRequiredService<IJobsService>()));
             serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c));
             serviceCollection.AddClient<IAgreementsService>((c, s) => new AgreementsService(c));
-
-            return serviceCollection;
-        }
-
-        public static IServiceCollection AddHashingService(this IServiceCollection serviceCollection)
-        {
-            serviceCollection.AddSingleton<IHashingService>(c =>
-            {
-                var settings = c.GetService<IOptions<FunctionConfigurationOptions>>().Value;
-                return new HashingService.HashingService(settings.AllowedHashstringCharacters, settings.Hashstring);
-            });
 
             return serviceCollection;
         }

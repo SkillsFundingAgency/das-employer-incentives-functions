@@ -37,7 +37,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 });
             }
 #if DEBUG
-            configBuilder.AddJsonFile($"local.settings.json", optional: true);
+            configBuilder.AddJsonFile("local.settings.json", optional: true);
 #endif
             var config = configBuilder.Build();
 
@@ -63,7 +63,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             }
 
             builder.Services
-                .AddHashingService()
                 .AddEmployerIncentivesService()
                 .AddVrfCaseRefreshConfiguration()
                 ;
