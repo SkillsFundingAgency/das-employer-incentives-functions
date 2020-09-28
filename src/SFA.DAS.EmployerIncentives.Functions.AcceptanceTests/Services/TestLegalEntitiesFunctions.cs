@@ -46,6 +46,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                 { "EnvironmentName", "LOCAL" },
                 { "ConfigurationStorageConnectionString", "UseDevelopmentStorage=true" },
                 { "ConfigNames", "SFA.DAS.EmployerIncentives.Functions" },
+                { "NServiceBusConnectionString", "UseDevelopmentStorage=true" },
                 { "AzureWebJobsStorage", "UseDevelopmentStorage=true" },
                 { "AllowedHashstringCharacters", "46789BCDFGHJKLMNPRSTVWX" },
                 { "Hashstring", "Test Hashstring" },

@@ -8,7 +8,7 @@
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Http" Version="3.0.2" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.9" />
-    <PackageReference Include="NServiceBus" Version="7.4.3" />
+    <PackageReference Include="NServiceBus" Version="7.1.7" />
     <PackageReference Include="SFA.DAS.Configuration.AzureTableStorage" Version="3.0.84" />
     <PackageReference Include="SFA.DAS.EmployerAccounts.Messages" Version="1.6.2978" />
     <PackageReference Include="SFA.DAS.EmployerIncentives.Messages" Version="0.1.61-EI-279-VRF-status-base.20-prerelease" />
