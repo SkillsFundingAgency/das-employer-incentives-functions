@@ -3,10 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
-using SFA.DAS.Configuration.AzureTableStorage;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Infrastructure;
 using SFA.DAS.EmployerIncentives.Infrastructure;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
-using System;
 using System.IO;
 
 [assembly: FunctionsStartup(typeof(SFA.DAS.EmployerIncentives.Functions.LegalEntities.Startup))]
@@ -21,25 +20,27 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             var serviceProvider = builder.Services.BuildServiceProvider();
             var configuration = serviceProvider.GetService<IConfiguration>();
 
-            var configBuilder = new ConfigurationBuilder()
+            var configurationBuilder = new ConfigurationBuilder()
                 .AddConfiguration(configuration)
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddEnvironmentVariables();
 
-            if (!configuration["EnvironmentName"].Equals("LOCAL", StringComparison.CurrentCultureIgnoreCase))
+            builder.AddConfiguration((configBuilder) =>
             {
-                configBuilder.AddAzureTableStorage(options =>
-                {
-                    options.ConfigurationKeys = configuration["ConfigNames"].Split(",");
-                    options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
-                    options.EnvironmentName = configuration["EnvironmentName"];
-                    options.PreFixConfigurationKeys = false;
-                });
-            }
-#if DEBUG
-            configBuilder.AddJsonFile("local.settings.json", optional: true);
-#endif
-            var config = configBuilder.Build();
+                var tempConfig = configBuilder
+                    .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+                    .Build();
+
+                return configBuilder
+                    .AddAzureTableStorageConfiguration(
+                        tempConfig["ConfigurationStorageConnectionString"],
+                        tempConfig["ConfigNames"],
+                        tempConfig["EnvironmentName"],
+                        tempConfig["ConfigurationVersion"])
+                    .Build();
+            });
+
+            var config = configurationBuilder.Build();
 
             builder.Services.AddOptions();
             builder.Services.Configure<EmployerIncentivesApiOptions>(config.GetSection(EmployerIncentivesApiOptions.EmployerIncentivesApi));
