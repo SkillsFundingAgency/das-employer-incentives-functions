@@ -28,6 +28,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c));
             serviceCollection.Decorate<IVendorRegistrationFormService, VendorRegistrationFormServiceWithLogging>();
             serviceCollection.AddSingleton<IVrfCaseRefreshService, VrfCaseRefreshService>();
+            serviceCollection.Decorate<IVrfCaseRefreshService, VrfCaseRefreshServiceWithLogging>();
 
             serviceCollection.AddClient<IAgreementsService>((c, s) => new AgreementsService(c));
 
