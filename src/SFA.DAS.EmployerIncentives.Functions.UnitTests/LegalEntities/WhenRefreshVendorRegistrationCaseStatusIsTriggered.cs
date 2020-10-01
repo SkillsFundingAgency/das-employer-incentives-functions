@@ -9,12 +9,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
     public class WhenRefreshVendorRegistrationCaseStatusIsTriggered
     {
         private RefreshVendorRegistrationCaseStatus _sut;
-        private readonly Mock<IVendorRegistrationFormService> _mockIVendorRegistrationFormService = new Mock<IVendorRegistrationFormService>();
+        private readonly Mock<IVrfCaseRefreshService> _mockIVrfCaseRefreshService = new Mock<IVrfCaseRefreshService>();
 
         [SetUp]
         public void Setup()
         {
-            _sut = new RefreshVendorRegistrationCaseStatus(_mockIVendorRegistrationFormService.Object);
+            _sut = new RefreshVendorRegistrationCaseStatus(_mockIVrfCaseRefreshService.Object);
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
             await _sut.Run(null);
 
             // Assert
-            _mockIVendorRegistrationFormService.Verify(m => m.RefreshVendorRegistrationFormStatuses(), Times.Once);
+            _mockIVrfCaseRefreshService.Verify(m => m.RefreshStatuses(), Times.Once);
         }
 
     }

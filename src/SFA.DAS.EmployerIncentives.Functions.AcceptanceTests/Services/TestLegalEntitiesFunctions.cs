@@ -111,7 +111,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
-            TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService);
+            TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVrfCaseRefreshService)) as IVrfCaseRefreshService);
 
             AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
         }
