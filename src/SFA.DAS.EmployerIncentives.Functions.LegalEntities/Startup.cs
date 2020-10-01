@@ -63,7 +63,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
             builder.Services
                 .AddEmployerIncentivesService()
-                .AddVrfCaseRefreshConfiguration()
                 ;
         }
     }

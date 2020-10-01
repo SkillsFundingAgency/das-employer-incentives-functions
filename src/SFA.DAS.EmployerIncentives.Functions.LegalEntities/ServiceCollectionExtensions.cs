@@ -17,22 +17,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         {
             serviceCollection.AddClient<IJobsService>((c, s) => new JobsService(c));
             serviceCollection.AddClient<ILegalEntitiesService>((c, s) => new LegalEntitiesService(c, s.GetRequiredService<IJobsService>()));
-            serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c));
-            serviceCollection.AddClient<IAgreementsService>((c, s) => new AgreementsService(c));
-
-            return serviceCollection;
-        }
-
-        public static IServiceCollection AddVrfCaseRefreshConfiguration(this IServiceCollection serviceCollection)
-        {
-            serviceCollection.AddSingleton<IVrfCaseRefreshConfiguration>(
+            serviceCollection.AddSingleton<IVrfCaseRefreshRepository>(
                 c =>
                 {
                     var settings = c.GetService<IConfiguration>();
-                    return new VrfCaseRefreshConfiguration(settings.GetWebJobsConnectionString("AzureWebJobsStorage"));
+                    return new VrfCaseRefreshRepository(settings.GetWebJobsConnectionString("AzureWebJobsStorage"), settings.GetValue<string>("EnvironmentName"));
                 });
+            
+            serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();            
+            serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c));
+            serviceCollection.Decorate<IVendorRegistrationFormService, VendorRegistrationFormServiceWithLogging>();
+            serviceCollection.AddSingleton<IVrfCaseRefreshService, VrfCaseRefreshService>();
 
-            serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            serviceCollection.AddClient<IAgreementsService>((c, s) => new AgreementsService(c));
 
             return serviceCollection;
         }

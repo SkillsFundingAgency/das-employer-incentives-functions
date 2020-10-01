@@ -5,6 +5,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
 {
     public interface IVendorRegistrationFormService
     {
-        Task RefreshVendorRegistrationFormStatuses(DateTime fromDateTime, DateTime toDateTime);
+        Task Update(DateTime fromDateTime, DateTime toDateTime);
     }
 }

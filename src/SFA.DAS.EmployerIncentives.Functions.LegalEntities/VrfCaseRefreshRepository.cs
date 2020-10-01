@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
-    public class VrfCaseRefreshConfiguration : IVrfCaseRefreshConfiguration
+    public class VrfCaseRefreshRepository : IVrfCaseRefreshRepository
     {
         private static readonly DateTime DefaultLastRunDateTime = new DateTime(2020, 8, 1);
         private readonly CloudTable _table;
-        private const string PartitionKey = "LOCAL";
+        private readonly string _partitionKey;
         private const string RowKey = "SFA.DAS.EmployerIncentives.Functions";
         private const string TableName = "RefreshVendorRegistrationFormStatusConfig";
 
-        public VrfCaseRefreshConfiguration(string connectionString)
+        public VrfCaseRefreshRepository(string connectionString, string environment)
         {
+            _partitionKey = environment.ToUpper();
             var storageAccount = CloudStorageAccount.Parse(connectionString);
             var tableClient = storageAccount.CreateCloudTableClient();
-
             _table = tableClient.GetTableReference(TableName);
             _table.CreateIfNotExistsAsync();
         }
@@ -30,7 +30,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
             var record = data?.SingleOrDefault() ?? new RefreshVendorRegistrationFormStatusData
             {
-                PartitionKey = PartitionKey,
+                PartitionKey = _partitionKey,
                 RowKey = RowKey,
             };
 
@@ -41,7 +41,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         {
             var record = new RefreshVendorRegistrationFormStatusData
             {
-                PartitionKey = PartitionKey,
+                PartitionKey = _partitionKey,
                 RowKey = RowKey,
                 LastRunDateTime = value
             };
