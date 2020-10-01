@@ -56,6 +56,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             var startUp = new Startup();
 
             var hostBuilder = new HostBuilder()
+                    .ConfigureServices(s => s.AddSingleton<IDateTimeProvider>(MockDateTimeProvider.Object))
                     .ConfigureHostConfiguration(a =>
                     {
                         a.Sources.Clear();
@@ -108,6 +109,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             hostBuilder.UseEnvironment("LOCAL");
             host = await hostBuilder.StartAsync();
+
+
+
+            //  host.Services.CreateScope();
+
+            // services.Replace(ServiceDescriptor.Transient<IFoo, FooB>());
 
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
