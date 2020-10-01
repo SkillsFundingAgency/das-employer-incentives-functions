@@ -78,11 +78,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                     a.SubscriptionKey = "";
                 });
 
-                s.Configure<Config.FunctionConfigurationOptions>(o =>
-                {
-                    o.AzureWebJobsStorage = _appConfig["AzureWebJobsStorage"];
-                });
-
                 _ = s.AddNServiceBus(new LoggerFactory().CreateLogger<TestLegalEntitiesFunctions>(),
                     (o) =>
                     {

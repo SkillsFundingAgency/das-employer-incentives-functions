@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
@@ -27,8 +28,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.AddSingleton<IVrfCaseRefreshConfiguration>(
                 c =>
                 {
-                    var settings = c.GetService<IOptions<FunctionConfigurationOptions>>().Value;
-                    return new VrfCaseRefreshConfiguration(settings.AzureWebJobsStorage);
+                    var settings = c.GetService<IConfiguration>();
+                    return new VrfCaseRefreshConfiguration(settings.GetWebJobsConnectionString("AzureWebJobsStorage"));
                 });
 
             serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
