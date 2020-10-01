@@ -17,7 +17,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
     {
         private readonly TestContext _testContext;
         private readonly DateTime _fakeCurrentDateTime = DateTime.SpecifyKind(new DateTime(2020, 9, 1, 2, 3, 4), DateTimeKind.Utc);
-        private readonly IVrfCaseRefreshConfiguration _configuration = new VrfCaseRefreshConfiguration("UseDevelopmentStorage=true");
+        private readonly IVrfCaseRefreshRepository _repository = new VrfCaseRefreshRepository("UseDevelopmentStorage=true", "LOCAL");
 
         public VendorRegistrationFormSteps(TestContext testContext) : base(testContext)
         {
@@ -28,7 +28,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         [When(@"a VRF case status update job is triggered")]
         public async Task WhenARequestToUpdateVrfCaseStatusesForLegalEntitiesIsReceived()
         {
-            var lastRunDate = await _configuration.GetLastRunDateTime();
+            var lastRunDate = await _repository.GetLastRunDateTime();
 
             _testContext.EmployerIncentivesApi.MockServer
                 .Given(
@@ -43,8 +43,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                         .WithStatusCode(HttpStatusCode.NoContent)
                         .WithHeader("Content-Type", "application/json"));
 
-            var mockLogger = new Mock<Microsoft.Extensions.Logging.ILogger>();
-            await _testContext.LegalEntitiesFunctions.TimerTriggerRefreshVendorRegistrationCaseStatus.Run(null, mockLogger.Object);
+            await _testContext.LegalEntitiesFunctions.TimerTriggerRefreshVendorRegistrationCaseStatus.Run(null);
         }
 
         [Then(@"the Employer Incentives API is called to update Legal Entities")]
@@ -67,7 +66,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         [Then(@"last job run date time is updated")]
         public async Task ThenLastUpdateDateIsStored()
         {
-            var lastRunDate = await _configuration.GetLastRunDateTime();
+            var lastRunDate = await _repository.GetLastRunDateTime();
 
             lastRunDate.Should().BeCloseTo(_fakeCurrentDateTime, 60000 /* 1 minute precision */);
         }
