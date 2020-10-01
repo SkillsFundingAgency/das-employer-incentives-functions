@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Moq;
 using NServiceBus;
 using NServiceBus.Transport;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks;
@@ -20,6 +19,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 {
     public class TestLegalEntitiesFunctions : IDisposable
     {
+        private readonly TestContext _testContext;
         private readonly TestEmployerIncentivesApi _testEmployerIncentivesApi;
         private readonly Dictionary<string, string> _appConfig;
         private readonly Dictionary<string, string> _hostConfig;
@@ -27,18 +27,15 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         private readonly List<IHook> _messageHooks;
         private IHost host;
         private bool isDisposed;
-        public Mock<IDateTimeProvider> MockDateTimeProvider = new Mock<IDateTimeProvider>();
         public HandleRefreshLegalEntitiesRequest HttpTriggerRefreshLegalEntities { get; set; }
         public RefreshVendorRegistrationCaseStatus TimerTriggerRefreshVendorRegistrationCaseStatus { get; set; }
 
-        public TestLegalEntitiesFunctions(
-            TestEmployerIncentivesApi testEmployerIncentivesApi,
-            TestMessageBus testMessageBus,
-            List<IHook> messageHooks)
+        public TestLegalEntitiesFunctions(TestContext testContext)
         {
-            _testEmployerIncentivesApi = testEmployerIncentivesApi;
-            _testMessageBus = testMessageBus;
-            _messageHooks = messageHooks;
+            _testContext = testContext;
+            _testEmployerIncentivesApi = testContext.EmployerIncentivesApi;
+            _testMessageBus = testContext.TestMessageBus;
+            _messageHooks = testContext.Hooks;
 
             _hostConfig = new Dictionary<string, string>();
             _appConfig = new Dictionary<string, string>
@@ -56,7 +53,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             var startUp = new Startup();
 
             var hostBuilder = new HostBuilder()
-                    .ConfigureServices(s => s.AddSingleton<IDateTimeProvider>(MockDateTimeProvider.Object))
                     .ConfigureHostConfiguration(a =>
                     {
                         a.Sources.Clear();
@@ -73,6 +69,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             _ = hostBuilder.ConfigureServices((s) =>
             {
+                s.AddSingleton(_testContext.DateTimeProvider);
                 s.Configure<Config.EmployerIncentivesApiOptions>(a =>
                 {
                     a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;

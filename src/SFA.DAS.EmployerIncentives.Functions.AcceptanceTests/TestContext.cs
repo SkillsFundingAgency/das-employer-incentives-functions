@@ -1,5 +1,6 @@
 ﻿using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +13,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests
         public TestMessageBus TestMessageBus { get; set; }
         public TestEmployerIncentivesApi EmployerIncentivesApi { get; set; }
         public TestLegalEntitiesFunctions LegalEntitiesFunctions { get; set; }
+        public IDateTimeProvider DateTimeProvider { get; set; }
         public TestData TestData { get; set; }
         public List<IHook> Hooks { get; set; }
 
@@ -24,6 +26,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests
             }
             TestData = new TestData();
             Hooks = new List<IHook>();
+            DateTimeProvider = new DateTimeProvider();
         }
     }    
 }
