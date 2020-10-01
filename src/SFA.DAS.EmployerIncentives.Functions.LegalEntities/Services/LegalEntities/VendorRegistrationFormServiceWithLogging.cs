@@ -30,7 +30,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Calliong IVendorRegistrationFormService.Update with parameters: [dateTimeFrom={fromDateTime}] & [dateTimeTo={toDateTime}]");
+                _logger.LogError(ex, $"Error calling IVendorRegistrationFormService.Update with parameters: [dateTimeFrom={fromDateTime}] & [dateTimeTo={toDateTime}]");
 
                 throw;
             }
