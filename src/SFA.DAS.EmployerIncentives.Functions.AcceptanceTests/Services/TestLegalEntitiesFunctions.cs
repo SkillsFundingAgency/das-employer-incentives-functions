@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Config = SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 {
@@ -68,8 +69,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                 ;
 
             _ = hostBuilder.ConfigureServices((s) =>
-            {
-                s.AddSingleton(_testContext.DateTimeProvider);
+            {                
+                s.Replace(new ServiceDescriptor(typeof(IDateTimeProvider), _testContext.DateTimeProvider.Object));                
                 s.Configure<Config.EmployerIncentivesApiOptions>(a =>
                 {
                     a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;

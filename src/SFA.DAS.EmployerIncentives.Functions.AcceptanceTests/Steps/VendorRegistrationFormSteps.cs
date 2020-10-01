@@ -22,9 +22,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         public VendorRegistrationFormSteps(TestContext testContext) : base(testContext)
         {
             _testContext = testContext;
-            var mockDateTimeProvider = new Mock<IDateTimeProvider>();
-            mockDateTimeProvider.Setup(x => x.GetCurrentDateTime());
-            _testContext.DateTimeProvider = mockDateTimeProvider.Object;
+            _testContext.DateTimeProvider.Setup(x => x.GetCurrentDateTime()).ReturnsAsync(_fakeCurrentDateTime);
         }
 
         [When(@"a VRF case status update job is triggered")]
