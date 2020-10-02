@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
@@ -14,7 +15,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Config = SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 {
@@ -69,8 +69,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                 ;
 
             _ = hostBuilder.ConfigureServices((s) =>
-            {                
-                s.Replace(new ServiceDescriptor(typeof(IDateTimeProvider), _testContext.DateTimeProvider.Object));                
+            {
+                s.Replace(new ServiceDescriptor(typeof(IDateTimeProvider), _testContext.DateTimeProvider.Object));
                 s.Configure<Config.EmployerIncentivesApiOptions>(a =>
                 {
                     a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
@@ -107,12 +107,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             hostBuilder.UseEnvironment("LOCAL");
             host = await hostBuilder.StartAsync();
-
-
-
-            //  host.Services.CreateScope();
-
-            // services.Replace(ServiceDescriptor.Transient<IFoo, FooB>());
 
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
