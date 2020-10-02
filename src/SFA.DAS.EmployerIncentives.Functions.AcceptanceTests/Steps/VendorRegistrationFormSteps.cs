@@ -22,7 +22,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         public VendorRegistrationFormSteps(TestContext testContext) : base(testContext)
         {
             _testContext = testContext;
-            _testContext.LegalEntitiesFunctions.MockDateTimeProvider.Setup(x => x.GetCurrentDateTime()).ReturnsAsync(_fakeCurrentDateTime);
+            _testContext.DateTimeProvider.Setup(x => x.GetCurrentDateTime()).ReturnsAsync(_fakeCurrentDateTime);
         }
 
         [When(@"a VRF case status update job is triggered")]
@@ -34,9 +34,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .Given(
                     Request
                         .Create()
-                        .WithPath("/legalentities/vendorregistrationform/status")
-                        .WithParam("from", $"{lastRunDate.ToIsoDateTime()}")
-                        .WithParam("to", $"{_fakeCurrentDateTime.ToIsoDateTime()}")
+                        .WithPath("/api/legalentities/vendorregistrationform/status")
+                         .WithParam("from", $"{lastRunDate.ToIsoDateTime()}")
+                         .WithParam("to", $"{_fakeCurrentDateTime.ToIsoDateTime()}")
                         .UsingPatch())
                 .RespondWith(
                     Response.Create()
@@ -55,7 +55,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .FindLogEntries(
                     Request
                         .Create()
-                        .WithPath(x => x.Contains("/legalentities/vendorregistrationform/status"))
+                        .WithPath(x => x.Contains("legalentities/vendorregistrationform/status"))
                         .WithParam("from")
                         .WithParam("to")
                         .UsingPatch()).AsEnumerable();

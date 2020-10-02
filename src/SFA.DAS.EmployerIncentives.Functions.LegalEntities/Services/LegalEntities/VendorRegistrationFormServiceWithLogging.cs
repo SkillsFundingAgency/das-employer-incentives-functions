@@ -17,7 +17,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             _logger = logger;
         }
 
-
         public async Task Update(DateTime fromDateTime, DateTime toDateTime)
         {
             try
