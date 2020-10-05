@@ -33,6 +33,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
             serviceCollection.AddClient<IAgreementsService>((c, s) => new AgreementsService(c));
 
+            serviceCollection.AddClient<IEmployerVendorIdService>((c, s) => new EmployerVendorIdService(c));
+            serviceCollection.Decorate<IEmployerVendorIdService, EmployerVendorIdServiceWithLogging>();
+
             return serviceCollection;
         }
 
