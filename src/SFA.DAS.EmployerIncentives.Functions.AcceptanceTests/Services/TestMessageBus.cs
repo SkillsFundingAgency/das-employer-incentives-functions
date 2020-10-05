@@ -3,6 +3,7 @@ using SFA.DAS.NServiceBus.Configuration;
 using SFA.DAS.NServiceBus.Configuration.NewtonsoftJsonSerializer;
 using System.IO;
 using System.Threading.Tasks;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
 
 namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 {
@@ -23,9 +24,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             endpointConfiguration
                 .UseNewtonsoftJsonSerializer()
                 .UseMessageConventions()
-                .UseTransport<LearningTransport>()                
+                .UseTransport<LearningTransport>()
                 .StorageDirectory(StorageDirectory.FullName);
-            
+            endpointConfiguration.UseLearningTransport(s => s.AddRouting());
+
             _endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
             IsRunning = true;
         }
@@ -40,5 +42,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         {
             return _endpointInstance.Publish(message);
         }
+
+        public Task Send(object message)
+        {
+            return _endpointInstance.Send(message);
+        }
+
     }
 }
