@@ -1,8 +1,4 @@
 ﻿using FluentAssertions;
-using Moq;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
-using SFA.DAS.EmployerIncentives.Infrastructure.Extensions;
-using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -20,7 +16,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
 
     public class EmployerVendorIdSteps : StepsBase
     {
-        private string _hashedLegalEntityId;
+        private readonly string _hashedLegalEntityId;
         private readonly TestContext _testContext;
 
         public EmployerVendorIdSteps(TestContext testContext) : base(testContext)
@@ -29,7 +25,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             _testContext = testContext;
         }
 
-        [When(@"the AddEmployerEmployerVendorId command triggered")]
+        [When(@"the AddEmployerEmployerVendorId command is triggered")]
         public async Task WhenAddEmployerEmployerVendorIdTriggered()
         {
             _testContext.EmployerIncentivesApi.MockServer

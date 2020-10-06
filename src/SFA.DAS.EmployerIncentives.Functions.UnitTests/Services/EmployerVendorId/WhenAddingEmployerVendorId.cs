@@ -32,6 +32,5 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmployerVendor
 
             _testClient.VerifyPostAsAsync($"legalentities/{hashedLegalEntityId}/employervendorid", Times.Once());
         }
-
     }
 }
