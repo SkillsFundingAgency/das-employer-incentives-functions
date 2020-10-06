@@ -52,7 +52,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .FindLogEntries(
                     Request
                         .Create()
-                        .WithPath(x => x.Contains($"legalentities/{_hashedLegalEntityId}/employervendorid"))
+                        .WithPath(x => x.Contains($"legalxxentities/{_hashedLegalEntityId}/employervendorid"))
                         .UsingPost()).AsEnumerable();
 
             requests.Should().HaveCount(1, "expected request to APIM was not found in Mock server logs");
