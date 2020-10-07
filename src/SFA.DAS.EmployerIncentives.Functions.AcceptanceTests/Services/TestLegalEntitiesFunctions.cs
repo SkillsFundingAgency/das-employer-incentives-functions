@@ -129,6 +129,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             {
                 host.StopAsync();
             }
+            host?.Dispose();
 
             isDisposed = true;
         }

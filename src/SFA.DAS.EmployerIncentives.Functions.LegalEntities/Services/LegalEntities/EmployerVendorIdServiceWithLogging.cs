@@ -17,19 +17,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             _logger = logger;
         }
 
-        public async Task AddEmployerVendorId(string hashedLegalEntityId)
+        public async Task GetAndAddEmployerVendorId(string hashedLegalEntityId)
         {
             try
             {
-                _logger.Log(LogLevel.Information, $"Calling IAddEmployerVendorIdService.AddEmployerVendorId with parameters: [hashedLegalEntityId={hashedLegalEntityId}]");
+                _logger.Log(LogLevel.Information, $"Calling IAddEmployerVendorIdService.GetAndAddEmployerVendorId with parameters: [hashedLegalEntityId={hashedLegalEntityId}]");
 
-                await _addEmployerVendorIdService.AddEmployerVendorId(hashedLegalEntityId);
+                await _addEmployerVendorIdService.GetAndAddEmployerVendorId(hashedLegalEntityId);
 
-                _logger.Log(LogLevel.Information, $"Called IAddEmployerVendorIdService.AddEmployerVendorId with parameters: [hashedLegalEntityId={hashedLegalEntityId}]");
+                _logger.Log(LogLevel.Information, $"Called IAddEmployerVendorIdService.GetAndAddEmployerVendorId with parameters: [hashedLegalEntityId={hashedLegalEntityId}]");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error calling IAddEmployerVendorIdService.AddEmployerVendorId with parameters: [hashedLegalEntityId={hashedLegalEntityId}]");
+                _logger.LogError(ex, $"Error calling IAddEmployerVendorIdService.GetAndAddEmployerVendorId with parameters: [hashedLegalEntityId={hashedLegalEntityId}]");
 
                 throw;
             }

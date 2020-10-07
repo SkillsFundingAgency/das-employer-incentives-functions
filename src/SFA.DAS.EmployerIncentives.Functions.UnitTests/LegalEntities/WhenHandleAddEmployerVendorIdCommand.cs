@@ -21,7 +21,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
             _fixture = new Fixture();
 
             _mockEmployerVendorIdService
-                .Setup(m => m.AddEmployerVendorId(It.IsAny<string>()))
+                .Setup(m => m.GetAndAddEmployerVendorId(It.IsAny<string>()))
                 .Verifiable();
 
             _sut = new HandleAddEmployerVendorIdCommand(_mockEmployerVendorIdService.Object);
@@ -37,7 +37,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
             await _sut.RunEvent(command);
 
             // Assert
-            _mockEmployerVendorIdService.Verify(m => m.AddEmployerVendorId(command.HashedLegalEntityId), Times.Once);                
+            _mockEmployerVendorIdService.Verify(m => m.GetAndAddEmployerVendorId(command.HashedLegalEntityId), Times.Once);                
         }
     }
 }

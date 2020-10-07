@@ -33,7 +33,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                     Request
                         .Create()
                         .WithPath($"/api/legalentities/{_hashedLegalEntityId}/employervendorid")
-                        .UsingPost())
+                        .UsingPut())
                 .RespondWith(
                     Response.Create()
                         .WithStatusCode(HttpStatusCode.NoContent)
@@ -53,7 +53,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                     Request
                         .Create()
                         .WithPath(x => x.Contains($"legalentities/{_hashedLegalEntityId}/employervendorid"))
-                        .UsingPost()).AsEnumerable();
+                        .UsingPut()).AsEnumerable();
 
             requests.Should().HaveCount(1, "expected request to APIM was not found in Mock server logs");
         }

@@ -61,6 +61,18 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests
              ), ItExpr.IsAny<CancellationToken>());
         }
 
+        public void VerifyPutAsAsync(string relativePath, Times times)
+        {
+            _mockHttpMessageHandler
+                .Protected()
+                .Verify("SendAsync", times,
+                    ItExpr.Is<HttpRequestMessage>(r =>
+                        r.Method == HttpMethod.Put &&
+                        r.RequestUri.AbsoluteUri == $"{BaseAddress.AbsoluteUri}{relativePath}" 
+                    ), ItExpr.IsAny<CancellationToken>());
+        }
+
+
         public void VerifyDeleteAsync(string relativePath, Times times)
         {
             _mockHttpMessageHandler
