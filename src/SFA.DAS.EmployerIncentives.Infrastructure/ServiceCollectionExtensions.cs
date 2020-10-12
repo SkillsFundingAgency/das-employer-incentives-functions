@@ -18,7 +18,6 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure
             serviceCollection.AddLogging((options) =>
             {
                 options.SetMinimumLevel(LogLevel.Trace);
-                options.SetMinimumLevel(LogLevel.Trace);
                 options.AddNLog(new NLogProviderOptions
                 {
                     CaptureMessageTemplates = true,
@@ -60,15 +59,15 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure
                     }
                 };
 
-                if(OnConfigureOptions != null)
+                if (OnConfigureOptions != null)
                 {
                     OnConfigureOptions.Invoke(options);
                 }
 
-               return new NServiceBusExtensionConfigProvider(options);
-             });
+                return new NServiceBusExtensionConfigProvider(options);
+            });
 
             return serviceCollection;
-        }       
+        }
     }
 }
