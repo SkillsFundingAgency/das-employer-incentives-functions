@@ -8,7 +8,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
     public class LegalEntitiesService : ILegalEntitiesService
     {
         private readonly HttpClient _client;
-        private readonly IJobsService _jobsService;        
+        private readonly IJobsService _jobsService;
 
         public LegalEntitiesService(HttpClient client, IJobsService jobsService)
         {

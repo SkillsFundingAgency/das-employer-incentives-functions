@@ -225,7 +225,28 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 case "refresh":
                     ThenTheRefreshRequestIsForwardedToTheApi();
                     break;
+                case "agreementSigned":
+                    ThenTheSignedEventIsForwardedToTheApi();
+                    break;
             }
+        }
+
+        [Then(@"a request is made to the Employer Incentives system")]
+        public void TheARequestIsMadeToTheApi()
+        {
+            var jobRequest = _testContext.TestData.GetOrCreate<JobRequest>();
+
+            var requests = _testContext
+                .EmployerIncentivesApi
+                .MockServer
+                .FindLogEntries(
+                    Request
+                        .Create()
+                        .WithPath($"/api/jobs")
+                        .WithBody(JsonConvert.SerializeObject(jobRequest))
+                );
+
+            requests.AsEnumerable().Count().Should().Be(1);
         }
 
         public void ThenTheAddedEventIsForwardedToTheApi()

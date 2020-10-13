@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
@@ -8,6 +9,7 @@ using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Infrastructure;
+using SFA.DAS.Testing.AzureStorageEmulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 {
     public class TestLegalEntitiesFunctions : IDisposable
     {
+        private readonly TestContext _testContext;
         private readonly TestEmployerIncentivesApi _testEmployerIncentivesApi;
         private readonly Dictionary<string, string> _appConfig;
         private readonly Dictionary<string, string> _hostConfig;
@@ -26,15 +29,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         private IHost host;
         private bool isDisposed;
         public HandleRefreshLegalEntitiesRequest HttpTriggerRefreshLegalEntities { get; set; }
+        public RefreshVendorRegistrationCaseStatus TimerTriggerRefreshVendorRegistrationCaseStatus { get; set; }
 
-        public TestLegalEntitiesFunctions(
-            TestEmployerIncentivesApi testEmployerIncentivesApi,
-            TestMessageBus testMessageBus,
-            List<IHook> messageHooks)
+        public TestLegalEntitiesFunctions(TestContext testContext)
         {
-            _testEmployerIncentivesApi = testEmployerIncentivesApi;
-            _testMessageBus = testMessageBus;
-            _messageHooks = messageHooks;
+            _testContext = testContext;
+            _testEmployerIncentivesApi = testContext.EmployerIncentivesApi;
+            _testMessageBus = testContext.TestMessageBus;
+            _messageHooks = testContext.Hooks;
 
             _hostConfig = new Dictionary<string, string>();
             _appConfig = new Dictionary<string, string>
@@ -42,7 +44,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                 { "EnvironmentName", "LOCAL" },
                 { "ConfigurationStorageConnectionString", "UseDevelopmentStorage=true" },
                 { "ConfigNames", "SFA.DAS.EmployerIncentives.Functions" },
-                { "Values:AzureWebJobsStorage", "UseDevelopmentStorage=true" }
+                { "NServiceBusConnectionString", "UseDevelopmentStorage=true" },
+                { "AzureWebJobsStorage", "UseDevelopmentStorage=true" }
             };
         }
 
@@ -51,21 +54,23 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             var startUp = new Startup();
 
             var hostBuilder = new HostBuilder()
-                .ConfigureHostConfiguration(a =>
-                {
-                    a.Sources.Clear();
-                    a.AddInMemoryCollection(_hostConfig);
-                })
-                .ConfigureAppConfiguration(a =>
-                {
-                    a.Sources.Clear();
-                    a.AddInMemoryCollection(_appConfig);
-                    a.SetBasePath(_testMessageBus.StorageDirectory.FullName);
-                })
-               .ConfigureWebJobs(startUp.Configure);
+                    .ConfigureHostConfiguration(a =>
+                    {
+                        a.Sources.Clear();
+                        a.AddInMemoryCollection(_hostConfig);
+                    })
+                    .ConfigureAppConfiguration(a =>
+                    {
+                        a.Sources.Clear();
+                        a.AddInMemoryCollection(_appConfig);
+                        a.SetBasePath(_testMessageBus.StorageDirectory.FullName);
+                    })
+                    .ConfigureWebJobs(startUp.Configure)
+                ;
 
             _ = hostBuilder.ConfigureServices((s) =>
             {
+                s.Replace(new ServiceDescriptor(typeof(IDateTimeProvider), _testContext.DateTimeProvider.Object));
                 s.Configure<Config.EmployerIncentivesApiOptions>(a =>
                 {
                     a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
@@ -101,11 +106,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             });
 
             hostBuilder.UseEnvironment("LOCAL");
-
             host = await hostBuilder.StartAsync();
 
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
+            TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVrfCaseRefreshService)) as IVrfCaseRefreshService);
+
+            AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
         }
 
         public void Dispose()

@@ -1,11 +1,11 @@
-﻿using Moq;
+﻿using AutoFixture;
+using Moq;
 using NUnit.Framework;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using AutoFixture;
 
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
 {
@@ -37,7 +37,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
         {
             // Arrange
             var defaultPageNumber = 1;
-            var defaultPageSize = 200;           
+            var defaultPageSize = 200;
 
             // Act
             await _sut.Refresh();
