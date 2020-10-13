@@ -17,20 +17,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             _logger = logger;
         }
 
-
-        public async Task Update(DateTime fromDateTime, DateTime toDateTime)
+        public async Task Update(DateTime fromDateTime)
         {
             try
             {
-                _logger.Log(LogLevel.Information, $"Calling IVendorRegistrationFormService.Update with parameters: [dateTimeFrom={fromDateTime}] & [dateTimeTo={toDateTime}]");
+                _logger.Log(LogLevel.Information, $"Calling IVendorRegistrationFormService.Update with parameters: [dateTimeFrom={fromDateTime}]");
 
-                await _vendorRegistrationFormService.Update(fromDateTime, toDateTime);
+                await _vendorRegistrationFormService.Update(fromDateTime);
 
-                _logger.Log(LogLevel.Information, $"Called IVendorRegistrationFormService.Update with parameters: [dateTimeFrom={fromDateTime}] & [dateTimeTo={toDateTime}]");
+                _logger.Log(LogLevel.Information, $"Called IVendorRegistrationFormService.Update with parameters: [dateTimeFrom={fromDateTime}]");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error calling IVendorRegistrationFormService.Update with parameters: [dateTimeFrom={fromDateTime}] & [dateTimeTo={toDateTime}]");
+                _logger.LogError(ex, $"Error calling IVendorRegistrationFormService.Update with parameters: [dateTimeFrom={fromDateTime}]");
 
                 throw;
             }

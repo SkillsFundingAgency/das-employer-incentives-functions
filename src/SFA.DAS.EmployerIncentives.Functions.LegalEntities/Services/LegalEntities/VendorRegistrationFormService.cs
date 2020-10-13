@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using SFA.DAS.EmployerIncentives.Infrastructure.Extensions;
+﻿using SFA.DAS.EmployerIncentives.Infrastructure.Extensions;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,10 +13,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         {
             _client = client;
         }
-     
-        public async Task Update(DateTime fromDateTime, DateTime toDateTime)
+
+        public async Task Update(DateTime fromDateTime)
         {
-            var url = $"legalentities/vendorregistrationform/status?from={fromDateTime.ToIsoDateTime()}&to={toDateTime.ToIsoDateTime()}";
+            var url = $"legalentities/vendorregistrationform/status?from={fromDateTime.ToIsoDateTime()}";
 
             var response = await _client.PatchAsync(url, new StringContent(""));
             response.EnsureSuccessStatusCode();

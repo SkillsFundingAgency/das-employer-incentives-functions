@@ -21,11 +21,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         public async Task RefreshStatuses()
         {
             var from = await _repository.GetLastRunDateTime();
-            var to = await _dateTimeProvider.GetCurrentDateTime();
+            var now = await _dateTimeProvider.GetCurrentDateTime();
 
-            await _vrfService.Update(from, to);
+            await _vrfService.Update(from);
 
-            await _repository.UpdateLastRunDateTime(to);
+            await _repository.UpdateLastRunDateTime(now);
         }
     }
 }

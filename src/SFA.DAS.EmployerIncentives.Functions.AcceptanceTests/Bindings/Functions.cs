@@ -27,11 +27,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
         [BeforeScenario()]
         public async Task InitialiseFunctions()
         {
-            _context.LegalEntitiesFunctions = new TestLegalEntitiesFunctions(
-                _context.EmployerIncentivesApi,
-                _context.TestMessageBus,
-                _context.Hooks
-                );
+            _context.LegalEntitiesFunctions = new TestLegalEntitiesFunctions(_context);
             await _context.LegalEntitiesFunctions.Start();
        }
     }
