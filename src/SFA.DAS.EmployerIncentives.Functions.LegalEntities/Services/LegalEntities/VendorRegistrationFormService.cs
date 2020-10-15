@@ -12,6 +12,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         public VendorRegistrationFormService(HttpClient client)
         {
             _client = client;
+            _client.Timeout = TimeSpan.FromMinutes(5);
         }
 
         public async Task Update(DateTime fromDateTime)
