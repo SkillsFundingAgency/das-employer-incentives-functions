@@ -22,7 +22,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 {
                     var settings = c.GetService<IConfiguration>();
                     return new VrfCaseRefreshRepository(settings.GetWebJobsConnectionString("AzureWebJobsStorage"), settings.GetValue<string>("EnvironmentName"));
-                });            
+                });
 
             serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c));
@@ -53,6 +53,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                     settings.ApiBaseUrl += "/";
                 }
                 httpClient.BaseAddress = new Uri(settings.ApiBaseUrl);
+                httpClient.Timeout = TimeSpan.FromMinutes(30);
 
                 return instance.Invoke(httpClient, s);
             });

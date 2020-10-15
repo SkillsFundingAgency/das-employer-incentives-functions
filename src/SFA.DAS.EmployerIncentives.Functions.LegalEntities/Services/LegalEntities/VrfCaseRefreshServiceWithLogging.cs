@@ -21,11 +21,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         {
             try
             {
-                _logger.Log(LogLevel.Information, $"Calling IVrfCaseRefreshService.RefreshStatuses");
+                _logger.LogInformation("Calling IVrfCaseRefreshService.RefreshStatuses");
 
                 await _vrfCaseRefreshService.RefreshStatuses();
 
-                _logger.Log(LogLevel.Information, $"Called IVrfCaseRefreshService.RefreshStatuses");
+                _logger.LogInformation("Called IVrfCaseRefreshService.RefreshStatuses");
             }
             catch (Exception ex)
             {
