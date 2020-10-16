@@ -22,8 +22,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 {
                     var settings = c.GetService<IConfiguration>();
                     return new VrfCaseRefreshRepository(settings.GetWebJobsConnectionString("AzureWebJobsStorage"), settings.GetValue<string>("EnvironmentName"));
-                });
-
+                });            
 
             serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c));
             serviceCollection.Decorate<IVendorRegistrationFormService, VendorRegistrationFormServiceWithLogging>();
