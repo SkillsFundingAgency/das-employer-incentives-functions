@@ -22,11 +22,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             {
                 logBuilder.AddFilter(typeof(Startup).Namespace, LogLevel.Information); // this is because all logging is filtered out by defualt
                 var rootDirectory = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ".."));
-                logBuilder.AddNLog(Path.Combine(rootDirectory, "nlog.config"));
+                logBuilder.AddNLog(Directory.GetFiles(rootDirectory, "nlog.config", SearchOption.AllDirectories)[0]);
             });
 
             var serviceProvider = builder.Services.BuildServiceProvider();
-            
+
             var configuration = serviceProvider.GetService<IConfiguration>();
 
             var configBuilder = new ConfigurationBuilder()
