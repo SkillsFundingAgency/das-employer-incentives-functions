@@ -39,6 +39,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
         public async Task UpdateLastRunDateTime(DateTime value)
         {
+            value = DateTime.SpecifyKind(value, DateTimeKind.Utc);
             var record = new RefreshVendorRegistrationFormStatusData
             {
                 PartitionKey = _partitionKey,

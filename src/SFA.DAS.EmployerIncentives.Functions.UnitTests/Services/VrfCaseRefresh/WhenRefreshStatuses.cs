@@ -12,14 +12,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.VrfCaseRefresh
         private IVrfCaseRefreshService _sut;
         private readonly Mock<IVendorRegistrationFormService> _vrfService = new Mock<IVendorRegistrationFormService>();
         private readonly Mock<IVrfCaseRefreshRepository> _repository = new Mock<IVrfCaseRefreshRepository>();
-        private readonly Mock<IDateTimeProvider> _dateTimeProvider = new Mock<IDateTimeProvider>();
 
         [SetUp]
         public void Setup()
         {
-            _sut = new VrfCaseRefreshService(_vrfService.Object,
-                _repository.Object,
-                _dateTimeProvider.Object);
+            _sut = new VrfCaseRefreshService(_vrfService.Object, _repository.Object);
         }
 
         [Test]
@@ -29,15 +26,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.VrfCaseRefresh
             // Arrange
             var lastRunDateTime = DateTime.UtcNow.AddHours(-1);
             _repository.Setup(x => x.GetLastRunDateTime()).ReturnsAsync(lastRunDateTime);
-            var currentDateTime = DateTime.UtcNow;
-            _dateTimeProvider.Setup(x => x.GetCurrentDateTime()).ReturnsAsync(currentDateTime);
+
+            var lastCaseDateTime = DateTime.UtcNow;
+            _vrfService.Setup(x => x.Update(lastRunDateTime)).ReturnsAsync(lastCaseDateTime);
+
 
             // Act
             await _sut.RefreshStatuses();
 
             // Assert
             _vrfService.Verify(x => x.Update(lastRunDateTime), Times.Once());
-            _repository.Verify(x => x.UpdateLastRunDateTime(currentDateTime), Times.Once);
+            _repository.Verify(x => x.UpdateLastRunDateTime(lastCaseDateTime), Times.Once);
         }
 
         [Test]
@@ -47,9 +46,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.VrfCaseRefresh
             // Arrange
             var lastRunDateTime = DateTime.UtcNow.AddHours(-1);
             _repository.Setup(x => x.GetLastRunDateTime()).ReturnsAsync(lastRunDateTime);
-            var currentDateTime = DateTime.UtcNow;
-            _dateTimeProvider.Setup(x => x.GetCurrentDateTime()).ReturnsAsync(currentDateTime);
 
+            var lastCaseDateTime = DateTime.UtcNow;
             _vrfService.Setup(x => x.Update(lastRunDateTime)).ThrowsAsync(new Exception());
 
             // Act
@@ -64,7 +62,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.VrfCaseRefresh
 
             // Assert
             _vrfService.Verify(x => x.Update(lastRunDateTime), Times.Once());
-            _repository.Verify(x => x.UpdateLastRunDateTime(currentDateTime), Times.Never);
+            _repository.Verify(x => x.UpdateLastRunDateTime(lastCaseDateTime), Times.Never);
         }
     }
 }

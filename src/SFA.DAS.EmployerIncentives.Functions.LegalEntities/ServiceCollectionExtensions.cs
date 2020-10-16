@@ -25,7 +25,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 });
 
 
-            serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c));
             serviceCollection.Decorate<IVendorRegistrationFormService, VendorRegistrationFormServiceWithLogging>();
             serviceCollection.AddSingleton<IVrfCaseRefreshService, VrfCaseRefreshService>();
