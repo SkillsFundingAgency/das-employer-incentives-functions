@@ -9,7 +9,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
     public class VrfCaseRefreshRepository : IVrfCaseRefreshRepository
     {
-        private static readonly DateTime DefaultLastRunDateTime = new DateTime(2020, 8, 1);
+        private static readonly DateTime DefaultLastRunDateTime = new DateTime(2020, 9, 14);
         private readonly CloudTable _table;
         private readonly string _partitionKey;
         private const string RowKey = "SFA.DAS.EmployerIncentives.Functions";
