@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Moq;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
 using SFA.DAS.EmployerIncentives.Infrastructure.Extensions;
 using System;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
+using WireMock;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 
@@ -16,13 +16,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
     public class VendorRegistrationFormSteps : StepsBase
     {
         private readonly TestContext _testContext;
-        private readonly DateTime _fakeCurrentDateTime = DateTime.SpecifyKind(new DateTime(2020, 9, 1, 2, 3, 4), DateTimeKind.Utc);
+        private readonly string _lastCaseUpdateDateTime = "2020-10-16T10:00:00";
         private readonly IVrfCaseRefreshRepository _repository = new VrfCaseRefreshRepository("UseDevelopmentStorage=true", "LOCAL");
 
         public VendorRegistrationFormSteps(TestContext testContext) : base(testContext)
         {
             _testContext = testContext;
-            _testContext.DateTimeProvider.Setup(x => x.GetCurrentDateTime()).ReturnsAsync(_fakeCurrentDateTime);
         }
 
         [When(@"a VRF case status update job is triggered")]
@@ -38,8 +37,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                          .WithParam("from", $"{lastRunDate.ToIsoDateTime()}")
                         .UsingPatch())
                 .RespondWith(
-                    Response.Create()
-                        .WithStatusCode(HttpStatusCode.NoContent)
+                    Response.Create(new ResponseMessage())
+                        .WithStatusCode(HttpStatusCode.OK)
+                        .WithBody($"\"{_lastCaseUpdateDateTime}\"")
                         .WithHeader("Content-Type", "application/json"));
 
             await _testContext.LegalEntitiesFunctions.TimerTriggerRefreshVendorRegistrationCaseStatus.Run(null);
@@ -66,7 +66,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         {
             var lastRunDate = await _repository.GetLastRunDateTime();
 
-            lastRunDate.Should().BeCloseTo(_fakeCurrentDateTime, 60000 /* 1 minute precision */);
+            lastRunDate.Should().Be(DateTime.Parse(_lastCaseUpdateDateTime));
         }
 
     }
