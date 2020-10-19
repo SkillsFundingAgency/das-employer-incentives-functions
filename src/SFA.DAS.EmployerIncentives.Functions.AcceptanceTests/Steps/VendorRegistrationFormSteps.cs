@@ -36,7 +36,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                         .Create()
                         .WithPath("/api/legalentities/vendorregistrationform/status")
                          .WithParam("from", $"{lastRunDate.ToIsoDateTime()}")
-                         .WithParam("to", $"{_fakeCurrentDateTime.ToIsoDateTime()}")
                         .UsingPatch())
                 .RespondWith(
                     Response.Create()
@@ -57,7 +56,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                         .Create()
                         .WithPath(x => x.Contains("legalentities/vendorregistrationform/status"))
                         .WithParam("from")
-                        .WithParam("to")
                         .UsingPatch()).AsEnumerable();
 
             requests.Should().HaveCount(1, "expected request to APIM was not found in Mock server logs");

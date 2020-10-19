@@ -1,8 +1,6 @@
 ﻿using Microsoft.Azure.WebJobs.Host.Config;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NLog.Extensions.Logging;
-using SFA.DAS.EmployerIncentives.Infrastructure.Logging;
 using SFA.DAS.NServiceBus.AzureFunction.Configuration;
 using SFA.DAS.NServiceBus.AzureFunction.Hosting;
 using System;
@@ -11,27 +9,6 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddNLog(this IServiceCollection serviceCollection)
-        {
-            var nLogConfiguration = new NLogConfiguration();
-
-            serviceCollection.AddLogging((options) =>
-            {
-                options.SetMinimumLevel(LogLevel.Trace);
-                options.SetMinimumLevel(LogLevel.Trace);
-                options.AddNLog(new NLogProviderOptions
-                {
-                    CaptureMessageTemplates = true,
-                    CaptureMessageProperties = true
-                });
-                options.AddConsole();
-
-                nLogConfiguration.ConfigureNLog();
-            });
-
-            return serviceCollection;
-        }
-
         public static IServiceCollection AddNServiceBus(
             this IServiceCollection serviceCollection,
             ILogger logger,
@@ -60,15 +37,15 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure
                     }
                 };
 
-                if(OnConfigureOptions != null)
+                if (OnConfigureOptions != null)
                 {
                     OnConfigureOptions.Invoke(options);
                 }
 
-               return new NServiceBusExtensionConfigProvider(options);
-             });
+                return new NServiceBusExtensionConfigProvider(options);
+            });
 
             return serviceCollection;
-        }       
+        }
     }
 }

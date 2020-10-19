@@ -12,11 +12,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         public VendorRegistrationFormService(HttpClient client)
         {
             _client = client;
+            _client.Timeout = TimeSpan.FromMinutes(5);
         }
 
-        public async Task Update(DateTime fromDateTime, DateTime toDateTime)
+        public async Task Update(DateTime fromDateTime)
         {
-            var url = $"legalentities/vendorregistrationform/status?from={fromDateTime.ToIsoDateTime()}&to={toDateTime.ToIsoDateTime()}";
+            var url = $"legalentities/vendorregistrationform/status?from={fromDateTime.ToIsoDateTime()}";
 
             var response = await _client.PatchAsync(url, new StringContent(""));
             response.EnsureSuccessStatusCode();
