@@ -4,6 +4,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
 {
     public interface IEmployerVendorIdService
     {
-        Task GetAndAddEmployerVendorId(string hashedLegalEntityId);
+        Task Add(EmployerVendorId employerVendorId);
     }
+
+    public class EmployerVendorId
+    {
+        public string HashedLegalEntityId { get; set; }
+    }
+
 }

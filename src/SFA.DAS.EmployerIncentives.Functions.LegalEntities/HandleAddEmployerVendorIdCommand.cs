@@ -19,7 +19,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         [FunctionName("HandleAddEmployerVendorIdCommand")]
         public Task RunEvent([NServiceBusTrigger(Endpoint = QueueNames.AddEmployerVendorId)] AddEmployerVendorIdCommand command)
         {
-            return _addEmployerVendorIdService.GetAndAddEmployerVendorId(command.HashedLegalEntityId);
+            return _addEmployerVendorIdService.Add(new EmployerVendorId { HashedLegalEntityId = command.HashedLegalEntityId });
         }
     }
 }

@@ -12,9 +12,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             _client = client;
         }
 
-        public async Task GetAndAddEmployerVendorId(string hashedLegalEntityId)
+        public async Task Add(EmployerVendorId employerVendorId)
         {
-            var url = $"legalentities/{hashedLegalEntityId}/employervendorid";
+            var url = $"legalentities/{employerVendorId.HashedLegalEntityId}/employervendorid";
 
             var response = await _client.PutAsync(url, new StringContent(""));
             response.EnsureSuccessStatusCode();

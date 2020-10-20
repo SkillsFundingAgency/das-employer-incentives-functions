@@ -28,7 +28,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmployerVendor
         {
             var hashedLegalEntityId = "ABC123";
 
-            await _sut.GetAndAddEmployerVendorId(hashedLegalEntityId);
+            await _sut.Add(new Functions.LegalEntities.Services.LegalEntities.EmployerVendorId { HashedLegalEntityId = hashedLegalEntityId});
 
             _testClient.VerifyPutAsAsync($"legalentities/{hashedLegalEntityId}/employervendorid", Times.Once());
         }
