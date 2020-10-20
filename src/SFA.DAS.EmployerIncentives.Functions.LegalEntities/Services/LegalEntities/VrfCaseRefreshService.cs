@@ -6,26 +6,22 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
     {
         private readonly IVendorRegistrationFormService _vrfService;
         private readonly IVrfCaseRefreshRepository _repository;
-        private readonly IDateTimeProvider _dateTimeProvider;
 
         public VrfCaseRefreshService(
             IVendorRegistrationFormService vrfService,
-            IVrfCaseRefreshRepository repository,
-            IDateTimeProvider dateTimeProvider)
+            IVrfCaseRefreshRepository repository)
         {
             _vrfService = vrfService;
             _repository = repository;
-            _dateTimeProvider = dateTimeProvider;
         }
 
         public async Task RefreshStatuses()
         {
             var from = await _repository.GetLastRunDateTime();
-            var now = await _dateTimeProvider.GetCurrentDateTime();
 
-            await _vrfService.Update(from);
+            var lastCaseUpdate = await _vrfService.Update(from);
 
-            await _repository.UpdateLastRunDateTime(now);
+            await _repository.UpdateLastRunDateTime(lastCaseUpdate);
         }
     }
 }

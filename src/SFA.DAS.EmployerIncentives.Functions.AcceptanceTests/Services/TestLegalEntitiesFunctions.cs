@@ -70,7 +70,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             _ = hostBuilder.ConfigureServices((s) =>
             {
-                s.Replace(new ServiceDescriptor(typeof(IDateTimeProvider), _testContext.DateTimeProvider.Object));
                 s.Configure<Config.EmployerIncentivesApiOptions>(a =>
                 {
                     a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
