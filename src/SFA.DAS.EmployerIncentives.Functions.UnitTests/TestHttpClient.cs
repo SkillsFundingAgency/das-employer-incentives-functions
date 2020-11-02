@@ -37,6 +37,18 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests
              r.Content.ReadAsStringAsync().Result == JsonConvert.SerializeObject(value)
              ), ItExpr.IsAny<CancellationToken>());
         }
+
+        public void VerifyPostAsAsync(string relativePath, Times times)
+        {
+            _mockHttpMessageHandler
+                .Protected()
+                .Verify("SendAsync", times,
+                    ItExpr.Is<HttpRequestMessage>(r =>
+                        r.Method == HttpMethod.Post &&
+                        r.RequestUri.AbsoluteUri == $"{BaseAddress.AbsoluteUri}{relativePath}"
+                    ), ItExpr.IsAny<CancellationToken>());
+        }
+
         public void VerifyPutAsAsync<T>(string relativePath, T value, Times times)
         {
             _mockHttpMessageHandler
@@ -48,6 +60,18 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests
              r.Content.ReadAsStringAsync().Result == JsonConvert.SerializeObject(value)
              ), ItExpr.IsAny<CancellationToken>());
         }
+
+        public void VerifyPutAsAsync(string relativePath, Times times)
+        {
+            _mockHttpMessageHandler
+                .Protected()
+                .Verify("SendAsync", times,
+                    ItExpr.Is<HttpRequestMessage>(r =>
+                        r.Method == HttpMethod.Put &&
+                        r.RequestUri.AbsoluteUri == $"{BaseAddress.AbsoluteUri}{relativePath}" 
+                    ), ItExpr.IsAny<CancellationToken>());
+        }
+
 
         public void VerifyDeleteAsync(string relativePath, Times times)
         {

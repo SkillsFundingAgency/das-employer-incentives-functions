@@ -6,7 +6,7 @@ using System.IO;
 
 namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests
 {
-    public class TestContext
+    public class TestContext : IDisposable
     {
         public DirectoryInfo TestDirectory { get; set; }
         public TestMessageBus TestMessageBus { get; set; }
@@ -25,7 +25,27 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests
             TestData = new TestData();
             Hooks = new List<IHook>();
         }
-    }
+        private bool _isDisposed;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_isDisposed) return;
+
+            if (disposing)
+            {
+                EmployerIncentivesApi?.Dispose();
+                LegalEntitiesFunctions?.Dispose();
+            }
+
+            _isDisposed = true;
+        }
+    }    
 }
 
 
