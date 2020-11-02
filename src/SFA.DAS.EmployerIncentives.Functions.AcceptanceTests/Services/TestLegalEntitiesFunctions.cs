@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
@@ -124,10 +123,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         {
             if (isDisposed) return;
 
-            if (disposing && host != null)
+            if (disposing)
             {
-                host.StopAsync();
+                host?.StopAsync();
             }
+
+            host?.Dispose();
 
             isDisposed = true;
         }
