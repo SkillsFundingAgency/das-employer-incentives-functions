@@ -29,6 +29,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         private bool isDisposed;
         public HandleRefreshLegalEntitiesRequest HttpTriggerRefreshLegalEntities { get; set; }
         public RefreshVendorRegistrationCaseStatus TimerTriggerRefreshVendorRegistrationCaseStatus { get; set; }
+        public HandleEarningsResilienceCheck TimerTriggerEarningsResilienceCheck { get; set; }
 
         public TestLegalEntitiesFunctions(TestContext testContext)
         {
@@ -109,6 +110,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
             TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVrfCaseRefreshService)) as IVrfCaseRefreshService);
+            TimerTriggerEarningsResilienceCheck = new HandleEarningsResilienceCheck(host.Services.GetService(typeof(IEarningsResilienceCheckService)) as IEarningsResilienceCheckService);
 
             AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
         }

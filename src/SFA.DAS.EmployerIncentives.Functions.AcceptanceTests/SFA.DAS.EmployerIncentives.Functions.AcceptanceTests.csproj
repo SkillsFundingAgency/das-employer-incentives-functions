@@ -5,7 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <SpecFlowObsoleteCodeBehindFiles Remove="Features\VendorRegistrationForm - Copy.feature.cs" />
+    <Compile Remove="%2a%2a\**" />
+    <Content Remove="%2a%2a\**" />
+    <EmbeddedResource Remove="%2a%2a\**" />
+    <None Remove="%2a%2a\**" />
+    <SpecFlowFeatureFiles Remove="%2a%2a\**" />
+    <SpecFlowObsoleteCodeBehindFiles Remove="%2a%2a\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SpecFlowFeatureFiles Remove="%2a%2a\%2a.feature" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.13.0" />
@@ -50,9 +59,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <SpecFlowFeatureFiles Include="Features\EarningsResilienceCheck.feature">
+      <LastGenOutput>EarningsResilienceCheck.feature.cs</LastGenOutput>
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+    </SpecFlowFeatureFiles>
     <SpecFlowFeatureFiles Include="Features\VendorRegistrationForm.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>VendorRegistrationForm.feature.cs</LastGenOutput>
+      <LastGenOutput>EarningsResilienceCheck.feature.cs</LastGenOutput>
     </SpecFlowFeatureFiles>
   </ItemGroup>
 
@@ -65,10 +78,10 @@
     <Compile Update="Features\EmployerVendorId.feature.cs">
       <DependentUpon>EmployerVendorId.feature</DependentUpon>
     </Compile>
-    <Compile Update="Features\VendorRegistrationForm.feature.cs">
+    <Compile Update="Features\EarningsResilienceCheck.feature.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>VendorRegistrationForm.feature</DependentUpon>
+      <DependentUpon>EarningsResilienceCheck.feature</DependentUpon>
     </Compile>
   </ItemGroup>
 
