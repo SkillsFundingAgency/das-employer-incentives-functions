@@ -5,18 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="%2a%2a\**" />
-    <Content Remove="%2a%2a\**" />
-    <EmbeddedResource Remove="%2a%2a\**" />
-    <None Remove="%2a%2a\**" />
-    <SpecFlowFeatureFiles Remove="%2a%2a\**" />
-    <SpecFlowObsoleteCodeBehindFiles Remove="%2a%2a\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <SpecFlowFeatureFiles Remove="%2a%2a\%2a.feature" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.13.0" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
