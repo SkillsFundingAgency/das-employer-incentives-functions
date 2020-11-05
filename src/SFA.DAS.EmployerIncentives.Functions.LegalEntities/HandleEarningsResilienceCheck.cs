@@ -21,15 +21,22 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         [FunctionName("TimerEarningsResilienceCheck")]
         public async Task RunTimer([TimerTrigger("%EarningsResilienceCheckTriggerTime%", RunOnStartup = false)]TimerInfo myTimer, ILogger log)
         {
-            await _earningsResilienceCheckService.Update();
+            await RunEarningsResilienceCheck(log);
         }
 
         [FunctionName("HttpEarningsResilienceCheck")]
-        public async Task<IActionResult> RunHttp([HttpTrigger(AuthorizationLevel.Function)] HttpRequest request)
+        public async Task<IActionResult> RunHttp([HttpTrigger(AuthorizationLevel.Function)] HttpRequest request, ILogger log)
         {
-            await _earningsResilienceCheckService.Update();
+            await RunEarningsResilienceCheck(log);
 
             return new OkResult();
+        }
+
+        private async Task RunEarningsResilienceCheck(ILogger log)
+        {
+            log.LogInformation("Started earnings resilience check");
+            await _earningsResilienceCheckService.Update();
+            log.LogInformation("Completed earnings resilience check");
         }
     }
 }
