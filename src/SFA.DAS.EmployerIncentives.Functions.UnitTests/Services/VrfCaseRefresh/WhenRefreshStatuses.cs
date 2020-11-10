@@ -4,6 +4,7 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.VrfCaseRefresh
 {
@@ -16,7 +17,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.VrfCaseRefresh
         [SetUp]
         public void Setup()
         {
-            _sut = new VrfCaseRefreshService(_vrfService.Object, _repository.Object);
+            _sut = new VrfCaseRefreshService(_vrfService.Object, _repository.Object, Mock.Of<ILogger<VrfCaseRefreshService>>());
         }
 
         [Test]
