@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using System.Linq;
 using System.Net;
@@ -34,7 +35,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                     Response.Create(new ResponseMessage())
                         .WithStatusCode(HttpStatusCode.OK));
 
-            await _testContext.LegalEntitiesFunctions.TimerTriggerEarningsResilienceCheck.RunTimer(null, null);
+            await _testContext.LegalEntitiesFunctions.TimerTriggerEarningsResilienceCheck.RunTimer(null, new TestLogger());
         }
 
         [Then(@"the Employer Incentives API is called to update apprenticeships")]
