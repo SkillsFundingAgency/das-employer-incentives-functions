@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities
 {
@@ -6,20 +7,27 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
     {
         private readonly IVendorRegistrationFormService _vrfService;
         private readonly IVrfCaseRefreshRepository _repository;
+        private readonly ILogger<VrfCaseRefreshService> _logger;
 
         public VrfCaseRefreshService(
             IVendorRegistrationFormService vrfService,
-            IVrfCaseRefreshRepository repository)
+            IVrfCaseRefreshRepository repository,
+            ILogger<VrfCaseRefreshService> logger)
         {
             _vrfService = vrfService;
             _repository = repository;
+            _logger = logger;
         }
 
         public async Task RefreshStatuses()
         {
             var from = await _repository.GetLastRunDateTime();
 
+            _logger.LogInformation($"Updating vrf case status from {from}");
+
             var lastCaseUpdate = await _vrfService.Update(from);
+
+            _logger.LogInformation($"Updating vrf case status last run date time to {lastCaseUpdate}");
 
             await _repository.UpdateLastRunDateTime(lastCaseUpdate);
         }
