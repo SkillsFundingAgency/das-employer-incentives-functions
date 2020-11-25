@@ -13,7 +13,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         }
         public async Task Update()
         {
-            var url = "/earnings-resilience-check";
+            var url = "earnings-resilience-check";
 
             var response = await _client.PostAsync(url, new StringContent(string.Empty));
             response.EnsureSuccessStatusCode();
