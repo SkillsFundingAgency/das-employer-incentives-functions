@@ -13,6 +13,7 @@ using WireMock.ResponseBuilders;
 namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
 {
     [Binding]
+    [Scope(Feature = "VendorRegistrationForm")]
     public class VendorRegistrationFormSteps : StepsBase
     {
         private readonly TestContext _testContext;
