@@ -5,6 +5,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
 {
     public interface ICollectionCalendarService
     {
-        Task ActivatePeriod(short calendarYear, byte periodNumber);
+        Task ActivatePeriod(short calendarYear, byte periodNumber, bool active);
     }
 }

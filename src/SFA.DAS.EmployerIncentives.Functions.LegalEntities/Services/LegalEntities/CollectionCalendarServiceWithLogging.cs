@@ -17,13 +17,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             _logger = logger;
         }
 
-        public async Task ActivatePeriod(short calendarYear, byte periodNumber)
+        public async Task ActivatePeriod(short calendarYear, byte periodNumber, bool active)
         {
             try
             {
                 _logger.Log(LogLevel.Information, $"Calling ICollectionCalendarService.ActivatePeriod");
 
-                await _collectionCalendarService.ActivatePeriod(calendarYear, periodNumber);
+                await _collectionCalendarService.ActivatePeriod(calendarYear, periodNumber, active);
 
                 _logger.Log(LogLevel.Information, $"Called ICollectionCalendarService.ActivatePeriod");
             }

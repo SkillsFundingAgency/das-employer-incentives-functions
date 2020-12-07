@@ -12,10 +12,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             _client = client;
         }
 
-        public async Task ActivatePeriod(short calendarYear, byte periodNumber)
+        public async Task ActivatePeriod(short calendarYear, byte periodNumber, bool active)
         {
-            var url = "collectionCalendar/period/activate";
-            var request = new { CollectionPeriodNumber = periodNumber, CollectionPeriodYear = calendarYear };
+            var url = "collectionCalendar/period/active";
+            var request = new { CollectionPeriodNumber = periodNumber, CollectionPeriodYear = calendarYear, Active = active };
             var response = await _client.PatchAsync(url, request.GetStringContent());
             response.EnsureSuccessStatusCode();
         }

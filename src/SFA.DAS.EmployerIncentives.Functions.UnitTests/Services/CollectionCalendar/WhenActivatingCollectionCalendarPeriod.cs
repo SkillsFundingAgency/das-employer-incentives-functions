@@ -31,9 +31,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.CollectionCale
         [Test]
         public async Task Then_API_is_invoked()
         {
-            await _sut.ActivatePeriod(_fixture.Create<short>(), _fixture.Create<byte>());
+            await _sut.ActivatePeriod(_fixture.Create<short>(), _fixture.Create<byte>(), _fixture.Create<bool>());
 
-            _testClient.VerifyPatchAsAsync("collectionCalendar/period/activate", Times.Once());
+            _testClient.VerifyPatchAsAsync("collectionCalendar/period/active", Times.Once());
         }
     }
 }

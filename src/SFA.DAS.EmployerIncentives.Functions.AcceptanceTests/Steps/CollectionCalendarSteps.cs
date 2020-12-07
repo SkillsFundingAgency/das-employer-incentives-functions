@@ -34,7 +34,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                .Given(
                    Request
                        .Create()
-                       .WithPath(x => x.Contains("collectionCalendar/period/activate"))
+                       .WithPath(x => x.Contains("collectionCalendar/period/active"))
                        .UsingPatch())
                .RespondWith(
                     Response.Create()
@@ -42,7 +42,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                         .WithHeader("Content-Type", "application/json"));
 
             var context = new DefaultHttpContext();
-            context.Request.QueryString = new QueryString("?CalendarYear=2020&PeriodNumber=1");
+            context.Request.QueryString = new QueryString("?CalendarYear=2020&PeriodNumber=1&Active=true");
 
             await _testContext.LegalEntitiesFunctions.HttpTriggerActivateCollectionCalendarPeriod.RunHttp(context.Request, new TestLogger());
         }
@@ -56,7 +56,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .FindLogEntries(
                     Request
                         .Create()
-                        .WithPath(x => x.Contains("/collectionCalendar/period/activate"))
+                        .WithPath(x => x.Contains("/collectionCalendar/period/active"))
                         .UsingPatch()).AsEnumerable();
 
             requests.Should().HaveCount(1, "Expected request to APIM was not found in Mock server logs");

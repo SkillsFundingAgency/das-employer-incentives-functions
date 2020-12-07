@@ -23,7 +23,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         public async Task<IActionResult> RunHttp([HttpTrigger(AuthorizationLevel.Function)] HttpRequest request, ILogger log)
         {
             var queryParameters = request.GetQueryParameterDictionary();
-            if (!queryParameters.ContainsKey("CalendarYear") || !queryParameters.ContainsKey("PeriodNumber"))
+            if (!queryParameters.ContainsKey("CalendarYear") 
+             || !queryParameters.ContainsKey("PeriodNumber")
+             || !queryParameters.ContainsKey("Active"))
             {
                 return new BadRequestResult();
             }
@@ -31,14 +33,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             var validCalendarYear = short.TryParse(queryParameters["CalendarYear"], out calendarYear);
             byte periodNumber;
             var validPeriodNumber = byte.TryParse(queryParameters["PeriodNumber"], out periodNumber);
-            if (!validCalendarYear || !validPeriodNumber)
+            bool active;
+            var validActive = bool.TryParse(queryParameters["Active"], out active);
+            if (!validCalendarYear || !validPeriodNumber || !validActive)
             {
                 return new BadRequestResult();
             }
+            
 
-            log.LogInformation($"Started activate collection calendar period for calendar year {calendarYear} period {periodNumber}");
-            await _collectionCalendarService.ActivatePeriod(calendarYear, periodNumber);
-            log.LogInformation($"Completed activate collection calendar period for calendar year {calendarYear} period {periodNumber}");
+            log.LogInformation($"Started activate collection calendar period for calendar year {calendarYear} period {periodNumber} set active = {active}");
+            await _collectionCalendarService.ActivatePeriod(calendarYear, periodNumber, active);
+            log.LogInformation($"Completed activate collection calendar period for calendar year {calendarYear} period {periodNumber} set active = {active}");
 
             return new OkResult();
         }
