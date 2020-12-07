@@ -1,13 +1,11 @@
 ﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities
 {
-    public interface IVendorRegistrationFormService
+    public interface IApplicationsService
     {
-        Task<DateTime> Update(DateTime fromDateTime);
-        Task<IEnumerable<Account>> GetAccountsByVrfCaseStatus(string vrfCaseStatus);
+        Task<IEnumerable<Application>> GetApplications(long accountId);
     }
 }

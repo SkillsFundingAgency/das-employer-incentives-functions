@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
 using SFA.DAS.EmployerIncentives.Infrastructure.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -28,6 +30,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             var lastCaseUpdatedDateTime = JsonConvert.DeserializeObject<DateTime>(data);
 
             return lastCaseUpdatedDateTime;
+        }
+
+        public async Task<IEnumerable<Account>> GetAccountsByVrfCaseStatus(string vrfCaseStatus)
+        {
+            var url = "accounts/vendorregistrationform/status?vrfCaseStatus=";
+            var response = await _client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            var data = await response.Content.ReadAsStringAsync();
+
+            var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(data);
+
+            return accounts;
         }
     }
 }
