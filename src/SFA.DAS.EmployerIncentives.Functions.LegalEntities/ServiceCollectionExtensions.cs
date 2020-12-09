@@ -37,9 +37,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.AddClient<IEarningsResilienceCheckService>((c, s) => new EarningsResilienceCheckService(c));
             serviceCollection.Decorate<IEarningsResilienceCheckService, EarningsResilienceCheckServiceWithLogging>();
 
-            // TODO: add service with logging implementations
-            serviceCollection.AddClient<IApplicationsService>((c, s) => new ApplicationsService(c));
             serviceCollection.AddClient<IEmailService>((c, s) => new EmailService(c));
+            serviceCollection.Decorate<IEmailService, EmailServiceWithLogging>();
 
             return serviceCollection;
         }

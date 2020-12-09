@@ -31,6 +31,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         public RefreshVendorRegistrationCaseStatus TimerTriggerRefreshVendorRegistrationCaseStatus { get; set; }
         public HandleEarningsResilienceCheck TimerTriggerEarningsResilienceCheck { get; set; }
 
+        public HandleBankDetailsRepeatReminderEmails TimerTriggerBankDetailsRepeatReminderEmails { get; set; }
         public TestLegalEntitiesFunctions(TestContext testContext)
         {
             _testContext = testContext;
@@ -45,7 +46,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                 { "ConfigurationStorageConnectionString", "UseDevelopmentStorage=true" },
                 { "ConfigNames", "SFA.DAS.EmployerIncentives.Functions" },
                 { "NServiceBusConnectionString", "UseDevelopmentStorage=true" },
-                { "AzureWebJobsStorage", "UseDevelopmentStorage=true" }
+                { "AzureWebJobsStorage", "UseDevelopmentStorage=true" },
+                { "BankDetailsReminderEmailsCutOffDays", "30" }
             };
         }
 
@@ -106,12 +108,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             hostBuilder.UseEnvironment("LOCAL");
             host = await hostBuilder.StartAsync();
-
+            
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
             TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVrfCaseRefreshService)) as IVrfCaseRefreshService);
             TimerTriggerEarningsResilienceCheck = new HandleEarningsResilienceCheck(host.Services.GetService(typeof(IEarningsResilienceCheckService)) as IEarningsResilienceCheckService);
-
+            TimerTriggerBankDetailsRepeatReminderEmails = new HandleBankDetailsRepeatReminderEmails(host.Services.GetService(typeof(IEmailService)) as IEmailService, host.Services.GetService(typeof(IConfiguration)) as IConfiguration);
             AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
         }
 

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
+using System;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities
@@ -13,9 +16,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             _client = client;
         }
 
-        public Task SendRepeatReminderEmail(long accountId, long accountLegalEntityId, string emailAddress, string addBankDetailsUrl)
+        public async Task SendRepeatReminderEmails(DateTime applicationCutOffDate)
         {
-            throw new NotImplementedException();
+            var url = "email/bank-details-repeat-reminders";
+            var request = new BankDetailRepeatReminderEmailsRequest { ApplicationCutOffDate = applicationCutOffDate };
+            var response = await _client.PostAsync(url, request.GetStringContent());
+            response.EnsureSuccessStatusCode();
         }
     }
 }
