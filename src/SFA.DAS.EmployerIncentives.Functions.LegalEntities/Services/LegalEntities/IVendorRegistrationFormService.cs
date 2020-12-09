@@ -8,6 +8,5 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
     public interface IVendorRegistrationFormService
     {
         Task<DateTime> Update(DateTime fromDateTime);
-        Task<IEnumerable<Account>> GetAccountsByVrfCaseStatus(string vrfCaseStatus);
     }
 }

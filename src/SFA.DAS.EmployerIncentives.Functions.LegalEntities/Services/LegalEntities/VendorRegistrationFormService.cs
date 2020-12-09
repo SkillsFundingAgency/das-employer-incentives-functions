@@ -31,18 +31,5 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
 
             return lastCaseUpdatedDateTime;
         }
-
-        public async Task<IEnumerable<Account>> GetAccountsByVrfCaseStatus(string vrfCaseStatus)
-        {
-            var url = "accounts/vendorregistrationform/status?vrfCaseStatus=";
-            var response = await _client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-
-            var data = await response.Content.ReadAsStringAsync();
-
-            var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(data);
-
-            return accounts;
-        }
     }
 }
