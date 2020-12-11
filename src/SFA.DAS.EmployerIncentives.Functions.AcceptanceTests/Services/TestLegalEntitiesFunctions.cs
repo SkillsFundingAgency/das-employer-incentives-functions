@@ -7,6 +7,7 @@ using NServiceBus.Transport;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawls;
 using SFA.DAS.EmployerIncentives.Infrastructure;
 using SFA.DAS.Testing.AzureStorageEmulator;
 using System;
@@ -30,6 +31,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         public HandleRefreshLegalEntitiesRequest HttpTriggerRefreshLegalEntities { get; set; }
         public RefreshVendorRegistrationCaseStatus TimerTriggerRefreshVendorRegistrationCaseStatus { get; set; }
         public HandleEarningsResilienceCheck TimerTriggerEarningsResilienceCheck { get; set; }
+        public HandleWithdrawlRequest HttpTriggerHandleWithdrawl { get; set; }
 
         public TestLegalEntitiesFunctions(TestContext testContext)
         {
@@ -111,6 +113,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
             TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVrfCaseRefreshService)) as IVrfCaseRefreshService);
             TimerTriggerEarningsResilienceCheck = new HandleEarningsResilienceCheck(host.Services.GetService(typeof(IEarningsResilienceCheckService)) as IEarningsResilienceCheckService);
+            HttpTriggerHandleWithdrawl = new HandleWithdrawlRequest(host.Services.GetService(typeof(IWithdrawlService)) as IWithdrawlService);
 
             AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
         }

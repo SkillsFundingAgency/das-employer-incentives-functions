@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawls;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using SFA.DAS.Http;
 using System;
@@ -36,6 +37,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
             serviceCollection.AddClient<IEarningsResilienceCheckService>((c, s) => new EarningsResilienceCheckService(c));
             serviceCollection.Decorate<IEarningsResilienceCheckService, EarningsResilienceCheckServiceWithLogging>();
+
+            serviceCollection.AddClient<IWithdrawlService>((c, s) => new WithdrawlService(c));
 
 
             return serviceCollection;
