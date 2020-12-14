@@ -1,15 +1,15 @@
-﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawls.Types;
+﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 #pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 
-namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawls
+namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals
 {
-    public class WithdrawlService : IWithdrawlService
+    public class WithdrawalService : IWithdrawalService
     {
         private readonly HttpClient _client;
 
-        public WithdrawlService(HttpClient client)
+        public WithdrawalService(HttpClient client)
         {
             _client = client;
         }
@@ -18,14 +18,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawls
         {
             EnsureRequestIsvalid(request);
 
-            var response = await _client.PostAsJsonAsync("withdrawls", request);
+            var response = await _client.PostAsJsonAsync("withdrawals", request);
 
             response.EnsureSuccessStatusCode();
         }
 
         private void EnsureRequestIsvalid(WithdrawRequest request)
         {
-            if (request.Type == WithdrawlType.NotSet)
+            if (request.Type == WithdrawalType.NotSet)
             {
                 throw new ArgumentException("Type not set or invalid", nameof(request.Type));
             }

@@ -2,8 +2,8 @@
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Newtonsoft.Json;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawls;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawls.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -11,22 +11,22 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
-    public class HandleWithdrawlRequest
+    public class HandleWithdrawalRequest
     {
-        private readonly IWithdrawlService _withdrawlService;
+        private readonly IWithdrawalService _withdrawalService;
 
-        public HandleWithdrawlRequest(IWithdrawlService withdrawlService)
+        public HandleWithdrawalRequest(IWithdrawalService withdrawalService)
         {
-            _withdrawlService = withdrawlService;
+            _withdrawalService = withdrawalService;
         }
 
-        [FunctionName("HttpTriggerWithdrawlRequest")]
+        [FunctionName("HttpTriggerWithdrawalRequest")]
         public async Task<IActionResult> RunHttp([HttpTrigger(AuthorizationLevel.Function, "POST", Route = "withdraw")] HttpRequestMessage request)
         {
             try
             {
                 var withdrawRequest = JsonConvert.DeserializeObject<WithdrawRequest>(await request.Content.ReadAsStringAsync());
-                await _withdrawlService.Withdraw(withdrawRequest);
+                await _withdrawalService.Withdraw(withdrawRequest);
             }
             catch(ArgumentException ex)
             {

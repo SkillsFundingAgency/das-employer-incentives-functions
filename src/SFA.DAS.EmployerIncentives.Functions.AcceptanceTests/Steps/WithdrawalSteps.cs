@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using Newtonsoft.Json;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawls.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,36 +14,36 @@ using WireMock.ResponseBuilders;
 namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
 {
     [Binding]
-    [Scope(Feature = "Withdrawl")]
-    public class WithdrawlSteps : StepsBase    
+    [Scope(Feature = "Withdrawal")]
+    public class WithdrawalSteps : StepsBase    
     {
         private readonly TestContext _testContext;
         private readonly Fixture _fixture;
-        private WithdrawRequest _withDrawRequest;
+        private readonly WithdrawRequest _withdrawRequest;
 
-        public WithdrawlSteps(TestContext testContext) : base(testContext)
+        public WithdrawalSteps(TestContext testContext) : base(testContext)
         {
             _testContext = testContext;
             _fixture = new Fixture();
-            _withDrawRequest = new WithdrawRequest
+            _withdrawRequest = new WithdrawRequest
             {
-                Type = WithdrawlType.Employer,
+                Type = WithdrawalType.Employer,
                 AccountLegalEntityId = _fixture.Create<long>(),
                 ULN = _fixture.Create<long>(),
                 ServiceRequest = _fixture.Create<ServiceRequest>()
             };
         }
 
-        [When(@"a withdrawl request is received")]
-        public async Task WhenAWithdrawlRequestIsReceived()
+        [When(@"a withdrawal request is received")]
+        public async Task WhenAWithdrawalRequestIsReceived()
         {
-            var json = JsonConvert.SerializeObject(_withDrawRequest);
+            var json = JsonConvert.SerializeObject(_withdrawRequest);
 
             _testContext.EmployerIncentivesApi.MockServer
                .Given(
                        Request
                        .Create()
-                       .WithPath($"/api/withdrawls")
+                       .WithPath($"/api/withdrawals")
                        .WithBody(json)
                        .UsingPost()
                        )
@@ -56,11 +56,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             {
                 Content = new StringContent(json, Encoding.UTF8, "application/json")
             };
-            await _testContext.LegalEntitiesFunctions.HttpTriggerHandleWithdrawl.RunHttp(request);
+            await _testContext.LegalEntitiesFunctions.HttpTriggerHandleWithdrawal.RunHttp(request);
         }
 
 
-        [Then(@"the withdrawl request is forwarded to the Employer Incentives API")]
+        [Then(@"the withdrawal request is forwarded to the Employer Incentives API")]
         public void ThenTheEventIsForwardedToTheApi()
         {
             var requests = _testContext
@@ -69,8 +69,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                        .FindLogEntries(
                            Request
                            .Create()
-                           .WithPath($"/api/withdrawls")
-                           .WithBody(JsonConvert.SerializeObject(_withDrawRequest))
+                           .WithPath($"/api/withdrawals")
+                           .WithBody(JsonConvert.SerializeObject(_withdrawRequest))
                            .UsingPost());
 
             requests.AsEnumerable().Count().Should().Be(1);

@@ -5,35 +5,35 @@ using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawls;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawls.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
 {
-    public class WhenHandleWithdrawlRequest
+    public class WhenHandleWithdrawalRequest
     {
-        private HandleWithdrawlRequest _sut;
-        private Mock<IWithdrawlService> _mockWithdrawlService;
+        private HandleWithdrawalRequest _sut;
+        private Mock<IWithdrawalService> _mockWithdrawalService;
         private Fixture _fixture;
 
         [SetUp]
         public void Setup()
         {
             _fixture = new Fixture();
-            _mockWithdrawlService = new Mock<IWithdrawlService>();
+            _mockWithdrawalService = new Mock<IWithdrawalService>();
 
-            _mockWithdrawlService
+            _mockWithdrawalService
                 .Setup(m => m.Withdraw(It.IsAny<WithdrawRequest>()))
                 .Returns(Task.FromResult<IActionResult>(new OkResult()));
 
-            _sut = new HandleWithdrawlRequest(_mockWithdrawlService.Object);
+            _sut = new HandleWithdrawalRequest(_mockWithdrawalService.Object);
         }
 
         [Test]
-        public async Task Then_a_Withdrawl_Request_is_sent_to_the_EmployerIncentivesService()
+        public async Task Then_a_Withdrawal_Request_is_sent_to_the_EmployerIncentivesService()
         {
             // Arrange
             var requestMessage = _fixture.Create<WithdrawRequest>();  
@@ -46,7 +46,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
             await _sut.RunHttp(request);
 
             // Assert
-            _mockWithdrawlService
+            _mockWithdrawalService
                 .Verify(m => m.Withdraw(It.Is<WithdrawRequest>(r =>
                     r.AccountLegalEntityId == requestMessage.AccountLegalEntityId &&
                     r.ULN == requestMessage.ULN &&

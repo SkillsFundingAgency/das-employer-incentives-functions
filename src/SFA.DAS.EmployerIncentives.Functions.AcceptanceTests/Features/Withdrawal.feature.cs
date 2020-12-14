@@ -20,10 +20,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.3.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Withdrawl")]
+    [NUnit.Framework.DescriptionAttribute("Withdrawal")]
     [NUnit.Framework.CategoryAttribute("messageBus")]
     [NUnit.Framework.CategoryAttribute("employerIncentivesApi")]
-    public partial class WithdrawlFeature
+    public partial class WithdrawalFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -32,14 +32,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Features
                 "messageBus",
                 "employerIncentivesApi"};
         
-#line 1 "Withdrawl.feature"
+#line 1 "Withdrawal.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Withdrawl", "\tWhen a support user wants to withdraw an apprenticeship incentive\r\n\tThen the req" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Withdrawal", "\tWhen a support user wants to withdraw an apprenticeship incentive\r\n\tThen the req" +
                     "uest is forwarded to the EmployerIncentives system", ProgrammingLanguage.CSharp, new string[] {
                         "messageBus",
                         "employerIncentivesApi"});
@@ -108,10 +108,10 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 8
- testRunner.When("a withdrawl request is received", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("a withdrawal request is received", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 9
- testRunner.Then("the withdrawl request is forwarded to the Employer Incentives API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the withdrawal request is forwarded to the Employer Incentives API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
