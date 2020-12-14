@@ -43,7 +43,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
             }
             if (request.ServiceRequest.TaskCreatedDate == null)
             {
-                request.ServiceRequest.TaskCreatedDate = DateTime.Now;
+                request.ServiceRequest.TaskCreatedDate = DateTime.UtcNow;
             }
         }
     }
