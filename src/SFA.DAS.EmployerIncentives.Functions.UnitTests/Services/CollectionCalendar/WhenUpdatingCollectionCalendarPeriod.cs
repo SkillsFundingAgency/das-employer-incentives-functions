@@ -2,6 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.CollectionCalendar
 {
     [TestFixture]
-    public class WhenActivatingCollectionCalendarPeriod
+    public class WhenUpdatingCollectionCalendarPeriod
     {
         private CollectionCalendarService _sut;
         private Uri _baseAddress;
@@ -31,9 +32,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.CollectionCale
         [Test]
         public async Task Then_API_is_invoked()
         {
-            await _sut.ActivatePeriod(_fixture.Create<short>(), _fixture.Create<byte>(), _fixture.Create<bool>());
+            await _sut.UpdatePeriod(_fixture.Create<CollectionCalendarUpdateRequest>());
 
-            _testClient.VerifyPatchAsAsync("collectionCalendar/period/active", Times.Once());
+            _testClient.VerifyPatchAsAsync("collectionPeriods", Times.Once());
         }
     }
 }

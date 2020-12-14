@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities
@@ -12,11 +13,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             _client = client;
         }
 
-        public async Task ActivatePeriod(short calendarYear, byte periodNumber, bool active)
+        public async Task UpdatePeriod(CollectionCalendarUpdateRequest updateRequest)
         {
-            var url = "collectionCalendar/period/active";
-            var request = new { CollectionPeriodNumber = periodNumber, CollectionPeriodYear = calendarYear, Active = active };
-            var response = await _client.PatchAsync(url, request.GetStringContent());
+            var url = "collectionPeriods";
+            var response = await _client.PatchAsync(url, updateRequest.GetStringContent());
             response.EnsureSuccessStatusCode();
         }
     }

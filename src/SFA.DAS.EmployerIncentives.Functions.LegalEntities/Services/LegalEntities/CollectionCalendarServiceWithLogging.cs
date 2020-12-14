@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
 using System;
 using System.Threading.Tasks;
 
@@ -17,15 +18,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             _logger = logger;
         }
 
-        public async Task ActivatePeriod(short calendarYear, byte periodNumber, bool active)
+        public async Task UpdatePeriod(CollectionCalendarUpdateRequest collectionCalendarUpdateRequest)
         {
             try
             {
-                _logger.Log(LogLevel.Information, $"Calling ICollectionCalendarService.ActivatePeriod");
+                _logger.Log(LogLevel.Information, $"Calling ICollectionCalendarService.ActivatePeriod for period {collectionCalendarUpdateRequest.CollectionPeriodNumber} calendar year {collectionCalendarUpdateRequest.CollectionPeriodYear} active = {collectionCalendarUpdateRequest.Active} "); 
+                await _collectionCalendarService.UpdatePeriod(collectionCalendarUpdateRequest);
 
-                await _collectionCalendarService.ActivatePeriod(calendarYear, periodNumber, active);
-
-                _logger.Log(LogLevel.Information, $"Called ICollectionCalendarService.ActivatePeriod");
+                _logger.Log(LogLevel.Information, $"Called ICollectionCalendarService.ActivatePeriod for period {collectionCalendarUpdateRequest.CollectionPeriodNumber} calendar year {collectionCalendarUpdateRequest.CollectionPeriodYear} active = {collectionCalendarUpdateRequest.Active} ");
             }
             catch (Exception ex)
             {

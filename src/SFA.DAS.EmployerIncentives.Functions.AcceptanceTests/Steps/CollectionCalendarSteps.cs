@@ -1,15 +1,10 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Moq;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
-using WireMock;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 
@@ -27,14 +22,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         }
 
 
-        [When(@"a collection calendar period activation is triggered")]
-        public async Task WhenACollectionCalendarPeriodActivationIsTriggered()
+        [When(@"a collection calendar period update is triggered")]
+        public async Task WhenACollectionCalendarPeriodUpdateIsTriggered()
         {
             _testContext.EmployerIncentivesApi.MockServer
                .Given(
                    Request
                        .Create()
-                       .WithPath(x => x.Contains("collectionCalendar/period/active"))
+                       .WithPath(x => x.Contains("collectionPeriods"))
                        .UsingPatch())
                .RespondWith(
                     Response.Create()
@@ -44,7 +39,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             var context = new DefaultHttpContext();
             context.Request.QueryString = new QueryString("?CalendarYear=2020&PeriodNumber=1&Active=true");
 
-            await _testContext.LegalEntitiesFunctions.HttpTriggerActivateCollectionCalendarPeriod.RunHttp(context.Request, new TestLogger());
+            await _testContext.LegalEntitiesFunctions.HttpTriggerUpdateCollectionCalendarPeriod.RunHttp(context.Request, new TestLogger());
         }
 
         [Then(@"the Employer Incentives API is called to update the active period")]
@@ -56,7 +51,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .FindLogEntries(
                     Request
                         .Create()
-                        .WithPath(x => x.Contains("/collectionCalendar/period/active"))
+                        .WithPath(x => x.Contains("/collectionPeriods"))
                         .UsingPatch()).AsEnumerable();
 
             requests.Should().HaveCount(1, "Expected request to APIM was not found in Mock server logs");

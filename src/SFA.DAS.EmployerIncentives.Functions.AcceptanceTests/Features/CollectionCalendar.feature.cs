@@ -39,8 +39,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "CollectionCalendar", "\tWhen collection calendar period activation job is triggered\r\n\tThen the active pe" +
-                    "riod is changed to the new period", ProgrammingLanguage.CSharp, new string[] {
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "CollectionCalendar", "\tWhen collection calendar period update job is triggered\r\n\tThen the active period" +
+                    " is changed to the new period", ProgrammingLanguage.CSharp, new string[] {
                         "messageBus",
                         "employerIncentivesApi"});
             testRunner.OnFeatureStart(featureInfo);
@@ -81,12 +81,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A collection calendar period activation is triggered")]
-        public virtual void ACollectionCalendarPeriodActivationIsTriggered()
+        [NUnit.Framework.DescriptionAttribute("A collection calendar period update is triggered")]
+        public virtual void ACollectionCalendarPeriodUpdateIsTriggered()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A collection calendar period activation is triggered", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A collection calendar period update is triggered", null, tagsOfScenario, argumentsOfScenario);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -108,7 +108,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 8
- testRunner.When("a collection calendar period activation is triggered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("a collection calendar period update is triggered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 9
  testRunner.Then("the Employer Incentives API is called to update the active period", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
