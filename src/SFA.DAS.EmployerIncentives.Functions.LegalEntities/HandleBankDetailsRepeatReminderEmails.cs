@@ -14,6 +14,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
     {
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
+        private const int DefaultApplicationCutOffDays = 30;
 
         public HandleBankDetailsRepeatReminderEmails(IEmailService emailService, IConfiguration configuration)
         {
@@ -39,6 +40,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         {
             log.LogInformation("Started bank details repeat reminder emails");
             var cutOffDays = Convert.ToInt32(_configuration["BankDetailsReminderEmailsCutOffDays"]);
+            if (cutOffDays == 0)
+            {
+                cutOffDays = DefaultApplicationCutOffDays;
+            }
             var cutoffDate = DateTime.Today.AddDays(-1 * cutOffDays);
             await _emailService.SendRepeatReminderEmails(cutoffDate);
             log.LogInformation("Completed bank details repeat reminder emails");

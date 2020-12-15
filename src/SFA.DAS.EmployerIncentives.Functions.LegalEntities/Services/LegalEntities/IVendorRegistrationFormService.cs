@@ -1,6 +1,4 @@
-﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities
