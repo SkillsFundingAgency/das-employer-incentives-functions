@@ -39,7 +39,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                         ex.Message, 
                         Example = new  
                         { 
-                            Type = "Employer",
+                            Type = "Employer|Compliance",
                             AccountLegalEntityId = 1234,
                             ULN = 5678,
                             ServiceRequest = new ServiceRequest()

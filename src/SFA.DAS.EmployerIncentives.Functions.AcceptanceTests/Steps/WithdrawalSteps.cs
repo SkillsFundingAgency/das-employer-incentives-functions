@@ -34,8 +34,23 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             };
         }
 
-        [When(@"a withdrawal request is received")]
-        public async Task WhenAWithdrawalRequestIsReceived()
+        [When(@"an employer withdrawal request is received")]
+        public async Task WhenAnEmployerWithdrawalRequestIsReceived()
+        {
+            _withdrawRequest.Type = WithdrawalType.Employer;
+
+            await WhenAWithdrawalRequestIsReceived();
+        }
+
+        [When(@"a compliance withdrawal request is received")]
+        public async Task WhenAComplianceWithdrawalRequestIsReceived()
+        {
+            _withdrawRequest.Type = WithdrawalType.Compliance;
+
+            await WhenAWithdrawalRequestIsReceived();
+        }
+
+        private async Task WhenAWithdrawalRequestIsReceived()
         {
             var json = JsonConvert.SerializeObject(_withdrawRequest);
 
@@ -58,7 +73,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             };
             await _testContext.LegalEntitiesFunctions.HttpTriggerHandleWithdrawal.RunHttp(request);
         }
-
 
         [Then(@"the withdrawal request is forwarded to the Employer Incentives API")]
         public void ThenTheEventIsForwardedToTheApi()
