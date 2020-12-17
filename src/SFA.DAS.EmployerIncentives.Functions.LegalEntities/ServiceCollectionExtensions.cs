@@ -9,6 +9,7 @@ using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using SFA.DAS.Http;
 using System;
 using System.Net.Http;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
@@ -39,7 +40,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.Decorate<IEarningsResilienceCheckService, EarningsResilienceCheckServiceWithLogging>();
 
             serviceCollection.AddClient<IWithdrawalService>((c, s) => new WithdrawalService(c));
-
+            serviceCollection.AddClient<IPausePaymentsService>((c, s) => new PausePaymentsService(c));
 
             return serviceCollection;
         }
