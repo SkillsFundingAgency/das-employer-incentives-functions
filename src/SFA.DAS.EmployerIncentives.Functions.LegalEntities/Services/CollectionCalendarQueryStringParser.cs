@@ -10,7 +10,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services
         public static CollectionCalendarUpdateRequest ParseQueryString(IDictionary<string, string> queryParameters, out string validationMessage)
         {
             var validationErrors = new List<string>();
-            string academicYear = string.Empty;
+            short academicYear = 0;
             byte periodNumber = 0;
             bool active = false;
 
@@ -29,11 +29,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services
 
             if (queryParameters.ContainsKey("AcademicYear"))
             {
-                academicYear = queryParameters["AcademicYear"];
-                int academicYearValue;
-                if (String.IsNullOrWhiteSpace(academicYear) 
-                    || academicYear.Length != 4 
-                    || !int.TryParse(academicYear, out academicYearValue))
+                if (!short.TryParse(queryParameters["AcademicYear"], out academicYear))
                 {
                     validationErrors.Add("Invalid value for AcademicYear");
                 }
