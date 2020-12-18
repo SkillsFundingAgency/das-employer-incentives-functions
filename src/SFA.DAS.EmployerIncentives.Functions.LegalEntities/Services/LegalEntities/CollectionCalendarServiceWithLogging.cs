@@ -22,10 +22,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         {
             try
             {
-                _logger.Log(LogLevel.Information, $"Calling ICollectionCalendarService.ActivatePeriod for period {collectionCalendarUpdateRequest.CollectionPeriodNumber} calendar year {collectionCalendarUpdateRequest.CollectionPeriodYear} active = {collectionCalendarUpdateRequest.Active} "); 
+                _logger.Log(LogLevel.Information, $"Calling ICollectionCalendarService.ActivatePeriod for period {collectionCalendarUpdateRequest.PeriodNumber} calendar year {collectionCalendarUpdateRequest.AcademicYear} active = {collectionCalendarUpdateRequest.Active} "); 
                 await _collectionCalendarService.UpdatePeriod(collectionCalendarUpdateRequest);
 
-                _logger.Log(LogLevel.Information, $"Called ICollectionCalendarService.ActivatePeriod for period {collectionCalendarUpdateRequest.CollectionPeriodNumber} calendar year {collectionCalendarUpdateRequest.CollectionPeriodYear} active = {collectionCalendarUpdateRequest.Active} ");
+                _logger.Log(LogLevel.Information, $"Called ICollectionCalendarService.ActivatePeriod for period {collectionCalendarUpdateRequest.PeriodNumber} calendar year {collectionCalendarUpdateRequest.AcademicYear} active = {collectionCalendarUpdateRequest.Active} ");
             }
             catch (Exception ex)
             {
