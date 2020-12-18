@@ -37,7 +37,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                         .WithHeader("Content-Type", "application/json"));
 
             var context = new DefaultHttpContext();
-            context.Request.QueryString = new QueryString("?CalendarYear=2020&PeriodNumber=1&Active=true");
+            context.Request.QueryString = new QueryString("?AcademicYear=2021&PeriodNumber=1&Active=true");
 
             await _testContext.LegalEntitiesFunctions.HttpTriggerUpdateCollectionCalendarPeriod.RunHttp(context.Request, new TestLogger());
         }

@@ -16,7 +16,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.CollectionCale
         public void Arrange()
         {
             _queryStringDictionary = new Dictionary<string, string>();
-            _queryStringDictionary.Add("CalendarYear", "2020");
+            _queryStringDictionary.Add("AcademicYear", "2021");
             _queryStringDictionary.Add("PeriodNumber", "1");
             _queryStringDictionary.Add("Active", "true");
         }
@@ -31,13 +31,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.CollectionCale
         }
 
         [Test]
-        public void Then_an_error_is_returned_if_calendar_year_missing()
+        public void Then_an_error_is_returned_if_academic_year_missing()
         {
-            _queryStringDictionary.Remove("CalendarYear");
+            _queryStringDictionary.Remove("AcademicYear");
             var requestObject = CollectionCalendarQueryStringParser.ParseQueryString(_queryStringDictionary, out _validationMessage);
 
             requestObject.Should().BeNull();
-            _validationMessage.Should().Contain("CalendarYear not set");
+            _validationMessage.Should().Contain("AcademicYear not set");
         }
 
         [TestCase("202A")]
@@ -45,13 +45,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.CollectionCale
         [TestCase("ABCD")]
         [TestCase("")]
         [TestCase(null)]
-        public void Then_an_error_is_returned_if_calendar_year_invalid(string calendarYearValue)
+        public void Then_an_error_is_returned_if_academic_year_invalid(string academicYearValue)
         {
-            _queryStringDictionary["CalendarYear"] = calendarYearValue;
+            _queryStringDictionary["AcademicYear"] = academicYearValue;
             var requestObject = CollectionCalendarQueryStringParser.ParseQueryString(_queryStringDictionary, out _validationMessage);
 
             requestObject.Should().BeNull();
-            _validationMessage.Should().Contain("Invalid value for CalendarYear");
+            _validationMessage.Should().Contain("Invalid value for AcademicYear");
         }
 
         [Test]

@@ -1,4 +1,5 @@
 ﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,13 +10,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services
         public static CollectionCalendarUpdateRequest ParseQueryString(IDictionary<string, string> queryParameters, out string validationMessage)
         {
             var validationErrors = new List<string>();
-            short calendarYear = 0;
+            short academicYear = 0;
             byte periodNumber = 0;
             bool active = false;
 
-            if (!queryParameters.ContainsKey("CalendarYear"))
+            if (!queryParameters.ContainsKey("AcademicYear"))
             {
-                validationErrors.Add("CalendarYear not set");
+                validationErrors.Add("AcademicYear not set");
             }
             if (!queryParameters.ContainsKey("PeriodNumber"))
             {
@@ -26,12 +27,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services
                 validationErrors.Add("Active not set");
             }
 
-            if (queryParameters.ContainsKey("CalendarYear"))
+            if (queryParameters.ContainsKey("AcademicYear"))
             {
-                var validCalendarYear = short.TryParse(queryParameters["CalendarYear"], out calendarYear);
-                if (!validCalendarYear)
+                if (!short.TryParse(queryParameters["AcademicYear"], out academicYear))
                 {
-                    validationErrors.Add("Invalid value for CalendarYear");
+                    validationErrors.Add("Invalid value for AcademicYear");
                 }
             }
 
@@ -41,6 +41,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services
                 if (!validPeriodNumber)
                 {
                     validationErrors.Add("Invalid value for PeriodNumber");
+                }
+                if (periodNumber < 1 || periodNumber > 12)
+                {
+                    validationErrors.Add("Period number should be between 1 and 12");
                 }
             }
 
@@ -60,7 +64,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services
             }
 
             validationMessage = string.Empty;
-            return new CollectionCalendarUpdateRequest(calendarYear, periodNumber, active);
+            return new CollectionCalendarUpdateRequest(academicYear, periodNumber, active);
         }
     }
 }

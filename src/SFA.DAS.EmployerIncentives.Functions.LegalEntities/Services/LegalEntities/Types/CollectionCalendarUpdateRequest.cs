@@ -3,14 +3,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
 {
     public class CollectionCalendarUpdateRequest
     {
-        public short CollectionPeriodYear { get; }
-        public byte CollectionPeriodNumber { get; }
+        public short AcademicYear { get; }
+        public byte PeriodNumber { get; }
         public bool Active { get; }
 
-        public CollectionCalendarUpdateRequest(short calendarYear, byte periodNumber, bool active)
+        public CollectionCalendarUpdateRequest(short academicYear, byte periodNumber, bool active)
         {
-            CollectionPeriodYear = calendarYear;
-            CollectionPeriodNumber = periodNumber;
+            AcademicYear = academicYear;
+            PeriodNumber = periodNumber;
             Active = active;
         }
     }
