@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Newtonsoft.Json;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
@@ -7,8 +8,10 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types;
 using TechTalk.SpecFlow;
+using WireMock;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 
@@ -21,6 +24,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         private readonly TestContext _testContext;
         private readonly Fixture _fixture;
         private readonly PausePaymentsRequest _pausePaymentRequest;
+        private IActionResult _response;
 
         public SetPausePaymentsSteps(TestContext testContext) : base(testContext)
         {
@@ -68,11 +72,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                    .WithStatusCode(HttpStatusCode.OK)
                    .WithHeader("Content-Type", "application/json"));
 
-            var request = new HttpRequestMessage(HttpMethod.Patch, "")
+            var request = new HttpRequestMessage(HttpMethod.Post, "")
             {
                 Content = new StringContent(json, Encoding.UTF8, "application/json")
             };
-            await _testContext.LegalEntitiesFunctions.HttpTriggerHandlePausePayments.RunHttp(request);
+            _response = await _testContext.LegalEntitiesFunctions.HttpTriggerHandlePausePayments.RunHttp(request);
         }
 
         [Then(@"the set pause payments status request is forwarded to the Employer Incentives API")]
@@ -90,5 +94,45 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
 
             requests.AsEnumerable().Count().Should().Be(1);
         }
-    }    
+
+        [When(@"a pause request is recieved but no matching apprenticeship incentive is found")]
+        public async Task WhenAPauseRequestIsRecievedButNoMatchingApprenticeshipIncentiveIsFound()
+        {
+            _pausePaymentRequest.Action = PausePaymentsAction.Pause;
+            var json = JsonConvert.SerializeObject(_pausePaymentRequest);
+
+            _testContext.EmployerIncentivesApi.MockServer
+                .Given(
+                    Request
+                        .Create()
+                        .WithPath($"/api/pause-payments")
+                        .WithBody(json)
+                        .UsingPost()
+                )
+                .RespondWith(
+                    Response.Create(new ResponseMessage())
+                        .WithStatusCode(HttpStatusCode.NotFound)
+                        .WithHeader("Content-Type", "application/json")
+                        .WithBody(@"{""X"":123}"));
+
+            var request = new HttpRequestMessage(HttpMethod.Post, "")
+            {
+                Content = new StringContent(json, Encoding.UTF8, "application/json")
+            };
+            _response = await _testContext.LegalEntitiesFunctions.HttpTriggerHandlePausePayments.RunHttp(request);
+        }
+
+
+        [Then(@"the user receives a Not Found response")]
+        public void ThenTheUserReceivesANotFoundResponse()
+        {
+            var result = (_response as ContentResult);
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            result.Content.Contains("X");
+            result.Content.Contains("123");
+
+        }
+
+    }
 }

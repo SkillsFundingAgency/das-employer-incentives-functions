@@ -27,34 +27,46 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         {
             try
             {
-                var pausePaymentsRequest = JsonConvert.DeserializeObject<PausePaymentsRequest>(await request.Content.ReadAsStringAsync());
+                var pausePaymentsRequest =
+                    JsonConvert.DeserializeObject<PausePaymentsRequest>(await request.Content.ReadAsStringAsync());
                 await _pausePaymentsService.SetPauseStatus(pausePaymentsRequest);
             }
-            catch(ArgumentException ex)
+            catch (ArgumentException ex)
             {
                 return new ContentResult()
                 {
-                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    StatusCode = (int) HttpStatusCode.BadRequest,
                     ContentType = "application/json",
-                    Content = JsonConvert.SerializeObject(new { 
-                        ex.ParamName, 
-                        ex.Message, 
-                        Example = new  
-                        { 
+                    Content = JsonConvert.SerializeObject(new
+                    {
+                        ex.ParamName,
+                        ex.Message,
+                        Example = new
+                        {
                             Action = "Pause|Resume",
                             AccountLegalEntityId = 1234,
                             ULN = 5678,
                             ServiceRequest = new ServiceRequest()
                             {
-                                 TaskId = "taskId1234",
-                                 DecisionReference = "decisionReference123",
-                                 TaskCreatedDate = DateTime.UtcNow
+                                TaskId = "taskId1234",
+                                DecisionReference = "decisionReference123",
+                                TaskCreatedDate = DateTime.UtcNow
                             }
                         }
                     })
                 };
             }
-            catch(Exception ex)
+            catch (PausePaymentServiceException ex)
+            {
+                return new ContentResult()
+                {
+                    StatusCode = (int)ex.HttpStatusCode,
+                    ContentType = "application/json",
+                    Content = ex.Content
+                };
+
+            }
+            catch (Exception ex)
             {
                 return new ContentResult()
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types;
@@ -21,8 +22,28 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayme
 
             var response = await _client.PostAsJsonAsync("pause-payments", request);
 
+            if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                throw new PausePaymentServiceException(response.StatusCode, await GetContentAsString(response));
+            }
+
             response.EnsureSuccessStatusCode();
         }
+
+        public async Task<string> GetContentAsString(HttpResponseMessage response)
+        {
+            string content = null;
+            try
+            {
+                content = await response.Content.ReadAsStringAsync();
+            }
+            catch
+            {
+                // Do nothing
+            }
+            return content;
+        }
+
 
         private void EnsureRequestIsValid(PausePaymentsRequest request)
         {

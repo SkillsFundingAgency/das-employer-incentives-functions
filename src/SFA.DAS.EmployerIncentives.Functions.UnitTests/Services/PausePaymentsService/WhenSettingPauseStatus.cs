@@ -5,6 +5,7 @@ using AutoFixture;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types;
 
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PausePaymentsService
@@ -40,6 +41,21 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PausePaymentsS
 
             // Assert
             _testClient.VerifyPostAsAsync($"pause-payments", pausePaymentsRequest, Times.Once());
+        }
+
+        [TestCase(HttpStatusCode.NotFound)]
+        [TestCase(HttpStatusCode.BadRequest)]
+        public void Then_a_PausePaymentServiceException_is_thrown_when_the_client_returns(HttpStatusCode clientResponse)
+        {
+            // Arrange
+            var pausePaymentsRequest = BuildValidPausePaymentsRequest();
+            _testClient.SetUpPostAsAsync(clientResponse);
+
+            // Act
+            Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
+
+            // Assert
+            result.Should().Throw<PausePaymentServiceException>();
         }
 
         [Test]
