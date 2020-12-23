@@ -32,6 +32,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         public HandleRefreshLegalEntitiesRequest HttpTriggerRefreshLegalEntities { get; set; }
         public RefreshVendorRegistrationCaseStatus TimerTriggerRefreshVendorRegistrationCaseStatus { get; set; }
         public HandleEarningsResilienceCheck TimerTriggerEarningsResilienceCheck { get; set; }
+        public HandleUpdateCollectionCalendarPeriod HttpTriggerUpdateCollectionCalendarPeriod { get; set; }
         public HandleWithdrawalRequest HttpTriggerHandleWithdrawal { get; set; }
         public HandlePausePaymentsRequest HttpTriggerHandlePausePayments { get; set; }
 
@@ -115,6 +116,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
             TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVrfCaseRefreshService)) as IVrfCaseRefreshService);
             TimerTriggerEarningsResilienceCheck = new HandleEarningsResilienceCheck(host.Services.GetService(typeof(IEarningsResilienceCheckService)) as IEarningsResilienceCheckService);
+            HttpTriggerUpdateCollectionCalendarPeriod = new HandleUpdateCollectionCalendarPeriod(host.Services.GetService(typeof(ICollectionCalendarService)) as ICollectionCalendarService);
             HttpTriggerHandleWithdrawal = new HandleWithdrawalRequest(host.Services.GetService(typeof(IWithdrawalService)) as IWithdrawalService);
             HttpTriggerHandlePausePayments = new HandlePausePaymentsRequest(host.Services.GetService(typeof(IPausePaymentsService)) as IPausePaymentsService);
 
