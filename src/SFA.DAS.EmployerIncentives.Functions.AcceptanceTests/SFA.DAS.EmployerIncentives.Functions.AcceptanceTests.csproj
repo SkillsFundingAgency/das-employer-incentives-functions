@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <SpecFlowFeatureFiles Remove="%2a%2a\%2a.feature" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.13.0" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
@@ -47,13 +51,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <SpecFlowFeatureFiles Include="Features\CollectionCalendar.feature">
+      <LastGenOutput>CollectionCalendar.feature.cs</LastGenOutput>
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+    </SpecFlowFeatureFiles>
     <SpecFlowFeatureFiles Include="Features\EarningsResilienceCheck.feature">
       <LastGenOutput>EarningsResilienceCheck.feature.cs</LastGenOutput>
       <Generator>SpecFlowSingleFileGenerator</Generator>
     </SpecFlowFeatureFiles>
     <SpecFlowFeatureFiles Include="Features\VendorRegistrationForm.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>EarningsResilienceCheck.feature.cs</LastGenOutput>
+      <LastGenOutput>VendorRegistrationForm.feature.cs</LastGenOutput>
     </SpecFlowFeatureFiles>
   </ItemGroup>
 
@@ -66,10 +74,10 @@
     <Compile Update="Features\EmployerVendorId.feature.cs">
       <DependentUpon>EmployerVendorId.feature</DependentUpon>
     </Compile>
-    <Compile Update="Features\EarningsResilienceCheck.feature.cs">
+    <Compile Update="Features\CollectionCalendar.feature.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>EarningsResilienceCheck.feature</DependentUpon>
+      <DependentUpon>CollectionCalendar.feature</DependentUpon>
     </Compile>
   </ItemGroup>
 
