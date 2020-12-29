@@ -27,7 +27,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             _fixture = new Fixture();
             _withdrawRequest = new WithdrawRequest
             {
-                Type = WithdrawalType.Employer,
+                WithdrawalType = WithdrawalType.Employer,
                 AccountLegalEntityId = _fixture.Create<long>(),
                 ULN = _fixture.Create<long>(),
                 ServiceRequest = _fixture.Create<ServiceRequest>()
@@ -37,7 +37,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         [When(@"an employer withdrawal request is received")]
         public async Task WhenAnEmployerWithdrawalRequestIsReceived()
         {
-            _withdrawRequest.Type = WithdrawalType.Employer;
+            _withdrawRequest.WithdrawalType = WithdrawalType.Employer;
 
             await WhenAWithdrawalRequestIsReceived();
         }
@@ -45,7 +45,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         [When(@"a compliance withdrawal request is received")]
         public async Task WhenAComplianceWithdrawalRequestIsReceived()
         {
-            _withdrawRequest.Type = WithdrawalType.Compliance;
+            _withdrawRequest.WithdrawalType = WithdrawalType.Compliance;
 
             await WhenAWithdrawalRequestIsReceived();
         }

@@ -34,7 +34,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
         public async Task Then_the_request_is_forwarded_to_the_client()
         {
             // Arrange
-            var withdrawRequest = _fixture.Build<WithdrawRequest>().With(r => r.Type, WithdrawalType.Employer).Create();
+            var withdrawRequest = _fixture.Build<WithdrawRequest>().With(r => r.WithdrawalType, WithdrawalType.Employer).Create();
 
             // Act
             await _sut.Withdraw(withdrawRequest);
@@ -47,7 +47,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
         public void Then_an_exception_is_thrown_when_the_AccountLegalEntityId_is_not_set()
         {
             // Arrange
-            var withdrawRequest = _fixture.Build<WithdrawRequest>().With(r => r.Type, WithdrawalType.Employer).Create();
+            var withdrawRequest = _fixture.Build<WithdrawRequest>().With(r => r.WithdrawalType, WithdrawalType.Employer).Create();
             withdrawRequest.AccountLegalEntityId = default;
 
             // Act
@@ -62,7 +62,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
         {
             // Arrange
             var withdrawRequest = _fixture.Create<WithdrawRequest>();
-            withdrawRequest.Type = default;
+            withdrawRequest.WithdrawalType = default;
 
             // Act
             Func<Task> result = async () => await _sut.Withdraw(withdrawRequest);
@@ -75,7 +75,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
         public void Then_an_exception_is_thrown_when_the_ULN_is_not_set()
         {
             // Arrange
-            var withdrawRequest = _fixture.Build<WithdrawRequest>().With(r => r.Type, WithdrawalType.Employer).Create();
+            var withdrawRequest = _fixture.Build<WithdrawRequest>().With(r => r.WithdrawalType, WithdrawalType.Employer).Create();
             withdrawRequest.ULN = default;
 
             // Act
@@ -89,7 +89,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
         public async Task Then_the_request_is_forwarded_to_the_client_with_the_task_date_set_when_service_request_not_set()
         {
             // Arrange
-            var withdrawRequest = _fixture.Build<WithdrawRequest>().With(r => r.Type, WithdrawalType.Employer).Create();
+            var withdrawRequest = _fixture.Build<WithdrawRequest>().With(r => r.WithdrawalType, WithdrawalType.Employer).Create();
             withdrawRequest.ServiceRequest = null;
 
             // Act

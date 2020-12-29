@@ -25,9 +25,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
 
         private void EnsureRequestIsvalid(WithdrawRequest request)
         {
-            if (request.Type == WithdrawalType.NotSet)
+            if (request.WithdrawalType == WithdrawalType.NotSet)
             {
-                throw new ArgumentException("Type not set or invalid", nameof(request.Type));
+                throw new ArgumentException("Type not set or invalid", nameof(request.WithdrawalType));
             }
             if (request.AccountLegalEntityId == default)
             {

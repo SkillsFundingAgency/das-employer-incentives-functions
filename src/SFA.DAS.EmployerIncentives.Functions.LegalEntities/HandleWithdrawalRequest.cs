@@ -38,8 +38,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                         ex.ParamName, 
                         ex.Message, 
                         Example = new  
-                        { 
-                            Type = "Employer|Compliance",
+                        {
+                            WithdrawalType = "Employer|Compliance",
                             AccountLegalEntityId = 1234,
                             ULN = 5678,
                             ServiceRequest = new ServiceRequest()
