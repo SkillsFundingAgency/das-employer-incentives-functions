@@ -68,7 +68,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await _sut.Withdraw(withdrawRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Type not set or invalid (Parameter 'Type')");
+            result.Should().Throw<ArgumentException>().WithMessage("WithdrawalType not set or invalid (Parameter 'WithdrawalType')");
         }
 
         [Test]
