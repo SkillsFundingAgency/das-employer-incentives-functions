@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <SpecFlowFeatureFiles Remove="%2a%2a\%2a.feature" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.13.0" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
@@ -35,50 +31,5 @@
     <ProjectReference Include="..\SFA.DAS.EmployerIncentives.Infrastructure\SFA.DAS.EmployerIncentives.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <SpecFlowFeatureFiles Update="Features\LegalEntities.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>LegalEntities.feature.cs</LastGenOutput>
-    </SpecFlowFeatureFiles>
-    <SpecFlowFeatureFiles Update="Features\EmployerVendorId.feature">
-      <Visible>$(UsingMicrosoftNETSdk)</Visible>
-      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-    </SpecFlowFeatureFiles>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Features\LegalEntities.feature" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <SpecFlowFeatureFiles Include="Features\CollectionCalendar.feature">
-      <LastGenOutput>CollectionCalendar.feature.cs</LastGenOutput>
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-    </SpecFlowFeatureFiles>
-    <SpecFlowFeatureFiles Include="Features\EarningsResilienceCheck.feature">
-      <LastGenOutput>EarningsResilienceCheck.feature.cs</LastGenOutput>
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-    </SpecFlowFeatureFiles>
-    <SpecFlowFeatureFiles Include="Features\VendorRegistrationForm.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>VendorRegistrationForm.feature.cs</LastGenOutput>
-    </SpecFlowFeatureFiles>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Features\LegalEntities.feature.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>LegalEntities.feature</DependentUpon>
-    </Compile>
-    <Compile Update="Features\EmployerVendorId.feature.cs">
-      <DependentUpon>EmployerVendorId.feature</DependentUpon>
-    </Compile>
-    <Compile Update="Features\CollectionCalendar.feature.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CollectionCalendar.feature</DependentUpon>
-    </Compile>
-  </ItemGroup>
 
 </Project>
