@@ -14,7 +14,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
         private LegalEntitiesService _sut;
         private Uri _baseAddress;
         private TestHttpClient _testClient;
-        private Mock<IJobsService> _mockJobsService;
         private Fixture _fixture;
 
         [SetUp]
@@ -25,29 +24,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
             _baseAddress = new Uri(@"http://localhost");
             _testClient = new TestHttpClient(_baseAddress);
 
-            _mockJobsService = new Mock<IJobsService>();
-
             _testClient.SetUpPutAsAsync(HttpStatusCode.OK);
 
-            _sut = new LegalEntitiesService(_testClient, _mockJobsService.Object);
+            _sut = new LegalEntitiesService(_testClient);
         }
 
         [Test]
-        public async Task Then_the_default_job_request_is_forwarded_to_the_jobs_service()
-        {
-            // Arrange
-            var defaultPageNumber = 1;
-            var defaultPageSize = 200;
-
-            // Act
-            await _sut.Refresh();
-
-            // Assert
-            _mockJobsService.Verify(m => m.RefreshLegalEntities(defaultPageNumber, defaultPageSize));
-        }
-
-        [Test]
-        public async Task Then_the_job_request_is_forwarded_to_the_jobs_service()
+        public async Task Then_the_request_is_forwarded_to_the_client()
         {
             // Arrange
             var pageNumber = _fixture.Create<int>();
@@ -57,7 +40,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
             await _sut.Refresh(pageNumber, pageSize);
 
             // Assert
-            _mockJobsService.Verify(m => m.RefreshLegalEntities(pageNumber, pageSize));
+            _testClient.VerifyPutAsAsync($"legalentities/refresh?pageNumber={pageNumber}&pageSize={pageSize}", Times.Once());
         }
+
     }
 }

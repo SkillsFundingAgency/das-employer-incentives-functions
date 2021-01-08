@@ -104,8 +104,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                .Given(
                        Request
                        .Create()
-                       .WithPath($"/api/jobs")
-                       .WithBody(JsonConvert.SerializeObject(jobRequest))
+                       .WithPath(x => x.Contains("legalentities/refresh"))
                        .UsingPut()
                        )
                    .RespondWith(
@@ -293,9 +292,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                        .FindLogEntries(
                            Request
                            .Create()
-                           .WithPath($"/api/jobs")
-                            .WithBody(JsonConvert.SerializeObject(jobRequest))
-                            );
+                           .WithPath(x => x.Contains("legalentities/refresh")));
 
             requests.AsEnumerable().Count().Should().Be(1);
         }

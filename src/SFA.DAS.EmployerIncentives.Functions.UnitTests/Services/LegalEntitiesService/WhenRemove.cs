@@ -1,6 +1,5 @@
 ﻿using Moq;
 using NUnit.Framework;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using System;
 using System.Net;
@@ -15,7 +14,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
         private LegalEntitiesService _sut;
         private Uri _baseAddress;
         private TestHttpClient _testClient;
-        private Mock<IJobsService> _mockJobsService;
         private Fixture _fixture;
 
         [SetUp]
@@ -26,11 +24,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
             _baseAddress = new Uri(@"http://localhost");
             _testClient = new TestHttpClient(_baseAddress);
 
-            _mockJobsService = new Mock<IJobsService>();
-
             _testClient.SetUpDeleteAsAsync(HttpStatusCode.OK);
 
-            _sut = new LegalEntitiesService(_testClient, _mockJobsService.Object);
+            _sut = new LegalEntitiesService(_testClient);
         }
 
         [Test]
