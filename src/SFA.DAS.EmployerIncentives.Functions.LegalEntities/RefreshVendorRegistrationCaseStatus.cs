@@ -6,18 +6,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
     public class RefreshVendorRegistrationCaseStatus
     {
-        private readonly IVrfCaseRefreshService _vrfCaseRefreshService;
+        private readonly IVendorRegistrationFormService _vrfCaseRefreshService;
 
-        public RefreshVendorRegistrationCaseStatus(IVrfCaseRefreshService vrfCaseRefreshService)
+        public RefreshVendorRegistrationCaseStatus(IVendorRegistrationFormService vrfCaseRefreshService)
         {
             _vrfCaseRefreshService = vrfCaseRefreshService;
         }
 
         [FunctionName("RefreshVendorRegistrationCaseStatus")]
-        public async Task Run([TimerTrigger("%RefreshVendorRegistrationCaseStatusTriggerTime%", RunOnStartup = false)] TimerInfo myTimer)
+        public async Task Run([TimerTrigger("%RefreshVendorRegistrationCaseStatusTriggerTime%", RunOnStartup = true)] TimerInfo myTimer)
         {
-
-            await _vrfCaseRefreshService.RefreshStatuses();
+            await _vrfCaseRefreshService.Refresh();
         }
     }
 }

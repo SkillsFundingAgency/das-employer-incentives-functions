@@ -7,6 +7,7 @@ using NServiceBus.Transport;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals;
 using SFA.DAS.EmployerIncentives.Infrastructure;
 using SFA.DAS.Testing.AzureStorageEmulator;
@@ -14,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
 using Config = SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 
 namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
@@ -114,7 +114,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
-            TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVrfCaseRefreshService)) as IVrfCaseRefreshService);
+            TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService);
             TimerTriggerEarningsResilienceCheck = new HandleEarningsResilienceCheck(host.Services.GetService(typeof(IEarningsResilienceCheckService)) as IEarningsResilienceCheckService);
             HttpTriggerUpdateCollectionCalendarPeriod = new HandleUpdateCollectionCalendarPeriod(host.Services.GetService(typeof(ICollectionCalendarService)) as ICollectionCalendarService);
             HttpTriggerHandleWithdrawal = new HandleWithdrawalRequest(host.Services.GetService(typeof(IWithdrawalService)) as IWithdrawalService);

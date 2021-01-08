@@ -1,7 +1,4 @@
 ﻿using FluentAssertions;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
-using SFA.DAS.EmployerIncentives.Infrastructure.Extensions;
-using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -17,8 +14,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
     public class VendorRegistrationFormSteps : StepsBase
     {
         private readonly TestContext _testContext;
-        private readonly string _lastCaseUpdateDateTime = "2020-10-16T10:00:00";
-        private readonly IVrfCaseRefreshRepository _repository = new VrfCaseRefreshRepository("UseDevelopmentStorage=true", "LOCAL");
 
         public VendorRegistrationFormSteps(TestContext testContext) : base(testContext)
         {
@@ -28,19 +23,15 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         [When(@"a VRF case status update job is triggered")]
         public async Task WhenARequestToUpdateVrfCaseStatusesForLegalEntitiesIsReceived()
         {
-            var lastRunDate = await _repository.GetLastRunDateTime();
-
             _testContext.EmployerIncentivesApi.MockServer
                 .Given(
                     Request
                         .Create()
-                        .WithPath("/api/legalentities/vendorregistrationform/status")
-                         .WithParam("from", $"{lastRunDate.ToIsoDateTime()}")
+                        .WithPath("/api/legalentities/vendorregistrationform")
                         .UsingPatch())
                 .RespondWith(
                     Response.Create(new ResponseMessage())
                         .WithStatusCode(HttpStatusCode.OK)
-                        .WithBody($"\"{_lastCaseUpdateDateTime}\"")
                         .WithHeader("Content-Type", "application/json"));
 
             await _testContext.LegalEntitiesFunctions.TimerTriggerRefreshVendorRegistrationCaseStatus.Run(null);
@@ -55,20 +46,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .FindLogEntries(
                     Request
                         .Create()
-                        .WithPath(x => x.Contains("legalentities/vendorregistrationform/status"))
-                        .WithParam("from")
+                        .WithPath(x => x.Contains("legalentities/vendorregistrationform"))
                         .UsingPatch()).AsEnumerable();
 
             requests.Should().HaveCount(1, "expected request to APIM was not found in Mock server logs");
         }
-
-        [Then(@"last job run date time is updated")]
-        public async Task ThenLastUpdateDateIsStored()
-        {
-            var lastRunDate = await _repository.GetLastRunDateTime();
-
-            lastRunDate.Should().Be(DateTime.Parse(_lastCaseUpdateDateTime));
-        }
-
     }
 }

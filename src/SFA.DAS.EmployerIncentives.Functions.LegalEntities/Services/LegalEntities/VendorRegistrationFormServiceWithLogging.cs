@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using SFA.DAS.EmployerIncentives.Infrastructure.Extensions;
 using System;
 using System.Threading.Tasks;
 
@@ -18,17 +17,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             _logger = logger;
         }
 
-        public async Task<DateTime> Update(DateTime fromDateTime)
+        public async Task Refresh()
         {
             try
             {
-                _logger.LogInformation($"[VRF Refresh] Calling IVendorRegistrationFormService.Update with parameters: [dateTimeFrom={fromDateTime.ToIsoDateTime()}]", fromDateTime);
+                _logger.LogInformation("[VRF Refresh] Calling VendorRegistrationFormService.Refresh");
 
-                return await _vendorRegistrationFormService.Update(fromDateTime);
+                await _vendorRegistrationFormService.Refresh();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"[VRF Refresh] Error calling IVendorRegistrationFormService.Update with parameters: [dateTimeFrom={fromDateTime.ToIsoDateTime()}]", fromDateTime);
+                _logger.LogError(ex, "[VRF Refresh] Error calling VendorRegistrationFormService.Refresh");
 
                 throw;
             }
