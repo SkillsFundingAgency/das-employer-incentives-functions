@@ -14,7 +14,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         }
 
         [FunctionName("RefreshVendorRegistrationCaseStatus")]
-        public async Task Run([TimerTrigger("%RefreshVendorRegistrationCaseStatusTriggerTime%", RunOnStartup = true)] TimerInfo myTimer)
+        public async Task Run([TimerTrigger("%RefreshVendorRegistrationCaseStatusTriggerTime%", RunOnStartup = false)] TimerInfo myTimer)
         {
             await _vrfCaseRefreshService.Refresh();
         }
