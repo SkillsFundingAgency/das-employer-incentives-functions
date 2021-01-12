@@ -28,7 +28,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .Given(
                     Request
                         .Create()
-                        .WithPath("email/bank-details-repeat-reminders")
+                        .WithPath(x => x.Contains("email/bank-details-repeat-reminders"))
                         .UsingPost())
                 .RespondWith(
                     Response.Create(new ResponseMessage())
