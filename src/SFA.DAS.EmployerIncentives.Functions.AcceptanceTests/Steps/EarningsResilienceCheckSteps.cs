@@ -29,7 +29,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .Given(
                     Request
                         .Create()
-                        .WithPath("/earnings-resilience-check")
+                        .WithPath(x => x.Contains("earnings-resilience-check"))
                         .UsingPost())
                 .RespondWith(
                     Response.Create(new ResponseMessage())
