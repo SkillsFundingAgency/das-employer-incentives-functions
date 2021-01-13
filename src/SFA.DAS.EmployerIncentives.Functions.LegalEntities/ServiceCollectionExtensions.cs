@@ -39,6 +39,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.AddClient<IEarningsResilienceCheckService>((c, s) => new EarningsResilienceCheckService(c));
             serviceCollection.Decorate<IEarningsResilienceCheckService, EarningsResilienceCheckServiceWithLogging>();
 
+            serviceCollection.AddClient<IEmailService>((c, s) => new EmailService(c));
+            serviceCollection.Decorate<IEmailService, EmailServiceWithLogging>();
             serviceCollection.AddClient<ICollectionCalendarService>((c, s) => new CollectionCalendarService(c));
             serviceCollection.Decorate<ICollectionCalendarService, CollectionCalendarServiceWithLogging>();
 
