@@ -36,6 +36,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         public HandleWithdrawalRequest HttpTriggerHandleWithdrawal { get; set; }
         public HandlePausePaymentsRequest HttpTriggerHandlePausePayments { get; set; }
 
+        public HandleBankDetailsRepeatReminderEmails TimerTriggerBankDetailsRepeatReminderEmails { get; set; }
         public TestLegalEntitiesFunctions(TestContext testContext)
         {
             _testContext = testContext;
@@ -50,7 +51,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                 { "ConfigurationStorageConnectionString", "UseDevelopmentStorage=true" },
                 { "ConfigNames", "SFA.DAS.EmployerIncentives.Functions" },
                 { "NServiceBusConnectionString", "UseDevelopmentStorage=true" },
-                { "AzureWebJobsStorage", "UseDevelopmentStorage=true" }
+                { "AzureWebJobsStorage", "UseDevelopmentStorage=true" },
+                { "BankDetailsReminderEmailsCutOffDays", "30" }
             };
         }
 
@@ -111,11 +113,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
             hostBuilder.UseEnvironment("LOCAL");
             host = await hostBuilder.StartAsync();
-
+            
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
             TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVendorRegistrationFormService)) as IVendorRegistrationFormService);
             TimerTriggerEarningsResilienceCheck = new HandleEarningsResilienceCheck(host.Services.GetService(typeof(IEarningsResilienceCheckService)) as IEarningsResilienceCheckService);
+            TimerTriggerBankDetailsRepeatReminderEmails = new HandleBankDetailsRepeatReminderEmails(host.Services.GetService(typeof(IEmailService)) as IEmailService, host.Services.GetService(typeof(IConfiguration)) as IConfiguration);
             HttpTriggerUpdateCollectionCalendarPeriod = new HandleUpdateCollectionCalendarPeriod(host.Services.GetService(typeof(ICollectionCalendarService)) as ICollectionCalendarService);
             HttpTriggerHandleWithdrawal = new HandleWithdrawalRequest(host.Services.GetService(typeof(IWithdrawalService)) as IWithdrawalService);
             HttpTriggerHandlePausePayments = new HandlePausePaymentsRequest(host.Services.GetService(typeof(IPausePaymentsService)) as IPausePaymentsService);
