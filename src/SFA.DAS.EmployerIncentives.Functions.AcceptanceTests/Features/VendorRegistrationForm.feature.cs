@@ -21,16 +21,16 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Features
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("VendorRegistrationForm")]
-    [NUnit.Framework.CategoryAttribute("messageBus")]
     [NUnit.Framework.CategoryAttribute("employerIncentivesApi")]
+    [NUnit.Framework.CategoryAttribute("messageBus")]
     public partial class VendorRegistrationFormFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = new string[] {
-                "messageBus",
-                "employerIncentivesApi"};
+                "employerIncentivesApi",
+                "messageBus"};
         
 #line 1 "VendorRegistrationForm.feature"
 #line hidden
@@ -41,8 +41,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Features
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "VendorRegistrationForm", "\tWhen VendorRegistrationForm (VRF) status update job is triggered\r\n\tThen affected" +
                     " legal entities are updated in the Employer Incentives system", ProgrammingLanguage.CSharp, new string[] {
-                        "messageBus",
-                        "employerIncentivesApi"});
+                        "employerIncentivesApi",
+                        "messageBus"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -112,9 +112,6 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
 #line 9
  testRunner.Then("the Employer Incentives API is called to update Legal Entities", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 10
- testRunner.And("last job run date time is updated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
