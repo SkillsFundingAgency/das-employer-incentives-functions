@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities
 {
@@ -23,11 +23,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
         {
             var from = await _repository.GetLastRunDateTime();
 
-            _logger.LogInformation($"Updating vrf case status from {from}");
+            _logger.LogInformation("[VRF Refresh] Updating vrf case status from {from}", from);
 
             var lastCaseUpdate = await _vrfService.Update(from);
 
-            _logger.LogInformation($"Updating vrf case status last run date time to {lastCaseUpdate}");
+            _logger.LogInformation("[VRF Refresh] Updating vrf case status last run date time to {lastCaseUpdate}", lastCaseUpdate);
 
             await _repository.UpdateLastRunDateTime(lastCaseUpdate);
         }

@@ -2,8 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NLog.Extensions.Logging;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using SFA.DAS.Http;
 using System;
@@ -22,7 +25,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 {
                     var settings = c.GetService<IConfiguration>();
                     return new VrfCaseRefreshRepository(settings.GetWebJobsConnectionString("AzureWebJobsStorage"), settings.GetValue<string>("EnvironmentName"));
-                });            
+                });
 
             serviceCollection.AddClient<IVendorRegistrationFormService>((c, s) => new VendorRegistrationFormService(c));
             serviceCollection.Decorate<IVendorRegistrationFormService, VendorRegistrationFormServiceWithLogging>();
@@ -37,8 +40,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.AddClient<IEarningsResilienceCheckService>((c, s) => new EarningsResilienceCheckService(c));
             serviceCollection.Decorate<IEarningsResilienceCheckService, EarningsResilienceCheckServiceWithLogging>();
 
+            serviceCollection.AddClient<IEmailService>((c, s) => new EmailService(c));
+            serviceCollection.Decorate<IEmailService, EmailServiceWithLogging>();
             serviceCollection.AddClient<ICollectionCalendarService>((c, s) => new CollectionCalendarService(c));
             serviceCollection.Decorate<ICollectionCalendarService, CollectionCalendarServiceWithLogging>();
+
+            serviceCollection.AddClient<IWithdrawalService>((c, s) => new WithdrawalService(c));
+            serviceCollection.AddClient<IPausePaymentsService>((c, s) => new PausePaymentsService(c));
 
             return serviceCollection;
         }
@@ -63,6 +71,27 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 httpClient.BaseAddress = new Uri(settings.ApiBaseUrl);
 
                 return instance.Invoke(httpClient, s);
+            });
+
+            return serviceCollection;
+        }
+
+        public static IServiceCollection AddNLog(this IServiceCollection serviceCollection)
+        {
+            var nLogConfiguration = new NLogConfiguration();
+
+            serviceCollection.AddLogging((options) =>
+            {
+                options.AddFilter(typeof(Startup).Namespace, LogLevel.Information);
+                options.SetMinimumLevel(LogLevel.Trace);
+                options.AddNLog(new NLogProviderOptions
+                {
+                    CaptureMessageTemplates = true,
+                    CaptureMessageProperties = true
+                });
+                options.AddConsole();
+
+                nLogConfiguration.ConfigureNLog();
             });
 
             return serviceCollection;
