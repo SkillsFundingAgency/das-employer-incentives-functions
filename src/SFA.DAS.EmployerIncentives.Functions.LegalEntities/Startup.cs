@@ -3,13 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using NLog.Extensions.Logging;
 using NServiceBus;
 using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.EmployerIncentives.Infrastructure;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using System.IO;
-using System.Reflection;
 
 [assembly: FunctionsStartup(typeof(SFA.DAS.EmployerIncentives.Functions.LegalEntities.Startup))]
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
@@ -18,12 +16,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder.Services.AddLogging(logBuilder =>
-            {
-                logBuilder.AddFilter(typeof(Startup).Namespace, LogLevel.Information); // this is because all logging is filtered out by defualt
-                var rootDirectory = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ".."));
-                logBuilder.AddNLog(Directory.GetFiles(rootDirectory, "nlog.config", SearchOption.AllDirectories)[0]);
-            });
+            builder.Services.AddNLog();
 
             var serviceProvider = builder.Services.BuildServiceProvider();
 
