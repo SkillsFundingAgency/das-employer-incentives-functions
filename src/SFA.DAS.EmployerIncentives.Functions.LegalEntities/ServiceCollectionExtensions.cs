@@ -19,7 +19,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         public static IServiceCollection AddEmployerIncentivesService(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddClient<IJobsService>((c, s) => new JobsService(c));
-            serviceCollection.AddClient<ILegalEntitiesService>((c, s) => new LegalEntitiesService(c, s.GetRequiredService<IJobsService>()));
+            serviceCollection.AddClient<ILegalEntitiesService>((c, s) => new LegalEntitiesService(c));
             serviceCollection.AddSingleton<IVrfCaseRefreshRepository>(
                 c =>
                 {

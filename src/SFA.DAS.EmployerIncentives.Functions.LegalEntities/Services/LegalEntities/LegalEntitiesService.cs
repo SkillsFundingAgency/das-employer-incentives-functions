@@ -8,12 +8,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
     public class LegalEntitiesService : ILegalEntitiesService
     {
         private readonly HttpClient _client;
-        private readonly IJobsService _jobsService;
 
-        public LegalEntitiesService(HttpClient client, IJobsService jobsService)
+        public LegalEntitiesService(HttpClient client)
         {
             _client = client;
-            _jobsService = jobsService;
         }
         
         public Task Refresh()
@@ -21,9 +19,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             return Refresh(1, 200);
         }
 
-        public Task Refresh(int pageNumber, int pageSize)
+        public async Task Refresh(int pageNumber, int pageSize)
         {
-            return _jobsService.RefreshLegalEntities(pageNumber, pageSize);
+            var url = $"legalentities/refresh?pageNumber={pageNumber}&pageSize={pageSize}";
+            var response = await _client.PutAsync(url, new StringContent(string.Empty));
+            response.EnsureSuccessStatusCode();
         }
 
         public async Task Add(AddRequest request)
