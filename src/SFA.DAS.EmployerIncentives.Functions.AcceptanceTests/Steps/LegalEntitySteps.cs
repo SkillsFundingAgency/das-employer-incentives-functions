@@ -260,7 +260,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                            .Create()
                            .WithPath($"/api/accounts/{addLegalEntityRequest.AccountId}/legalEntities")
                            .WithBody(JsonConvert.SerializeObject(addLegalEntityRequest))
-                           .UsingPost());
+                           .UsingPut());
             
             requests.AsEnumerable().Count().Should().Be(1);
         }
