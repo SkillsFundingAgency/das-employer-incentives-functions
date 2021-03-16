@@ -29,9 +29,8 @@
         "environmentName": {
             "type": "string"
         },
-        "functionAppAllowedIps": {
-            "type": "array",
-            "defaultValue": []
+        "functionAppAccessRestrictions": {
+            "type": "array"
         },
         "loggingRedisConnectionString": {
             "type": "securestring"
@@ -218,7 +217,7 @@
                         "value": "[variables('resourceGroupName')]"
                     },
                     "ipSecurityRestrictions": {
-                        "value": "[parameters('functionAppAllowedIps')]"
+                        "value": "[parameters('functionAppAccessRestrictions')]"
                     },
                     "subnetResourceId": {
                         "value": "[reference('function-app-subnet').outputs.SubnetResourceId.value]"
