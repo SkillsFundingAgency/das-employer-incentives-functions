@@ -42,7 +42,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ManualPayments
             var paymentRecordLine2 = _fixture.CreateMany<string>(11).ToArray();
             paymentRecordLine2[3] = "1121.25";
             paymentRecordLine2[4] = "11/11/2020 00:00:00";
-            paymentRecordLine2[5] = "19/11/2020 00:00:00";
+            paymentRecordLine2[5] = "05/12/2020 00:00:00";
             paymentRecordLine2[6] = "1456798";
 
             var paymentList1Csv = string.Join(',', paymentRecordLine1);
