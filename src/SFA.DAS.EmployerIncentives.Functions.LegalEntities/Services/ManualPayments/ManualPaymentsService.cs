@@ -23,6 +23,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ManualPaym
 
         public Task<List<PaymentRecord>> LoadPaymentRecords(Stream blobStream)
         {
+            var cultureInfo = new CultureInfo("en-GB");
             using (var reader = new StreamReader(blobStream))
             {
                 var paymentRecords = new List<PaymentRecord>();
@@ -37,8 +38,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ManualPaym
                             AccountNumber = csvReader.GetField(1),
                             FundingTypeCode = csvReader.GetField(2),
                             Values = Convert.ToDecimal(csvReader.GetField(3)),
-                            PostingDate = Convert.ToDateTime(csvReader.GetField(4)),
-                            PaymentDate = Convert.ToDateTime(csvReader.GetField(5)),
+                            PostingDate = Convert.ToDateTime(csvReader.GetField(4), cultureInfo),
+                            PaymentDate = Convert.ToDateTime(csvReader.GetField(5), cultureInfo),
                             GLAccountCode = Convert.ToInt64(csvReader.GetField(6)),
                             ExtRef4 = csvReader.GetField(7),
                             CostCentreCodeDimension2 = csvReader.GetField(8),
