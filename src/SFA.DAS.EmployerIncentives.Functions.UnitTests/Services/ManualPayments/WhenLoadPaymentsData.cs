@@ -65,8 +65,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ManualPayments
             records[0].AccountNumber.Should().Be(paymentRecordLine1[1]); 
             records[0].FundingTypeCode.Should().Be(paymentRecordLine1[2]);
             records[0].Values.ToString().Should().Be(paymentRecordLine1[3]);
-            records[0].PostingDate.ToString().Should().Be(paymentRecordLine1[4]);
-            records[0].PaymentDate.ToString().Should().Be(paymentRecordLine1[5]);
+            records[0].PostingDate.ToString("dd/MM/yyyy HH:mm:ss").Should().Be(paymentRecordLine1[4]);
+            records[0].PaymentDate.ToString("dd/MM/yyyy HH:mm:ss").Should().Be(paymentRecordLine1[5]);
             records[0].GLAccountCode.ToString().Should().Be(paymentRecordLine1[6]);
             records[0].ExtRef4.Should().Be(paymentRecordLine1[7]);
             records[0].CostCentreCodeDimension2.Should().Be(paymentRecordLine1[8]);
