@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
     public class HandleManualTemplateFileUpload
     {
         private readonly IManualPaymentsService _manualPaymentsService;
+        private const int PaymentRecordsLimit = 2500;
+
         public HandleManualTemplateFileUpload(IManualPaymentsService manualPaymentsService)
         {
             _manualPaymentsService = manualPaymentsService;
@@ -19,11 +22,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         {
             var paymentRecords = await _manualPaymentsService.LoadPaymentRecords(blobStream);
 
-            var excelTemplate = await _manualPaymentsService.LoadManualPaymentsExcelTemplate();
+            while (paymentRecords.Count > 0)
+            {
+                var excelTemplate = await _manualPaymentsService.LoadManualPaymentsExcelTemplate();
 
-            var updatedSpreadsheet = await _manualPaymentsService.AddManualPaymentsToTemplate(excelTemplate, paymentRecords);
+                var paymentRecordsBatch = paymentRecords.Take(PaymentRecordsLimit).ToList();
+                
+                var updatedSpreadsheet = await _manualPaymentsService.AddManualPaymentsToTemplate(excelTemplate, paymentRecordsBatch);
 
-            await _manualPaymentsService.UploadManualPaymentsSpreadsheet(updatedSpreadsheet);
+                await _manualPaymentsService.UploadManualPaymentsSpreadsheet(updatedSpreadsheet);
+
+                paymentRecords.RemoveRange(0, paymentRecordsBatch.Count);
+            }
+
         }
     }
 }

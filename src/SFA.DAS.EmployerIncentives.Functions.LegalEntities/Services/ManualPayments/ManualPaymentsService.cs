@@ -96,7 +96,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ManualPaym
         {
             var container = _blobContainerFactory.GetBlobContainerClient(_configuration["ConfigurationStorageConnectionString"], _configuration["ManualTemplateBlobContainerName"]);
 
-            var outputPath = string.Format(_configuration["ManualTemplateOutputPath"], DateTime.Now.ToString("yyyy-MM-dd_HHmmss"));
+            var outputPath = string.Format(_configuration["ManualTemplateOutputPath"], DateTime.Now.ToString("yyyy-MM-dd_HHmmss_fff"));
             var spreadsheetBlob = container.GetBlobClient(outputPath);
             var stream = new MemoryStream();
             await updatedSpreadsheet.SaveAsAsync(stream);
