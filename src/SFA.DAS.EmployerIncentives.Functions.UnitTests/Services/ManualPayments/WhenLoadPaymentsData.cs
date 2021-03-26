@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -35,14 +36,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ManualPayments
             // Arrange
             var paymentRecordLine1 = _fixture.CreateMany<string>(11).ToArray();
             paymentRecordLine1[3] = "123.45";
-            paymentRecordLine1[4] = "11/10/2020 00:00:00";
-            paymentRecordLine1[5] = "12/11/2020 00:00:00";
+            paymentRecordLine1[4] = "11/09/2020 00:00:00";
+            paymentRecordLine1[5] = "08/10/2020 00:00:00";
             paymentRecordLine1[6] = "1234567";
 
             var paymentRecordLine2 = _fixture.CreateMany<string>(11).ToArray();
             paymentRecordLine2[3] = "1121.25";
-            paymentRecordLine2[4] = "11/11/2020 00:00:00";
-            paymentRecordLine2[5] = "05/12/2020 00:00:00";
+            paymentRecordLine2[4] = "05/11/2020 00:00:00";
+            paymentRecordLine2[5] = "07/12/2020 00:00:00";
             paymentRecordLine2[6] = "1456798";
 
             var paymentList1Csv = string.Join(',', paymentRecordLine1);
@@ -65,8 +66,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ManualPayments
             records[0].AccountNumber.Should().Be(paymentRecordLine1[1]); 
             records[0].FundingTypeCode.Should().Be(paymentRecordLine1[2]);
             records[0].Values.ToString().Should().Be(paymentRecordLine1[3]);
-            records[0].PostingDate.ToString("dd/MM/yyyy HH:mm:ss").Should().Be(paymentRecordLine1[4]);
-            records[0].PaymentDate.ToString("dd/MM/yyyy HH:mm:ss").Should().Be(paymentRecordLine1[5]);
+            var cultureInfo = new CultureInfo("en-GB");
+            records[0].PostingDate.ToString("dd/MM/yyyy HH:mm:ss", cultureInfo).Should().Be(paymentRecordLine1[4]);
+            records[0].PaymentDate.ToString("dd/MM/yyyy HH:mm:ss", cultureInfo).Should().Be(paymentRecordLine1[5]);
             records[0].GLAccountCode.ToString().Should().Be(paymentRecordLine1[6]);
             records[0].ExtRef4.Should().Be(paymentRecordLine1[7]);
             records[0].CostCentreCodeDimension2.Should().Be(paymentRecordLine1[8]);
