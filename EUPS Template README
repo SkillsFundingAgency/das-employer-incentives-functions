@@ -1,0 +1,23 @@
+If first time run in the environment: 
+
+Set up an Azure blob storage container with the name 'employer-incentives-eups'.
+
+Create the following folders in the blob container:
+
+Templates
+Output
+PaymentData
+
+Obtain a copy of the EUPS template Excel spreadsheet. Upload the file, named EUPSTemplate.xlsm as specified in config, to the Template folder in the blob container. 
+
+For first time and subsequent runs of the function:
+
+Run the script attached to JIRA ticket EI-776 on the target database.
+
+In SQL Server Query Analyser, right click on the query results pane and select Save Results As. Save the results to CSV.
+
+Upload the CSV file to the PaymentData folder. This will trigger the Azure function to generate the Excel file.
+
+The file(s) will be generated in the Output folder in the blob container, with timestamp suffixes.
+
+If the number of payment records exceeds 2500 then the payments will be split across multiple Excel spreadsheets.
