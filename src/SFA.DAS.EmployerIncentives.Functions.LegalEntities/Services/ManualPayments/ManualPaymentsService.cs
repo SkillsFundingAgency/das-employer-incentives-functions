@@ -67,7 +67,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ManualPaym
             return await Task.FromResult(new ExcelPackage(fileStream));
         }
         
-        public Task<ExcelPackage> AddManualPaymentsToTemplate(ExcelPackage excelPackage, List<PaymentRecord> paymentRecords)
+        public async Task AddManualPaymentsToTemplate(ExcelPackage excelPackage, List<PaymentRecord> paymentRecords)
         {
             var templateSheet = excelPackage.Workbook.Worksheets["Template"];
 
@@ -89,7 +89,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ManualPaym
 
                 row++;
             }
-            return Task.FromResult(excelPackage);
         }
         
         public async Task UploadManualPaymentsSpreadsheet(ExcelPackage updatedSpreadsheet)

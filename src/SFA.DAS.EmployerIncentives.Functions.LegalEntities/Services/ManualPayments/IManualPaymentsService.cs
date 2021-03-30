@@ -10,7 +10,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ManualPaym
     {
         Task<List<PaymentRecord>> LoadPaymentRecords(Stream blobStream);
         Task<ExcelPackage> LoadManualPaymentsExcelTemplate();
-        Task<ExcelPackage> AddManualPaymentsToTemplate(ExcelPackage excelPackage, List<PaymentRecord> paymentRecords);
+        Task AddManualPaymentsToTemplate(ExcelPackage excelPackage, List<PaymentRecord> paymentRecords);
         Task UploadManualPaymentsSpreadsheet(ExcelPackage updatedSpreadsheet);
     }
 }

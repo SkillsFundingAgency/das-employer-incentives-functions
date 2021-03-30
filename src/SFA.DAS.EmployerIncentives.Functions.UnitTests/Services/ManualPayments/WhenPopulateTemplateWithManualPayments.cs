@@ -44,10 +44,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ManualPayments
             var paymentRecords = _fixture.CreateMany<PaymentRecord>(10).ToList();
 
             // Act
-            var updatedPackage = await _sut.AddManualPaymentsToTemplate(excelPackage, paymentRecords);
+            await _sut.AddManualPaymentsToTemplate(excelPackage, paymentRecords);
 
             // Assert
-            var templateSheet = updatedPackage.Workbook.Worksheets["Template"];
+            var templateSheet = excelPackage.Workbook.Worksheets["Template"];
             for(var index = 0; index < paymentRecords.Count; index++)
             {
                 var rowNumber = 10 + index;

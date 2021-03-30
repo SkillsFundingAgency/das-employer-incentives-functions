@@ -28,9 +28,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
                 var paymentRecordsBatch = paymentRecords.Take(PaymentRecordsLimit).ToList();
                 
-                var updatedSpreadsheet = await _manualPaymentsService.AddManualPaymentsToTemplate(excelTemplate, paymentRecordsBatch);
+                await _manualPaymentsService.AddManualPaymentsToTemplate(excelTemplate, paymentRecordsBatch);
 
-                await _manualPaymentsService.UploadManualPaymentsSpreadsheet(updatedSpreadsheet);
+                await _manualPaymentsService.UploadManualPaymentsSpreadsheet(excelTemplate);
 
                 paymentRecords.RemoveRange(0, paymentRecordsBatch.Count);
             }
