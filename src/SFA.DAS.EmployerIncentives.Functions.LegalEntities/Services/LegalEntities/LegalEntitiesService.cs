@@ -1,5 +1,4 @@
-﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
+﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -28,7 +27,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
 
         public async Task Add(AddRequest request)
         {
-            var response = await _client.PostAsJsonAsync($"accounts/{request.AccountId}/legalEntities", request);
+            var response = await _client.PutAsJsonAsync($"accounts/{request.AccountId}/legalEntities", request);
             response.EnsureSuccessStatusCode();
         }
 

@@ -43,7 +43,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.LegalEntities
             await _sut.Add(addRequest);
 
             // Assert
-            _testClient.VerifyPostAsAsync($"accounts/{accountId}/legalEntities", addRequest, Times.Once());
+            _testClient.VerifyPutAsAsync($"accounts/{accountId}/legalEntities", addRequest, Times.Once());
         }
     }
 }
