@@ -11,6 +11,7 @@ using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using SFA.DAS.Http;
 using System;
 using System.Net.Http;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ManualPayments;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
@@ -48,6 +49,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.AddClient<IWithdrawalService>((c, s) => new WithdrawalService(c));
             serviceCollection.AddClient<IPausePaymentsService>((c, s) => new PausePaymentsService(c));
 
+            serviceCollection.AddTransient<IManualPaymentsService, ManualPaymentsService>();
+            serviceCollection.AddTransient<IBlobContainerFactory, BlobContainerFactory>();
             return serviceCollection;
         }
 
