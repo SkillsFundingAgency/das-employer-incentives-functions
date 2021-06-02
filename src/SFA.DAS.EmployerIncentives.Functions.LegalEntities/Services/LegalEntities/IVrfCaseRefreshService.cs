@@ -4,6 +4,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
 {
     public interface IVrfCaseRefreshService
     {
-        Task RefreshStatuses();
+        Task Refresh();
+        Task Pause();
+        Task Resume();
     }
 }
