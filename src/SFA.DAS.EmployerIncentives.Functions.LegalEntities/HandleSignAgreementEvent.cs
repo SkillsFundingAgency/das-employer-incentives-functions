@@ -24,7 +24,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             {
                 AccountId = message.AccountId,
                 AccountLegalEntityId = message.AccountLegalEntityId,
-                AgreementVersion = message.SignedAgreementVersion
+                AgreementVersion = message.SignedAgreementVersion,
+                LegalEntityId = message.LegalEntityId,
+                LegalEntityName = message.OrganisationName
             };
             
             return _agreementsService.SignAgreement(signRequest);
