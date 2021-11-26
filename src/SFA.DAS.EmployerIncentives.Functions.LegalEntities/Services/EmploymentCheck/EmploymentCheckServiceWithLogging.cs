@@ -10,7 +10,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Employment
         private readonly IEmploymentCheckService _employmentCheckService;
         private readonly ILogger<EmploymentCheckServiceWithLogging> _logger;
 
-
         public EmploymentCheckServiceWithLogging(
             IEmploymentCheckService employmentCheckService,
             ILogger<EmploymentCheckServiceWithLogging> logger)
