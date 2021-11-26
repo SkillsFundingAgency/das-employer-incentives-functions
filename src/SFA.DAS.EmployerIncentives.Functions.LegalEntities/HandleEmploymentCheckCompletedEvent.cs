@@ -21,14 +21,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         [FunctionName("HandleEmploymentCheckCompletedEvent")]
         public Task RunEvent([NServiceBusTrigger(Endpoint = QueueNames.EmploymentCheckCompleted)] EmploymentCheckCompletedEvent message)
         {
-            var sendRequest = new UpdateRequest
+            var updateRequest = new UpdateRequest
             {
                 CorrelationId = message.CorrelationId,
                 Result = Map(message.Result),
                 DateChecked = message.DateChecked 
             };
             
-            return _employmentCheckService.Update(sendRequest);
+            return _employmentCheckService.Update(updateRequest);
         }
 
         private EmploymentCheckResult Map(string result)

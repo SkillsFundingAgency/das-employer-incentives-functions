@@ -31,7 +31,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Employment
             {
                 _logger.LogInformation("[EmploymentCheck] Error calling IEmploymentCheckService.Update with parameters: [correlationId={correlationId}]", request.CorrelationId);
 
-                _logger.LogError(ex, "[VRF Refresh] Error calling IVendorRegistrationFormService.Update with parameters: [correlationId={correlationId}]", request.CorrelationId);
+                _logger.LogError(ex, "[EmploymentCheck] Error calling IEmploymentCheckService.Update with parameters: [correlationId={correlationId}]", request.CorrelationId);
 
                 throw;
             }
