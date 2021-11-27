@@ -37,7 +37,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             var updateRequest = _fixture
                 .Build<UpdateRequest>()
                 .With(r => r.CorrelationId, correlationId)
-                .With(r => r.Result, EmploymentCheckResult.Employed)
+                .With(r => r.Result, EmploymentCheckResult.Employed.ToString())
                 .Create();
 
             // Act

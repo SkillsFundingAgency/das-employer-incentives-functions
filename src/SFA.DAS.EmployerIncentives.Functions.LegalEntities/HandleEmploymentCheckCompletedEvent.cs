@@ -24,7 +24,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             var updateRequest = new UpdateRequest
             {
                 CorrelationId = message.CorrelationId,
-                Result = Map(message.Result),
+                Result = Map(message.Result).ToString(),
                 DateChecked = message.DateChecked 
             };
             

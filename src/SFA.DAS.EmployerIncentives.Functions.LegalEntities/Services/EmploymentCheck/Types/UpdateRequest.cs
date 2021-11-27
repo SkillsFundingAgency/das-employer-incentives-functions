@@ -5,7 +5,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Employment
     public class UpdateRequest
     {
         public Guid CorrelationId { get; set; }
-        public EmploymentCheckResult Result { get; set; }
+        public string Result { get; set; }
         public DateTime DateChecked { get; set; }
     }
 }

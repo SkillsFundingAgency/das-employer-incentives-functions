@@ -45,7 +45,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                     return new UpdateRequest
                     {
                         CorrelationId = completedEvent.CorrelationId,
-                        Result = Map(result),
+                        Result = Map(result).ToString(),
                         DateChecked = completedEvent.DateChecked
                     };
             });
