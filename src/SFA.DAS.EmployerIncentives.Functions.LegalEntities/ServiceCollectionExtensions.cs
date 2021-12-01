@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NLog.Extensions.Logging;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
@@ -19,6 +20,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         public static IServiceCollection AddEmployerIncentivesService(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddClient<IJobsService>((c, s) => new JobsService(c));
+            serviceCollection.AddClient<IEmploymentCheckService>((c, s) => new EmploymentCheckService(c));
+            serviceCollection.Decorate<IEmploymentCheckService, EmploymentCheckServiceWithLogging>();
             serviceCollection.AddClient<ILegalEntitiesService>((c, s) => new LegalEntitiesService(c));
             serviceCollection.AddSingleton<IVrfCaseRefreshRepository>(
                 c =>
