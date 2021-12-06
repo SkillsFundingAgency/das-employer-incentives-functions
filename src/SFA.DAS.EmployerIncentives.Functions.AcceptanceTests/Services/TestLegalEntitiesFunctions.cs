@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.WebJobs.Host;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
 using Config = SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 
@@ -37,6 +39,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         public HandlePausePaymentsRequest HttpTriggerHandlePausePayments { get; set; }
 
         public HandleBankDetailsRepeatReminderEmails TimerTriggerBankDetailsRepeatReminderEmails { get; set; }
+
+        public HandleRefreshEmploymentChecksRequest HttpTriggerHandleRefreshEmploymentChecks { get; set; }
         public TestLegalEntitiesFunctions(TestContext testContext)
         {
             _testContext = testContext;
@@ -122,6 +126,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             HttpTriggerUpdateCollectionCalendarPeriod = new HandleUpdateCollectionCalendarPeriod(host.Services.GetService(typeof(ICollectionCalendarService)) as ICollectionCalendarService);
             HttpTriggerHandleWithdrawal = new HandleWithdrawalRequest(host.Services.GetService(typeof(IWithdrawalService)) as IWithdrawalService);
             HttpTriggerHandlePausePayments = new HandlePausePaymentsRequest(host.Services.GetService(typeof(IPausePaymentsService)) as IPausePaymentsService);
+            HttpTriggerHandleRefreshEmploymentChecks = new HandleRefreshEmploymentChecksRequest(host.Services.GetService(typeof(IJobsService)) as IJobsService);
 
             AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
         }
