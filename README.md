@@ -24,7 +24,7 @@ Licensed under the [MIT license](https://github.com/SkillsFundingAgency/das-empl
 
 
 ##### Config
-TBC
+Create a row in the Azure table storage Configuration table with the key SFA.DAS.EmployerIncentives.Functions_1.0 using the config JSON from the das-employer-config repository
 
 
 #### Run the solution
