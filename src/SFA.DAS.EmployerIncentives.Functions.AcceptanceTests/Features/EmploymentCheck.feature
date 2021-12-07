@@ -19,3 +19,7 @@ Examples:
 Scenario: An employment check result is received with an unhandled result
 	When an employment check result is received with result Invalid
 	Then the event is not forwarded to the Employer Incentives system
+
+Scenario: An employment check refresh is requested by support
+	When an employment check refresh request is received
+	Then the request is forwarded to the Employer Incentives system

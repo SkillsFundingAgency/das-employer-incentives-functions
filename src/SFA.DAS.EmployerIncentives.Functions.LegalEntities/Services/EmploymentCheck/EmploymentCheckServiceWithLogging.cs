@@ -18,6 +18,24 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Employment
             _logger = logger;
         }
 
+        public async Task Refresh(EmploymentCheckRequest request)
+        {
+            try
+            {
+                _logger.LogInformation("[EmploymentCheck] Calling IEmploymentCheckService.Refresh with parameters: [AccountLegalEntityId={accountLegalEntityId}, ULN={uln}]", request.AccountLegalEntityId, request.ULN);
+
+                await _employmentCheckService.Refresh(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("[EmploymentCheck] Error calling IEmploymentCheckService.Refresh with parameters: [AccountLegalEntityId={accountLegalEntityId}, ULN={uln}]", request.AccountLegalEntityId, request.ULN);
+
+                _logger.LogError(ex, "[EmploymentCheck] Error calling IEmploymentCheckService.Refresh with parameters: [AccountLegalEntityId={accountLegalEntityId}, ULN={uln}]", request.AccountLegalEntityId, request.ULN);
+
+                throw;
+            }
+        }
+
         public async Task Update(UpdateRequest request)
         {
             try

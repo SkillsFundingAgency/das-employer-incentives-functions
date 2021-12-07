@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Newtonsoft.Json;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
+using SFA.DAS.EmployerIncentives.Types;
 using System.Linq;
 using System.Net;
 using System.Net.Http;

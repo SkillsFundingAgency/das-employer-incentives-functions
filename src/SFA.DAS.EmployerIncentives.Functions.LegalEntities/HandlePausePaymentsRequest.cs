@@ -2,14 +2,13 @@
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Newtonsoft.Json;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types;
+using SFA.DAS.EmployerIncentives.Types;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {

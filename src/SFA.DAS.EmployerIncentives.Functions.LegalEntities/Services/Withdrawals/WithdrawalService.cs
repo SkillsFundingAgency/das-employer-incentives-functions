@@ -1,4 +1,5 @@
 ﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
+using SFA.DAS.EmployerIncentives.Types;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
