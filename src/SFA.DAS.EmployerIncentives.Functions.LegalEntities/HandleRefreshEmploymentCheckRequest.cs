@@ -2,8 +2,8 @@
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Newtonsoft.Json;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck.Types;
 using SFA.DAS.EmployerIncentives.Types;
 using System;
 using System.Net;
@@ -12,22 +12,22 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
-    public class HandleWithdrawalRequest
+    public class HandleRefreshEmploymentCheckRequest
     {
-        private readonly IWithdrawalService _withdrawalService;
+        private readonly IEmploymentCheckService _employmentCheckService;
 
-        public HandleWithdrawalRequest(IWithdrawalService withdrawalService)
+        public HandleRefreshEmploymentCheckRequest(IEmploymentCheckService employmentCheckService)
         {
-            _withdrawalService = withdrawalService;
+            _employmentCheckService = employmentCheckService;
         }
 
-        [FunctionName("HttpTriggerWithdrawalRequest")]
-        public async Task<IActionResult> RunHttp([HttpTrigger(AuthorizationLevel.Function, "POST", Route = "withdraw")] HttpRequestMessage request)
+        [FunctionName("HttpTriggerEmploymentCheckRequest")]
+        public async Task<IActionResult> RunHttp([HttpTrigger(AuthorizationLevel.Function, "POST", Route = "employmentchecks")] HttpRequestMessage request)
         {
             try
             {
-                var withdrawRequest = JsonConvert.DeserializeObject<WithdrawRequest>(await request.Content.ReadAsStringAsync());
-                await _withdrawalService.Withdraw(withdrawRequest);
+                var employmentCheckRequest = JsonConvert.DeserializeObject<EmploymentCheckRequest>(await request.Content.ReadAsStringAsync());
+                await _employmentCheckService.Refresh(employmentCheckRequest);
             }
             catch(ArgumentException ex)
             {
@@ -40,7 +40,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                         ex.Message, 
                         Example = new  
                         {
-                            WithdrawalType = "Employer|Compliance",
                             AccountLegalEntityId = 1234,
                             ULN = 5678,
                             ServiceRequest = new ServiceRequest()

@@ -5,6 +5,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Employment
 {
     public interface IEmploymentCheckService
     {
-        Task Update(UpdateRequest request);        
+        Task Update(UpdateRequest request);
+
+        Task Refresh(EmploymentCheckRequest request);
     }
 }
