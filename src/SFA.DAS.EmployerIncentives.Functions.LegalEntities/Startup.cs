@@ -52,7 +52,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 {
                     options.EndpointConfiguration = (endpoint) =>
                     {
-                        endpoint.UseTransport<LearningTransport>().StorageDirectory(Path.Combine(Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().IndexOf("src")), @"src\SFA.DAS.EmployerIncentives.Functions.TestConsole\.learningtransport"));
+                        endpoint.UseTransport<LearningTransport>().StorageDirectory(config.GetValue("UseLearningEndpointStorageDirectory", Path.Combine(Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().IndexOf("src")), @"src\SFA.DAS.EmployerIncentives.Functions.TestConsole\.learningtransport")));
                         return endpoint;
                     };
                 });
