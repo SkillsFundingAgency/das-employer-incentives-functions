@@ -8,5 +8,6 @@
         public const string RefreshLegalEntity = "SFA.DAS.EmployerIncentives.RefreshLegalEntity";
         public const string AgreementSigned = "SFA.DAS.EmployerIncentives.AgreementSigned";
         public const string AddEmployerVendorId = "SFA.DAS.EmployerIncentives.AddEmployerVendorId";
+        public const string EmploymentCheckCompleted = "SFA.DAS.EmployerIncentives.EmpCheckCompleted";
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types
+namespace SFA.DAS.EmployerIncentives.Types
 {
     public class ServiceRequest
     {

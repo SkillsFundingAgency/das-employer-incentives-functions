@@ -1,4 +1,4 @@
-﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
+﻿using SFA.DAS.EmployerIncentives.Types;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types
 {

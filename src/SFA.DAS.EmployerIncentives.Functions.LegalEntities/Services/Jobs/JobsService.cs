@@ -29,5 +29,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs
 
             response.EnsureSuccessStatusCode();
         }
+
+        public async Task RefreshEmploymentChecks()
+        {
+            var response = await _client.PutAsJsonAsync(
+                $"jobs",
+                new JobRequest
+                {
+                    Type = JobType.RefreshEmploymentChecks
+                });
+
+            response.EnsureSuccessStatusCode();
+        }
     }
 }
