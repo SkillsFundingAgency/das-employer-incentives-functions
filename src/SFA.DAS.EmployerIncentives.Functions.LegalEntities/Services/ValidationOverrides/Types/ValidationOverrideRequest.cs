@@ -1,0 +1,13 @@
+﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
+using SFA.DAS.EmployerIncentives.Types;
+
+namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ValidationOverrides.Types
+{
+    public class ValidationOverrideRequest
+    {
+        public long AccountLegalEntityId { get; set; }
+        public long ULN { get; set; }
+        public ValidationStep[] ValidationSteps { get; set; }
+        public ServiceRequest ServiceRequest { get; set; }
+    }
+}

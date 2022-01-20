@@ -7,6 +7,7 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentChec
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ValidationOverrides;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using SFA.DAS.Http;
@@ -50,6 +51,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
             serviceCollection.AddClient<IWithdrawalService>((c, s) => new WithdrawalService(c));
             serviceCollection.AddClient<IPausePaymentsService>((c, s) => new PausePaymentsService(c));
+            serviceCollection.AddClient<IValidationOverrideService>((c, s) => new ValidationOverrideService(c));
 
             return serviceCollection;
         }
