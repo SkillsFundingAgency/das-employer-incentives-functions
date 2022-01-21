@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types
+﻿namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ValidationOverrides.Types
 {
     public enum ValidationType
     {

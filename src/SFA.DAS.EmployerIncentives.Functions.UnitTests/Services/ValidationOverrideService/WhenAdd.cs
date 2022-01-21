@@ -1,20 +1,19 @@
 ﻿using AutoFixture;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ValidationOverrides;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ValidationOverrides.Types;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using FluentAssertions;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ValidationOverrides;
-using System.Collections.Generic;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ValidationOverrides.Types;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
 
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOverrideServiceTests
 {
     public class WhenAdd
     {
-        private ValidationOverrideService _sut;
+        private IValidationOverrideService _sut;
         private Uri _baseAddress;
         private TestHttpClient _testClient;
         private Fixture _fixture;
@@ -30,7 +29,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
 
             _testClient.SetUpPostAsAsync(HttpStatusCode.OK);
 
-            _sut = new ValidationOverrideService(_testClient);
+            _sut = new ValidationOverrideServiceValidation(new ValidationOverrideService(_testClient));
 
             _validationOverrideRequests = new List<ValidationOverrideRequest>
             {
