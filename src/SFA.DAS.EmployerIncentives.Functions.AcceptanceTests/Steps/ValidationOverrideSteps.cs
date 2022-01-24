@@ -23,15 +23,15 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
     {
         private readonly TestContext _testContext;
         private readonly Fixture _fixture;
-        private readonly List<ValidationOverrideRequest> _validationOverrideRequests;
+        private readonly List<ValidationOverride> _validationOverrideRequests;
 
         public ValidationOverrideSteps(TestContext testContext) : base(testContext)
         {
             _testContext = testContext;
             _fixture = new Fixture();
-            _validationOverrideRequests = new List<ValidationOverrideRequest>()
+            _validationOverrideRequests = new List<ValidationOverride>()
             {
-                new ValidationOverrideRequest()
+                new ValidationOverride()
                 {
                     AccountLegalEntityId = _fixture.Create<long>(),
                     ULN = _fixture.Create<long>(),
@@ -42,7 +42,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                     }.ToArray(),
                     ServiceRequest = _fixture.Create<ServiceRequest>()
                 },
-                new ValidationOverrideRequest()
+                new ValidationOverride()
                 {
                     AccountLegalEntityId = _fixture.Create<long>(),
                     ULN = _fixture.Create<long>(),
@@ -92,7 +92,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                            Request
                            .Create()
                            .WithPath($"/api/validation-overrides")
-                           .WithBody(JsonConvert.SerializeObject(_validationOverrideRequests))
+                           .WithBody(JsonConvert.SerializeObject(new ValidationOverrideRequest() { ValidationOverrides = _validationOverrideRequests.ToArray() }))
                            .UsingPost());
 
             requests.AsEnumerable().Count().Should().Be(1);

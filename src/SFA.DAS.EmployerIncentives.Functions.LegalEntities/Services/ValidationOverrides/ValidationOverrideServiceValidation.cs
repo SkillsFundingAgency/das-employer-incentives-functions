@@ -16,14 +16,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Validation
             _validationOverrideService = validationOverrideService;
         }
 
-        public async Task Add(IEnumerable<ValidationOverrideRequest> requests)
+        public async Task Add(IEnumerable<ValidationOverride> requests)
         {
             EnsureRequestsAreValid(requests);
 
             await _validationOverrideService.Add(requests);
         }
 
-        private void EnsureRequestsAreValid(IEnumerable<ValidationOverrideRequest> requests)
+        private void EnsureRequestsAreValid(IEnumerable<ValidationOverride> requests)
         {
             requests.ToList().ForEach(r => EnsureRequestIsValid(r));
 
@@ -33,7 +33,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Validation
             }
         }
 
-        private void EnsureRequestIsValid(ValidationOverrideRequest request)
+        private void EnsureRequestIsValid(ValidationOverride request)
         {
             if (request.ValidationSteps == null || !request.ValidationSteps.Any())
             {

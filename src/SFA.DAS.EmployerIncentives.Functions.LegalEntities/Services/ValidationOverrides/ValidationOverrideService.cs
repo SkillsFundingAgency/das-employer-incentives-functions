@@ -1,5 +1,6 @@
 ﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ValidationOverrides.Types;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -14,9 +15,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Validation
             _client = client;
         }
 
-        public async Task Add(IEnumerable<ValidationOverrideRequest> requests)
+        public async Task Add(IEnumerable<ValidationOverride> requests)
         {  
-            var response = await _client.PostAsJsonAsync("validation-overrides", requests);            
+            var response = await _client.PostAsJsonAsync("validation-overrides", new ValidationOverrideRequest { ValidationOverrides =  requests.ToArray() });
 
             response.EnsureSuccessStatusCode();
         }

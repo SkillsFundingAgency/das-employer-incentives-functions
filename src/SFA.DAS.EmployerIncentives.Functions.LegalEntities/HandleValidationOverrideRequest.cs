@@ -27,7 +27,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         {
             try
             {
-                var overrideRequests = JsonConvert.DeserializeObject<ValidationOverrideRequest[]>(await request.Content.ReadAsStringAsync());
+                var overrideRequests = JsonConvert.DeserializeObject<ValidationOverride[]>(await request.Content.ReadAsStringAsync());
                 await _validationOverrideService.Add(overrideRequests);
             }
             catch (ArgumentException ex)

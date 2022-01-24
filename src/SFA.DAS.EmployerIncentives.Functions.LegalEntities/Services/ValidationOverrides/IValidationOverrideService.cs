@@ -6,6 +6,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Validation
 {
     public interface IValidationOverrideService
     {
-        Task Add(IEnumerable<ValidationOverrideRequest> requests);
+        Task Add(IEnumerable<ValidationOverride> requests);
     }
 }

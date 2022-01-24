@@ -28,7 +28,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
             _mockValidationOverrideService = new Mock<IValidationOverrideService>();
 
             _mockValidationOverrideService
-                .Setup(m => m.Add(It.IsAny<IEnumerable<ValidationOverrideRequest>>()))
+                .Setup(m => m.Add(It.IsAny<IEnumerable<ValidationOverride>>()))
                 .Returns(Task.FromResult<IActionResult>(new OkResult()));
 
             _sut = new HandleValidationOverrideRequest(_mockValidationOverrideService.Object);
@@ -38,7 +38,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
         public async Task Then_a_Validation_Override_Request_is_sent_to_the_EmployerIncentivesService()
         {
             // Arrange
-            var requestMessage = _fixture.Create<IEnumerable<ValidationOverrideRequest>>();  
+            var requestMessage = _fixture.Create<IEnumerable<ValidationOverride>>();  
             var request = new HttpRequestMessage()
             {
                 Content = new StringContent(JsonConvert.SerializeObject(requestMessage), Encoding.UTF8, "application/json")
@@ -49,7 +49,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
 
             // Assert
             _mockValidationOverrideService
-                .Verify(m => m.Add(It.Is<IEnumerable<ValidationOverrideRequest>>(v => v.Count() == 3))
+                .Verify(m => m.Add(It.Is<IEnumerable<ValidationOverride>>(v => v.Count() == 3))
                 , Times.Once);
         }
 
@@ -59,7 +59,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
             // Arrange
             var request = new HttpRequestMessage()
             {
-                Content = new StringContent(JsonConvert.SerializeObject(_fixture.Create<IEnumerable<ValidationOverrideRequest>>()), Encoding.UTF8, "application/json")
+                Content = new StringContent(JsonConvert.SerializeObject(_fixture.Create<IEnumerable<ValidationOverride>>()), Encoding.UTF8, "application/json")
             };
 
             // Act

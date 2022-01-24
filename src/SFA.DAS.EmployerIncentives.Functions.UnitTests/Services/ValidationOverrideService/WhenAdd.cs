@@ -17,7 +17,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
         private Uri _baseAddress;
         private TestHttpClient _testClient;
         private Fixture _fixture;
-        private List<ValidationOverrideRequest> _validationOverrideRequests;
+        private List<ValidationOverride> _validationOverrideRequests;
 
         [SetUp]
         public void Setup()
@@ -31,10 +31,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
 
             _sut = new ValidationOverrideServiceValidation(new ValidationOverrideService(_testClient));
 
-            _validationOverrideRequests = new List<ValidationOverrideRequest>
+            _validationOverrideRequests = new List<ValidationOverride>
             {
                 _fixture
-                .Build<ValidationOverrideRequest>()
+                .Build<ValidationOverride>()
                 .With(v => v.ValidationSteps, new List<ValidationStep>() {
                     new ValidationStep()
                     {
@@ -54,7 +54,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             await _sut.Add(_validationOverrideRequests);
 
             // Assert
-            _testClient.VerifyPostAsAsync($"validation-overrides", _validationOverrideRequests, Times.Once());
+            _testClient.VerifyPostAsAsync($"validation-overrides", new ValidationOverrideRequest() { ValidationOverrides = _validationOverrideRequests.ToArray() }, Times.Once());
         }
 
         [Test]
@@ -186,7 +186,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             await _sut.Add(_validationOverrideRequests);
 
             // Assert
-            _testClient.VerifyPostAsAsync($"validation-overrides", _validationOverrideRequests, Times.Once());
+            _testClient.VerifyPostAsAsync($"validation-overrides", new ValidationOverrideRequest() { ValidationOverrides = _validationOverrideRequests.ToArray() }, Times.Once());
         }
     }
 }
