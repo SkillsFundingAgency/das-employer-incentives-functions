@@ -81,7 +81,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Validation
                 throw new ArgumentException("ValidationType not set or invalid");
             }
 
-            if (validationStep.ExpiryDate.Date < DateTime.Today)
+            if ((!validationStep.Remove.HasValue || !validationStep.Remove.Value) && (validationStep.ExpiryDate.Date < DateTime.Today))
             {
                 throw new ArgumentException($"ExpiryDate '{validationStep.ExpiryDate:yyyy'-'MM'-'dd'T'HH':'mm'Z'}' can not be in the past");
             }

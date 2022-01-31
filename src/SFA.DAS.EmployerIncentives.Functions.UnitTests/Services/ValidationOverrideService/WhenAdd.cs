@@ -214,5 +214,20 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             // Assert
             _testClient.VerifyPostAsAsync($"validation-overrides", new ValidationOverrideRequest() { ValidationOverrides = _validationOverrideRequests.ToArray() }, Times.Once());
         }
+
+        [Test]
+        public void Then_an_exception_is_not_thrown_when_the_ExpiryDate_is_before_today_if_the_remove_flag_is_set()
+        {
+            // Arrange
+            _validationOverrideRequests[0].ValidationSteps[0].ExpiryDate = DateTime.UtcNow.AddDays(-1);
+            _validationOverrideRequests[0].ValidationSteps[0].Remove = true;
+
+            // Act
+            Func <Task> result = async () => await _sut.Add(_validationOverrideRequests);
+
+            // Assert
+            result.Should().NotThrow<ArgumentException>();
+        }
+
     }
 }
