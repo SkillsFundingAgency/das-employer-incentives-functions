@@ -188,5 +188,31 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             // Assert
             _testClient.VerifyPostAsAsync($"validation-overrides", new ValidationOverrideRequest() { ValidationOverrides = _validationOverrideRequests.ToArray() }, Times.Once());
         }
+
+        [Test]
+        public async Task Then_the_request_is_forwarded_to_the_client_when_the_remove_is_set_to_true()
+        {
+            // Arrange
+            _validationOverrideRequests[0].ValidationSteps[0].Remove = true;
+
+            // Act
+            await _sut.Add(_validationOverrideRequests);
+
+            // Assert
+            _testClient.VerifyPostAsAsync($"validation-overrides", new ValidationOverrideRequest() { ValidationOverrides = _validationOverrideRequests.ToArray() }, Times.Once());
+        }
+
+        [Test]
+        public async Task Then_the_request_is_forwarded_to_the_client_when_the_remove_is_not_set()
+        {
+            // Arrange
+            _validationOverrideRequests[0].ValidationSteps[0].Remove = null;
+
+            // Act
+            await _sut.Add(_validationOverrideRequests);
+
+            // Assert
+            _testClient.VerifyPostAsAsync($"validation-overrides", new ValidationOverrideRequest() { ValidationOverrides = _validationOverrideRequests.ToArray() }, Times.Once());
+        }
     }
 }

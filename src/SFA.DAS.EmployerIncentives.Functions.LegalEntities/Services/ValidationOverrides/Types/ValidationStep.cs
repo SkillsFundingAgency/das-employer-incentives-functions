@@ -5,6 +5,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Validation
     public class ValidationStep
     {
         public ValidationType ValidationType { get; set; }
+        public bool? Remove { get; set; }
         public DateTime ExpiryDate { get; set; }
     }
 }
