@@ -188,5 +188,46 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             // Assert
             _testClient.VerifyPostAsAsync($"validation-overrides", new ValidationOverrideRequest() { ValidationOverrides = _validationOverrideRequests.ToArray() }, Times.Once());
         }
+
+        [Test]
+        public async Task Then_the_request_is_forwarded_to_the_client_when_the_remove_is_set_to_true()
+        {
+            // Arrange
+            _validationOverrideRequests[0].ValidationSteps[0].Remove = true;
+
+            // Act
+            await _sut.Add(_validationOverrideRequests);
+
+            // Assert
+            _testClient.VerifyPostAsAsync($"validation-overrides", new ValidationOverrideRequest() { ValidationOverrides = _validationOverrideRequests.ToArray() }, Times.Once());
+        }
+
+        [Test]
+        public async Task Then_the_request_is_forwarded_to_the_client_when_the_remove_is_not_set()
+        {
+            // Arrange
+            _validationOverrideRequests[0].ValidationSteps[0].Remove = null;
+
+            // Act
+            await _sut.Add(_validationOverrideRequests);
+
+            // Assert
+            _testClient.VerifyPostAsAsync($"validation-overrides", new ValidationOverrideRequest() { ValidationOverrides = _validationOverrideRequests.ToArray() }, Times.Once());
+        }
+
+        [Test]
+        public void Then_an_exception_is_not_thrown_when_the_ExpiryDate_is_before_today_if_the_remove_flag_is_set()
+        {
+            // Arrange
+            _validationOverrideRequests[0].ValidationSteps[0].ExpiryDate = DateTime.UtcNow.AddDays(-1);
+            _validationOverrideRequests[0].ValidationSteps[0].Remove = true;
+
+            // Act
+            Func <Task> result = async () => await _sut.Add(_validationOverrideRequests);
+
+            // Assert
+            result.Should().NotThrow<ArgumentException>();
+        }
+
     }
 }
