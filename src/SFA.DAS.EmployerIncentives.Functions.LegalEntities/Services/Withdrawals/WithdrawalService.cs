@@ -24,6 +24,15 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task Reinstate(ReinstateApplicationRequest request)
+        {
+            EnsureRequestIsvalid(request);
+
+            var response = await _client.PostAsJsonAsync("withdrawal-reinstatements", request);
+
+            response.EnsureSuccessStatusCode();
+        }
+
         private void EnsureRequestIsvalid(WithdrawRequest request)
         {
             if (request.WithdrawalType == WithdrawalType.NotSet)
@@ -45,6 +54,18 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
             if (request.ServiceRequest.TaskCreatedDate == null)
             {
                 request.ServiceRequest.TaskCreatedDate = DateTime.UtcNow;
+            }
+        }
+
+        private void EnsureRequestIsvalid(ReinstateApplicationRequest request)
+        {
+            if (request.AccountLegalEntityId == default)
+            {
+                throw new ArgumentException("AccountLegalEntityId not set", nameof(request.AccountLegalEntityId));
+            }
+            if (request.ULN == default)
+            {
+                throw new ArgumentException("ULN not set", nameof(request.ULN));
             }
         }
     }
