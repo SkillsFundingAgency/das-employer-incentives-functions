@@ -51,8 +51,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.AddClient<IWithdrawalService>((c, s) => new WithdrawalService(c));
             serviceCollection.AddClient<IPausePaymentsService>((c, s) => new PausePaymentsService(c));
             serviceCollection.Decorate<IPausePaymentsService, PausePaymentsServiceValidation>();
-            serviceCollection.AddClient<IValidationOverrideService>((c, s) => new ValidationOverrideService(c));
-            serviceCollection.Decorate<IValidationOverrideService, ValidationOverrideServiceValidation>();
 
             return serviceCollection;
         }
