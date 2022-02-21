@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types;
 using SFA.DAS.EmployerIncentives.Types;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -32,8 +33,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             _pausePaymentRequest = new PausePaymentsRequest
             {
                 Action = PausePaymentsAction.NotSet,
-                AccountLegalEntityId = _fixture.Create<long>(),
-                ULN = _fixture.Create<long>(),
+                Applications = new List<Application>()
+                {
+                    new Application()
+                    {
+                        AccountLegalEntityId = _fixture.Create<long>(),
+                        ULN = _fixture.Create<long>()
+                    }
+                }.ToArray(),                
                 ServiceRequest = _fixture.Create<ServiceRequest>()
             };
         }
@@ -121,7 +128,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             _response = await _testContext.LegalEntitiesFunctions.HttpTriggerHandlePausePayments.RunHttp(request);
         }
 
-
         [Then(@"the user receives a Not Found response")]
         public void ThenTheUserReceivesANotFoundResponse()
         {
@@ -130,8 +136,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
             result.Content.Contains("X");
             result.Content.Contains("123");
-
         }
-
     }
 }
