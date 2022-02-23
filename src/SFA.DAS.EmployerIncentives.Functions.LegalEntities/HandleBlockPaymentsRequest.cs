@@ -10,7 +10,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayments;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayments.Types;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
@@ -59,7 +58,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                     })
                 };
             }
-            catch (PausePaymentServiceException ex)
+            catch (BlockPaymentsServiceException ex)
             {
                 return new ContentResult()
                 {
