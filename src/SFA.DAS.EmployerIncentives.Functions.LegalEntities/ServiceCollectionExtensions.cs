@@ -12,6 +12,7 @@ using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using SFA.DAS.Http;
 using System;
 using System.Net.Http;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayments;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
@@ -50,6 +51,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
             serviceCollection.AddClient<IWithdrawalService>((c, s) => new WithdrawalService(c));
             serviceCollection.AddClient<IPausePaymentsService>((c, s) => new PausePaymentsService(c));
+            serviceCollection.AddClient<IBlockPaymentsService>((c, s) => new BlockPaymentsService(c));
+            serviceCollection.Decorate<IBlockPaymentsService, BlockPaymentsServiceWithLogging>();
+            serviceCollection.Decorate<IBlockPaymentsService, BlockPaymentsServiceValidation>();
 
             return serviceCollection;
         }
