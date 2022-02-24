@@ -89,6 +89,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                     a.SubscriptionKey = "";
                 });
 
+                s.AddSingleton<IVrfCaseRefreshRepository, TestVrfCaseRefreshRepository>();
+
                 _ = s.AddNServiceBus(new LoggerFactory().CreateLogger<TestLegalEntitiesFunctions>(),
                     (o) =>
                     {
