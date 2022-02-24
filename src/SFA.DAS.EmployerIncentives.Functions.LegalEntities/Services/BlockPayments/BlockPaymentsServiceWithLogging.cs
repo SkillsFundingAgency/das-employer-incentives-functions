@@ -19,19 +19,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayme
             _logger = logger;
         }
 
-        public async Task BlockAccountLegalEntitiesForPayments(BlockAccountLegalEntityForPaymentsRequest request)
+        public async Task BlockAccountLegalEntitiesForPayments(BlockAccountLegalEntityForPaymentsRequest blockPaymentsRequest)
         {
             try
             {
-                _logger.LogInformation("[EmploymentCheck] Calling IBlockPaymentsService.BlockAccountLegalEntitiesForPayments for service request: {TaskId}", request.ServiceRequest.TaskId);
+                _logger.LogInformation("[EmploymentCheck] Calling IBlockPaymentsService.BlockAccountLegalEntitiesForPayments for service request: {TaskId}", blockPaymentsRequest.ServiceRequest.TaskId);
 
-                await _blockPaymentsService.BlockAccountLegalEntitiesForPayments(request);
+                await _blockPaymentsService.BlockAccountLegalEntitiesForPayments(blockPaymentsRequest);
             }
             catch (Exception ex)
             {
-                _logger.LogInformation("[EmploymentCheck] Error calling IBlockPaymentsService.BlockAccountLegalEntitiesForPayments for service request: {TaskId}", request.ServiceRequest.TaskId);
+                _logger.LogInformation("[EmploymentCheck] Error calling IBlockPaymentsService.BlockAccountLegalEntitiesForPayments for service request: {TaskId}", blockPaymentsRequest.ServiceRequest.TaskId);
 
-                _logger.LogError(ex, "[EmploymentCheck] Error calling IBlockPaymentsService.BlockAccountLegalEntitiesForPayments for service request: {TaskId}", request.ServiceRequest.TaskId);
+                _logger.LogError(ex, "[EmploymentCheck] Error calling IBlockPaymentsService.BlockAccountLegalEntitiesForPayments for service request: {TaskId}", blockPaymentsRequest.ServiceRequest.TaskId);
 
                 throw;
             }

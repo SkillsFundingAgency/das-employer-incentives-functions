@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Net;
+using System.Runtime.Serialization;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayments
 {
+    [Serializable]
     public class BlockPaymentsServiceException : Exception
     {
         public HttpStatusCode HttpStatusCode { get; }
@@ -12,6 +14,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayme
         {
             HttpStatusCode = httpStatusCode;
             Content = content;
+        }
+
+        protected BlockPaymentsServiceException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }
