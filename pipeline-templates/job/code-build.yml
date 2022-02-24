@@ -4,9 +4,8 @@ parameters:
 jobs:
 - job: CodeBuild
   pool:
-    name: DAS - Continuous Integration Agents
-    demands: 
-      - LATEST_DOTNET_VERSION -equals 3.1
+    name: 'DAS - Continuous Integration'
+    demands:
       - Agent.OS -equals Windows_NT
     workspace:
       clean: all
