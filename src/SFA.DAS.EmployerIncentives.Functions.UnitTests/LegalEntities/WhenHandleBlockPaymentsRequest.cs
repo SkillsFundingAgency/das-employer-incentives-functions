@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -82,6 +84,72 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
 
             // Assert
             response.Should().NotBeNull();
+        }
+
+        [Test]
+        public async Task Then_an_error_response_is_returned_for_invalid_input()
+        {
+            // Arrange
+            _mockBlockPaymentsService
+                .Setup(m => m.BlockAccountLegalEntitiesForPayments(It.IsAny<BlockAccountLegalEntityForPaymentsRequest>()))
+                .Throws(new ArgumentException("Invalid input"));
+            _sut = new HandleBlockPaymentsRequest(_mockBlockPaymentsService.Object);
+
+            var request = new HttpRequestMessage()
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(_request), Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _sut.RunHttp(request) as ContentResult;
+
+            // Assert
+            response.Should().NotBeNull();
+            response.Content.Should().Contain("Example");
+        }
+
+        [Test]
+        public async Task Then_an_error_response_is_returned_when_a_BlockPaymentsServiceException_is_thrown()
+        {
+            // Arrange
+            _mockBlockPaymentsService
+                .Setup(m => m.BlockAccountLegalEntitiesForPayments(It.IsAny<BlockAccountLegalEntityForPaymentsRequest>()))
+                .Throws(new BlockPaymentsServiceException(HttpStatusCode.Conflict, "System error"));
+            _sut = new HandleBlockPaymentsRequest(_mockBlockPaymentsService.Object);
+
+            var request = new HttpRequestMessage()
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(_request), Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _sut.RunHttp(request) as ContentResult;
+
+            // Assert
+            response.Should().NotBeNull();
+            response.Content.Should().Contain("System error");
+        }
+
+        [Test]
+        public async Task Then_an_error_response_is_returned_when_an_unexpected_exception_is_thrown()
+        {
+            // Arrange
+            _mockBlockPaymentsService
+                .Setup(m => m.BlockAccountLegalEntitiesForPayments(It.IsAny<BlockAccountLegalEntityForPaymentsRequest>()))
+                .Throws(new Exception("Unexpected error"));
+            _sut = new HandleBlockPaymentsRequest(_mockBlockPaymentsService.Object);
+
+            var request = new HttpRequestMessage()
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(_request), Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _sut.RunHttp(request) as ContentResult;
+
+            // Assert
+            response.Should().NotBeNull();
+            response.Content.Should().Contain("Unexpected error");
         }
     }
 }
