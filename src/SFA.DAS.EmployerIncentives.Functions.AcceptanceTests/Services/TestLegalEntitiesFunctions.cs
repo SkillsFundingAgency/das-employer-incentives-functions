@@ -43,6 +43,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
         public HandleRefreshEmploymentChecksRequest HttpTriggerHandleRefreshEmploymentChecks { get; set; }
         public HandleRefreshEmploymentCheckRequest HttpTriggerHandleRefreshEmploymentCheck { get; set; }
+        public IVrfCaseRefreshRepository VrfCaseRefreshRepository { get; private set; }
         
         public HandleBlockPaymentsRequest HttpTriggerHandleBlockPaymentsRequest { get; set; }
 
@@ -56,7 +57,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             _hostConfig = new Dictionary<string, string>();
             _appConfig = new Dictionary<string, string>
             {
-                { "EnvironmentName", "LOCAL" },
+                { "EnvironmentName", "LOCAL_ACCEPTANCE_TESTS" },
                 { "ConfigurationStorageConnectionString", "UseDevelopmentStorage=true" },
                 { "ConfigNames", "SFA.DAS.EmployerIncentives.Functions" },
                 { "NServiceBusConnectionString", "UseDevelopmentStorage=true" },
@@ -91,6 +92,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                     a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
                     a.SubscriptionKey = "";
                 });
+
+                VrfCaseRefreshRepository = new TestVrfCaseRefreshRepository();
+                s.AddSingleton<IVrfCaseRefreshRepository>(VrfCaseRefreshRepository);
 
                 _ = s.AddNServiceBus(new LoggerFactory().CreateLogger<TestLegalEntitiesFunctions>(),
                     (o) =>

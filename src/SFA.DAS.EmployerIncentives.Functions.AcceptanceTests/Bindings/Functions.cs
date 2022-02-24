@@ -9,19 +9,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
     public class Functions
     {
         private readonly TestContext _context;
-        private readonly Dictionary<string, string> _hostConfig;
-        private readonly Dictionary<string, string> _appConfig;
 
         public Functions(TestContext context)
         {
             _context = context;
-            _hostConfig = new Dictionary<string, string>();
-            _appConfig = new Dictionary<string, string>
-            {
-                { "EnvironmentName", "LOCAL" },
-                { "ConfigurationStorageConnectionString", "UseDevelopmentStorage=true" },
-                { "ConfigNames", "SFA.DAS.EmployerIncentives.Functions" }
-            };
         }
 
         [BeforeScenario()]
