@@ -53,7 +53,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             _hostConfig = new Dictionary<string, string>();
             _appConfig = new Dictionary<string, string>
             {
-                { "EnvironmentName", "LOCAL" },
+                { "EnvironmentName", "LOCAL_ACCEPTANCE_TESTS" },
                 { "ConfigurationStorageConnectionString", "UseDevelopmentStorage=true" },
                 { "ConfigNames", "SFA.DAS.EmployerIncentives.Functions" },
                 { "NServiceBusConnectionString", "UseDevelopmentStorage=true" },
