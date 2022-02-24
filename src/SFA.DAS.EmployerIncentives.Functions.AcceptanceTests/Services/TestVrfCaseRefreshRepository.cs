@@ -6,7 +6,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 {
     public class TestVrfCaseRefreshRepository : IVrfCaseRefreshRepository
     {
-        private DateTime _lastRunDateTime = DateTime.Now;
+        private DateTime _lastRunDateTime;
+
+        public TestVrfCaseRefreshRepository()
+        {
+            _lastRunDateTime = DateTime.Now;
+        }
 
         public async Task<DateTime> GetLastRunDateTime()
         {
