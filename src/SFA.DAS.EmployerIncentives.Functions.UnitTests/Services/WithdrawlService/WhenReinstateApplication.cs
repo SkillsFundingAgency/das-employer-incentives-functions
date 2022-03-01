@@ -47,8 +47,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
         public void Then_an_exception_is_thrown_when_the_AccountLegalEntityId_is_not_set()
         {
             // Arrange
+            var application = _fixture.Create<Application>();
             var reinstateApplicationRequest = _fixture.Create<ReinstateApplicationRequest>(); 
-            reinstateApplicationRequest.AccountLegalEntityId = default;
+            reinstateApplicationRequest.Applications = new[] { application };
+            application.AccountLegalEntityId = default;
 
             // Act
             Func<Task> result = async () => await _sut.Reinstate(reinstateApplicationRequest);
@@ -61,8 +63,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
         public void Then_an_exception_is_thrown_when_the_ULN_is_not_set()
         {
             // Arrange
+            var application = _fixture.Create<Application>();
             var reinstateApplicationRequest = _fixture.Create<ReinstateApplicationRequest>();
-            reinstateApplicationRequest.ULN = default;
+            reinstateApplicationRequest.Applications = new[] { application };
+            application.ULN = default;
 
             // Act
             Func<Task> result = async () => await _sut.Reinstate(reinstateApplicationRequest);

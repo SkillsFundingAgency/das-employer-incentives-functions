@@ -59,13 +59,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
 
         private void EnsureRequestIsvalid(ReinstateApplicationRequest request)
         {
-            if (request.AccountLegalEntityId == default)
+            foreach (var application in request.Applications)
             {
-                throw new ArgumentException("AccountLegalEntityId not set", nameof(request.AccountLegalEntityId));
-            }
-            if (request.ULN == default)
-            {
-                throw new ArgumentException("ULN not set", nameof(request.ULN));
+                if (application.AccountLegalEntityId == default)
+                {
+                    throw new ArgumentException("AccountLegalEntityId not set", nameof(application.AccountLegalEntityId));
+                }
+
+                if (application.ULN == default)
+                {
+                    throw new ArgumentException("ULN not set", nameof(application.ULN));
+                }
             }
         }
     }

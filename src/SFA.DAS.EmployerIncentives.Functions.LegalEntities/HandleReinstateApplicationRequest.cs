@@ -38,10 +38,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                     Content = JsonConvert.SerializeObject(new { 
                         ex.ParamName, 
                         ex.Message, 
-                        Example = new  
-                        {
-                            AccountLegalEntityId = 1234,
-                            ULN = 5678
+                        Example = new[] {
+                            new {
+                                AccountLegalEntityId = 1234,
+                                ULN = 5678
+                            }
                         }
                     })
                 };

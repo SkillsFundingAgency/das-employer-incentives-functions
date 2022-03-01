@@ -42,16 +42,15 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
                 Content = new StringContent(JsonConvert.SerializeObject(requestMessage), Encoding.UTF8, "application/json")
             };
 
+            ReinstateApplicationRequest actualRequest = null;
+            _mockWithdrawalService.Setup(x => x.Reinstate(It.IsAny<ReinstateApplicationRequest>()))
+                .Callback<ReinstateApplicationRequest>(x => actualRequest = x);
+
             // Act
             await _sut.RunHttp(request);
 
             // Assert
-            _mockWithdrawalService
-                .Verify(m => m.Reinstate(It.Is<ReinstateApplicationRequest>(r =>
-                    r.AccountLegalEntityId == requestMessage.AccountLegalEntityId &&
-                    r.ULN == requestMessage.ULN
-                ))
-                , Times.Once);
+            actualRequest.Should().BeEquivalentTo(requestMessage);
         }
 
         [Test]
