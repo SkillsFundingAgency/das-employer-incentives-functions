@@ -18,11 +18,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
     {
         private readonly TestContext _testContext;
         private readonly string _lastCaseUpdateDateTime = "2020-10-16T10:00:00";
-        private readonly IVrfCaseRefreshRepository _repository = new VrfCaseRefreshRepository("UseDevelopmentStorage=true", "LOCAL");
+        private IVrfCaseRefreshRepository _repository;
 
         public VendorRegistrationFormSteps(TestContext testContext) : base(testContext)
         {
             _testContext = testContext;
+            _repository = testContext.LegalEntitiesFunctions.VrfCaseRefreshRepository;
         }
 
         [When(@"a VRF case status update job is triggered")]
