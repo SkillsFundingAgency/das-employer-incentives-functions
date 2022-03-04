@@ -23,15 +23,15 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayme
         {
             try
             {
-                _logger.LogInformation("[EmploymentCheck] Calling IBlockPaymentsService.BlockAccountLegalEntitiesForPayments for service request: {TaskId}", blockPaymentsRequest.ServiceRequest.TaskId);
+                _logger.LogInformation("[BlockPayments] Calling IBlockPaymentsService.BlockAccountLegalEntitiesForPayments for service request: {TaskId}", blockPaymentsRequest.ServiceRequest.TaskId);
 
                 await _blockPaymentsService.BlockAccountLegalEntitiesForPayments(blockPaymentsRequest);
             }
             catch (Exception ex)
             {
-                _logger.LogInformation("[EmploymentCheck] Error calling IBlockPaymentsService.BlockAccountLegalEntitiesForPayments for service request: {TaskId}", blockPaymentsRequest.ServiceRequest.TaskId);
+                _logger.LogInformation("[BlockPayments] Error calling IBlockPaymentsService.BlockAccountLegalEntitiesForPayments for service request: {TaskId}", blockPaymentsRequest.ServiceRequest.TaskId);
 
-                _logger.LogError(ex, "[EmploymentCheck] Error calling IBlockPaymentsService.BlockAccountLegalEntitiesForPayments for service request: {TaskId}", blockPaymentsRequest.ServiceRequest.TaskId);
+                _logger.LogError(ex, "[BlockPayments] Error calling IBlockPaymentsService.BlockAccountLegalEntitiesForPayments for service request: {TaskId}", blockPaymentsRequest.ServiceRequest.TaskId);
 
                 throw;
             }
