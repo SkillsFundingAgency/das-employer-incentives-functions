@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RecalculateEarnings;
 using Config = SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 
 namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
@@ -42,6 +43,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
         public HandleRefreshEmploymentChecksRequest HttpTriggerHandleRefreshEmploymentChecks { get; set; }
         public HandleRefreshEmploymentCheckRequest HttpTriggerHandleRefreshEmploymentCheck { get; set; }
+        public HandleRecalculateEarningsRequest HttpTriggerHandleRecalculateEarningsRequest { get; set; }
         public IVrfCaseRefreshRepository VrfCaseRefreshRepository { get; private set; }
         
         public TestLegalEntitiesFunctions(TestContext testContext)
@@ -134,7 +136,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             HttpTriggerHandlePausePayments = new HandlePausePaymentsRequest(host.Services.GetService(typeof(IPausePaymentsService)) as IPausePaymentsService);
             HttpTriggerHandleRefreshEmploymentChecks = new HandleRefreshEmploymentChecksRequest(host.Services.GetService(typeof(IJobsService)) as IJobsService);
             HttpTriggerHandleRefreshEmploymentCheck = new HandleRefreshEmploymentCheckRequest(host.Services.GetService(typeof(IEmploymentCheckService)) as IEmploymentCheckService);
-
+            HttpTriggerHandleRecalculateEarningsRequest = new HandleRecalculateEarningsRequest(host.Services.GetService(typeof(IRecalculateEarningsService)) as IRecalculateEarningsService);
             AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
         }
 
