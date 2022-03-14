@@ -51,6 +51,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>BlockPayments.feature</DependentUpon>
     </Compile>
+    <SpecFlowFeatureFiles Update="Features\ValidationOverride.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
   </ItemGroup>
 
 </Project>
