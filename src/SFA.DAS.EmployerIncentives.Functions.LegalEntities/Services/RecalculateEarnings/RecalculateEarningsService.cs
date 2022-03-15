@@ -16,7 +16,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Recalculat
 
         public async Task RecalculateEarnings(RecalculateEarningsRequest recalculateEarningsRequest)
         {
-            var url = "recalculateEarnings";
+            var url = "earningsRecalculations";
 
             var response = await _client.PostAsync(url, recalculateEarningsRequest.GetStringContent());
 

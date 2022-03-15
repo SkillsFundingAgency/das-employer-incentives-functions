@@ -35,7 +35,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .Given(
                     Request
                         .Create()
-                        .WithPath(x => x.Contains("recalculateEarnings"))
+                        .WithPath(x => x.Contains("earningsRecalculations"))
                         .UsingPost())
                 .RespondWith(
                     Response.Create(new ResponseMessage())
@@ -62,7 +62,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .FindLogEntries(
                     Request
                         .Create()
-                        .WithPath(x => x.Contains("recalculateEarnings"))
+                        .WithPath(x => x.Contains("earningsRecalculations"))
                         .UsingPost()).AsEnumerable();
 
             requests.Should().HaveCount(1, "Expected request to APIM was not found in Mock server logs");

@@ -43,7 +43,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.RecalculateEar
             await _sut.RecalculateEarnings(request);
 
             // Assert
-            _testClient.VerifyPostAsAsync($"recalculateEarnings", request, Times.Once());
+            _testClient.VerifyPostAsAsync($"earningsRecalculations", request, Times.Once());
         }
 
         [TestCase(HttpStatusCode.NotFound)]
