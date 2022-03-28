@@ -1,13 +1,11 @@
 using AutoFixture;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck.Types;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
