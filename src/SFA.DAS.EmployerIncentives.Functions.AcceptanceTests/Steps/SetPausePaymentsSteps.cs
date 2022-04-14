@@ -46,7 +46,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         }
 
         [When(@"a pause payments request is received")]
-        public async Task WhenAnEmployerWithdrawalRequestIsReceived()
+        public async Task WhenAPausePaymentsRequestIsReceived()
         {
             _pausePaymentRequest.Action = PausePaymentsAction.Pause;
 
@@ -54,7 +54,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         }
 
         [When(@"a resume payments request is received")]
-        public async Task WhenAComplianceWithdrawalRequestIsReceived()
+        public async Task WhenAResumePaymentsRequestIsReceived()
         {
             _pausePaymentRequest.Action = PausePaymentsAction.Pause;
 

@@ -10,6 +10,7 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentChec
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ValidationOverrides;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals;
 using SFA.DAS.EmployerIncentives.Infrastructure;
 using SFA.DAS.Testing.AzureStorageEmulator;
@@ -37,11 +38,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         public HandleUpdateCollectionCalendarPeriod HttpTriggerUpdateCollectionCalendarPeriod { get; set; }
         public HandleWithdrawalRequest HttpTriggerHandleWithdrawal { get; set; }
         public HandlePausePaymentsRequest HttpTriggerHandlePausePayments { get; set; }
+        public HandleValidationOverrideRequest HttpTriggerHandleValidationOverride { get; set; }
 
         public HandleBankDetailsRepeatReminderEmails TimerTriggerBankDetailsRepeatReminderEmails { get; set; }
 
         public HandleRefreshEmploymentChecksRequest HttpTriggerHandleRefreshEmploymentChecks { get; set; }
         public HandleRefreshEmploymentCheckRequest HttpTriggerHandleRefreshEmploymentCheck { get; set; }
+        public IVrfCaseRefreshRepository VrfCaseRefreshRepository { get; private set; }
         
         public TestLegalEntitiesFunctions(TestContext testContext)
         {
@@ -53,7 +56,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             _hostConfig = new Dictionary<string, string>();
             _appConfig = new Dictionary<string, string>
             {
-                { "EnvironmentName", "LOCAL" },
+                { "EnvironmentName", "LOCAL_ACCEPTANCE_TESTS" },
                 { "ConfigurationStorageConnectionString", "UseDevelopmentStorage=true" },
                 { "ConfigNames", "SFA.DAS.EmployerIncentives.Functions" },
                 { "NServiceBusConnectionString", "UseDevelopmentStorage=true" },
@@ -88,6 +91,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                     a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
                     a.SubscriptionKey = "";
                 });
+
+                VrfCaseRefreshRepository = new TestVrfCaseRefreshRepository();
+                s.AddSingleton<IVrfCaseRefreshRepository>(VrfCaseRefreshRepository);
 
                 _ = s.AddNServiceBus(new LoggerFactory().CreateLogger<TestLegalEntitiesFunctions>(),
                     (o) =>
@@ -130,6 +136,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             HttpTriggerHandlePausePayments = new HandlePausePaymentsRequest(host.Services.GetService(typeof(IPausePaymentsService)) as IPausePaymentsService);
             HttpTriggerHandleRefreshEmploymentChecks = new HandleRefreshEmploymentChecksRequest(host.Services.GetService(typeof(IJobsService)) as IJobsService);
             HttpTriggerHandleRefreshEmploymentCheck = new HandleRefreshEmploymentCheckRequest(host.Services.GetService(typeof(IEmploymentCheckService)) as IEmploymentCheckService);
+            HttpTriggerHandleValidationOverride = new HandleValidationOverrideRequest(host.Services.GetService(typeof(IValidationOverrideService)) as IValidationOverrideService);
 
             AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
         }
