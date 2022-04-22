@@ -7,6 +7,8 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentChec
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck.Types;
 using System;
 using System.Threading.Tasks;
+using Castle.Core.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
 {
@@ -26,7 +28,7 @@ namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
                 .Setup(m => m.Update(It.IsAny<UpdateRequest>()))
                 .Verifiable();
 
-            _sut = new HandleEmploymentCheckCompletedEvent(_mockEmploymentCheckService.Object);
+            _sut = new HandleEmploymentCheckCompletedEvent(_mockEmploymentCheckService.Object, Mock.Of<ILogger<HandleEmploymentCheckCompletedEvent>>());
         }
 
         [TestCase(true, null)]
@@ -118,7 +120,7 @@ namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
                .Setup(m => m.Update(It.IsAny<UpdateRequest>()))
                .ThrowsAsync(new Exception("Test"));
 
-            _sut = new HandleEmploymentCheckCompletedEvent(_mockEmploymentCheckService.Object);
+            _sut = new HandleEmploymentCheckCompletedEvent(_mockEmploymentCheckService.Object, Mock.Of<ILogger<HandleEmploymentCheckCompletedEvent>>());
 
             var request = new EmploymentCheck.Types.EmploymentCheckCompletedEvent(
                 Guid.NewGuid(),
