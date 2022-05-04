@@ -6,5 +6,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
     public interface IWithdrawalService
     {
         Task Withdraw(WithdrawRequest request);
+        Task Reinstate(ReinstateApplicationRequest request);
     }
 }
