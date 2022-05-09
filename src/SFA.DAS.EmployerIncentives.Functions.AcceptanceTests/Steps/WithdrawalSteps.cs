@@ -21,6 +21,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         private readonly TestContext _testContext;
         private readonly Fixture _fixture;
         private readonly WithdrawRequest _withdrawRequest;
+        private readonly ReinstateApplicationRequest _reinstateApplicationRequest;
 
         public WithdrawalSteps(TestContext testContext) : base(testContext)
         {
@@ -33,6 +34,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 ULN = _fixture.Create<long>(),
                 ServiceRequest = _fixture.Create<ServiceRequest>()
             };
+
+            _reinstateApplicationRequest = _fixture.Create<ReinstateApplicationRequest>();
         }
 
         [When(@"an employer withdrawal request is received")]
@@ -49,6 +52,31 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             _withdrawRequest.WithdrawalType = WithdrawalType.Compliance;
 
             await WhenAWithdrawalRequestIsReceived();
+        }
+
+        [When(@"a reinstate application request is received")]
+        public async Task WhenAReinstateApplicationRequestIsReceived()
+        {
+            var json = JsonConvert.SerializeObject(_reinstateApplicationRequest);
+
+            _testContext.EmployerIncentivesApi.MockServer
+                .Given(
+                    Request
+                        .Create()
+                        .WithPath($"/api/withdrawal-reinstatements")
+                        .WithBody(json)
+                        .UsingPost()
+                )
+                .RespondWith(
+                    Response.Create()
+                        .WithStatusCode(HttpStatusCode.OK)
+                        .WithHeader("Content-Type", "application/json"));
+
+            var request = new HttpRequestMessage(HttpMethod.Post, "")
+            {
+                Content = new StringContent(json, Encoding.UTF8, "application/json")
+            };
+            await _testContext.LegalEntitiesFunctions.HttpTriggerHandleReinstateApplication.RunHttp(request);
         }
 
         private async Task WhenAWithdrawalRequestIsReceived()
@@ -87,6 +115,22 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                            .WithPath($"/api/withdrawals")
                            .WithBody(JsonConvert.SerializeObject(_withdrawRequest))
                            .UsingPost());
+
+            requests.AsEnumerable().Count().Should().Be(1);
+        }
+
+        [Then(@"the reinstate application request is forwarded to the Employer Incentives API")]
+        public void ThenTheReinstateEventIsForwardedToTheApi()
+        {
+            var requests = _testContext
+                .EmployerIncentivesApi
+                .MockServer
+                .FindLogEntries(
+                    Request
+                        .Create()
+                        .WithPath($"/api/withdrawal-reinstatements")
+                        .WithBody(JsonConvert.SerializeObject(_reinstateApplicationRequest))
+                        .UsingPost());
 
             requests.AsEnumerable().Count().Should().Be(1);
         }
