@@ -52,6 +52,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
             serviceCollection.AddClient<IWithdrawalService>((c, s) => new WithdrawalService(c));
             serviceCollection.AddClient<IPausePaymentsService>((c, s) => new PausePaymentsService(c));
+            serviceCollection.Decorate<IPausePaymentsService, PausePaymentsServiceValidation>();
             serviceCollection.AddClient<IRecalculateEarningsService>((c, s) => new RecalculateEarningsService(c));
             serviceCollection.Decorate<IRecalculateEarningsService, RecalculateEarningsServiceValidation>();
             serviceCollection.Decorate<IRecalculateEarningsService, RecalculateEarningsServiceWithLogging>();

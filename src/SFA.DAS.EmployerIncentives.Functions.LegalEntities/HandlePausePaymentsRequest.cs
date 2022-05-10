@@ -6,6 +6,7 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types;
 using SFA.DAS.EmployerIncentives.Types;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -34,25 +35,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             {
                 return new ContentResult()
                 {
-                    StatusCode = (int) HttpStatusCode.BadRequest,
+                    StatusCode = (int)HttpStatusCode.BadRequest,
                     ContentType = "application/json",
-                    Content = JsonConvert.SerializeObject(new
-                    {
-                        ex.ParamName,
-                        ex.Message,
-                        Example = new
-                        {
-                            Action = "Pause|Resume",
-                            AccountLegalEntityId = 1234,
-                            ULN = 5678,
-                            ServiceRequest = new ServiceRequest()
-                            {
-                                TaskId = "taskId1234",
-                                DecisionReference = "decisionReference123",
-                                TaskCreatedDate = DateTime.UtcNow
-                            }
-                        }
-                    })
+                    Content = ErrorContent(ex)
                 };
             }
             catch (PausePaymentServiceException ex)
@@ -61,7 +46,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 {
                     StatusCode = (int)ex.HttpStatusCode,
                     ContentType = "application/json",
-                    Content = ex.Content
+                    Content = ErrorContent(ex)
                 };
 
             }
@@ -71,11 +56,45 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 {
                     StatusCode = (int)HttpStatusCode.InternalServerError,
                     ContentType = "application/json",
-                    Content = JsonConvert.SerializeObject(new { ex.Message })
+                    Content = ErrorContent(ex)
                 };
             }
 
             return new OkResult();
+        }
+
+        private static string ErrorContent(Exception ex)
+        {
+            string paramName = (ex is ArgumentException argEx) ? argEx.ParamName : "";
+
+            return JsonConvert.SerializeObject(new
+            {
+                ParamName = paramName,
+                ex.Message,
+                Example = new
+                {
+                    Action = "Pause|Resume",
+                    Applications = new List<object>()
+                    {
+                        new
+                        {
+                            AccountLegalEntityId = 1234,
+                            ULN = 5678
+                        },
+                        new
+                        {
+                            AccountLegalEntityId = 5678,
+                            ULN = 9876
+                        }
+                    },
+                    ServiceRequest = new ServiceRequest()
+                    {
+                        TaskId = "taskId1234",
+                        DecisionReference = "decisionReference123",
+                        TaskCreatedDate = DateTime.UtcNow
+                    }
+                }
+            });
         }
     }
 }
