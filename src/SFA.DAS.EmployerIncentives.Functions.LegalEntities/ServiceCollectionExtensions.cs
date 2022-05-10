@@ -14,6 +14,7 @@ using SFA.DAS.Http;
 using System;
 using System.Net.Http;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RecalculateEarnings;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
@@ -55,6 +56,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.AddClient<IBlockPaymentsService>((c, s) => new BlockPaymentsService(c));
             serviceCollection.Decorate<IBlockPaymentsService, BlockPaymentsServiceWithLogging>();
             serviceCollection.Decorate<IBlockPaymentsService, BlockPaymentsServiceValidation>();
+            serviceCollection.Decorate<IPausePaymentsService, PausePaymentsServiceValidation>();
+            serviceCollection.AddClient<IRecalculateEarningsService>((c, s) => new RecalculateEarningsService(c));
+            serviceCollection.Decorate<IRecalculateEarningsService, RecalculateEarningsServiceValidation>();
+            serviceCollection.Decorate<IRecalculateEarningsService, RecalculateEarningsServiceWithLogging>();
             serviceCollection.AddClient<IValidationOverrideService>((c, s) => new ValidationOverrideService(c));
             serviceCollection.Decorate<IValidationOverrideService, ValidationOverrideServiceValidation>();
 

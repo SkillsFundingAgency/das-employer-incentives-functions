@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RecalculateEarnings;
 using Config = SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 
 namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
@@ -38,6 +39,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         public HandleEarningsResilienceCheck TimerTriggerEarningsResilienceCheck { get; set; }
         public HandleUpdateCollectionCalendarPeriod HttpTriggerUpdateCollectionCalendarPeriod { get; set; }
         public HandleWithdrawalRequest HttpTriggerHandleWithdrawal { get; set; }
+        public HandleReinstateApplicationRequest HttpTriggerHandleReinstateApplication { get; set; }
         public HandlePausePaymentsRequest HttpTriggerHandlePausePayments { get; set; }
         public HandleValidationOverrideRequest HttpTriggerHandleValidationOverride { get; set; }
 
@@ -45,6 +47,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
 
         public HandleRefreshEmploymentChecksRequest HttpTriggerHandleRefreshEmploymentChecks { get; set; }
         public HandleRefreshEmploymentCheckRequest HttpTriggerHandleRefreshEmploymentCheck { get; set; }
+        public HandleRecalculateEarningsRequest HttpTriggerHandleRecalculateEarningsRequest { get; set; }
         public IVrfCaseRefreshRepository VrfCaseRefreshRepository { get; private set; }
         
         public HandleBlockPaymentsRequest HttpTriggerHandleBlockPaymentsRequest { get; set; }
@@ -140,6 +143,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             HttpTriggerHandleRefreshEmploymentChecks = new HandleRefreshEmploymentChecksRequest(host.Services.GetService(typeof(IJobsService)) as IJobsService);
             HttpTriggerHandleRefreshEmploymentCheck = new HandleRefreshEmploymentCheckRequest(host.Services.GetService(typeof(IEmploymentCheckService)) as IEmploymentCheckService);
             HttpTriggerHandleBlockPaymentsRequest = new HandleBlockPaymentsRequest(host.Services.GetService(typeof(IBlockPaymentsService)) as IBlockPaymentsService);
+            HttpTriggerHandleRecalculateEarningsRequest = new HandleRecalculateEarningsRequest(host.Services.GetService(typeof(IRecalculateEarningsService)) as IRecalculateEarningsService);
+            HttpTriggerHandleReinstateApplication = new HandleReinstateApplicationRequest(host.Services.GetService(typeof(IWithdrawalService)) as IWithdrawalService);
             HttpTriggerHandleValidationOverride = new HandleValidationOverrideRequest(host.Services.GetService(typeof(IValidationOverrideService)) as IValidationOverrideService);
 
             AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"

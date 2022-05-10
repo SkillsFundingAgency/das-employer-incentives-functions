@@ -11,3 +11,7 @@ Scenario: an EmployerWithdrawal request is requested
 Scenario: a ComplianceWithdrawal request is requested
 	When a compliance withdrawal request is received
 	Then the withdrawal request is forwarded to the Employer Incentives API
+
+Scenario: a ReinstateApplication request is requested
+	When a reinstate application request is received
+	Then the reinstate application request is forwarded to the Employer Incentives API
