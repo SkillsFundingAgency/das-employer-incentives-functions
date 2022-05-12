@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -12,7 +13,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PausePaymentsS
 {
     public class WhenSettingPauseStatus
     {
-        private Functions.LegalEntities.Services.PausePayments.PausePaymentsService _sut;
+        private IPausePaymentsService _sut;
         private Uri _baseAddress;
         private TestHttpClient _testClient;
         private Fixture _fixture;
@@ -27,7 +28,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PausePaymentsS
 
             _testClient.SetUpPostAsAsync(HttpStatusCode.OK);
 
-            _sut = new Functions.LegalEntities.Services.PausePayments.PausePaymentsService(_testClient);
+            _sut = new PausePaymentsServiceValidation(
+                new Functions.LegalEntities.Services.PausePayments.PausePaymentsService(_testClient)
+                );
         }
 
         [Test]
@@ -63,13 +66,22 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PausePaymentsS
         {
             // Arrange
             var pausePaymentsRequest = BuildValidPausePaymentsRequest();
-            pausePaymentsRequest.AccountLegalEntityId = default;
+            pausePaymentsRequest.Applications = new List<Application>()
+            {
+                _fixture.Create<Application>(),
+                new Application()
+                {
+                    AccountLegalEntityId = default,
+                    ULN = 1234
+                },
+                _fixture.Create<Application>()
+            }.ToArray();
 
             // Act
             Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("AccountLegalEntityId is not set*");
+            result.Should().Throw<ArgumentException>().WithMessage("AccountLegalEntityId not set for AccountLegalEntityId : 0, ULN : 1234");
         }
 
         [Test]
@@ -77,13 +89,23 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PausePaymentsS
         {
             // Arrange
             var pausePaymentsRequest = BuildValidPausePaymentsRequest();
-            pausePaymentsRequest.ULN = default;
+            
+            pausePaymentsRequest.Applications = new List<Application>()
+            {
+                _fixture.Create<Application>(),
+                new Application()
+                {
+                    AccountLegalEntityId = 1234,
+                    ULN = default
+                },
+                _fixture.Create<Application>()
+            }.ToArray();
 
             // Act
             Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("ULN is not set*");
+            result.Should().Throw<ArgumentException>().WithMessage("ULN not set for AccountLegalEntityId : 1234, ULN : 0");
         }
 
         [Test]
@@ -158,6 +180,34 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PausePaymentsS
 
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("Service Request Task Created Date is not set*");
+        }
+
+        [Test]
+        public void Then_an_exception_is_thrown_when_the_AccountLegalEntityId_ULN_combination_is_duplicated()
+        {
+            // Arrange
+            var pausePaymentsRequest = BuildValidPausePaymentsRequest();
+
+            pausePaymentsRequest.Applications = new List<Application>()
+            {
+                _fixture.Create<Application>(),
+                new Application()
+                {
+                    AccountLegalEntityId = 1234,
+                    ULN = 1234
+                },
+                new Application()
+                {
+                    AccountLegalEntityId = 1234,
+                    ULN = 1234
+                }
+            }.ToArray();
+
+            // Act
+            Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
+
+            // Assert
+            result.Should().Throw<ArgumentException>().WithMessage("Duplicate application entries exist. The combination of AccountLegalEntityId and ULN should be unique.");
         }
 
         private PausePaymentsRequest BuildValidPausePaymentsRequest()
