@@ -1,8 +1,6 @@
 ﻿using Microsoft.Azure.WebJobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck.Types;
-using SFA.DAS.EmployerIncentives.Infrastructure;
-using SFA.DAS.EmployerIncentives.Messages.Events;
 using SFA.DAS.NServiceBus.AzureFunction.Attributes;
 using System;
 using System.Threading.Tasks;
@@ -19,28 +17,39 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         }
 
         [FunctionName("HandleEmploymentCheckCompletedEvent")]
-        public Task RunEvent([NServiceBusTrigger(Endpoint = QueueNames.EmploymentCheckCompleted)] EmploymentCheckCompletedEvent message)
+        public Task RunEvent([NServiceBusTrigger(Endpoint = EmploymentCheck.Types.QueueNames.PublishEmploymentCheckResult)] EmploymentCheck.Types.EmploymentCheckCompletedEvent message)
         {
             var updateRequest = new UpdateRequest
             {
                 CorrelationId = message.CorrelationId,
-                Result = Map(message.Result).ToString(),
-                DateChecked = message.DateChecked 
+                Result = Map(message.EmploymentResult, message.ErrorType).ToString(),
+                DateChecked = message.CheckDate
             };
-            
+
             return _employmentCheckService.Update(updateRequest);
         }
 
-        private EmploymentCheckResult Map(string result)
+        private EmploymentCheckResult Map(bool? result, string errorType)
         {
-            return result.ToLower() switch
+            if(result.HasValue)
             {
-                "employed" => EmploymentCheckResult.Employed,
-                "not employed" => EmploymentCheckResult.NotEmployed,
-                "hmrc unknown" => EmploymentCheckResult.HMRCUnknown,
-                "no nino found" => EmploymentCheckResult.NoNINOFound,
-                "no account found" => EmploymentCheckResult.NoAccountFound,
-                _ => throw new ArgumentException($"Unexpected Employment Check result reveived : {result}"),
+                if(!string.IsNullOrEmpty(errorType))
+                {
+                    throw new ArgumentException($"Unexpected Error type set when employmentResult is set : {errorType}");
+                }
+                return result.Value ? EmploymentCheckResult.Employed : EmploymentCheckResult.NotEmployed;
+            }
+
+            return errorType.ToLower() switch
+            {
+                "ninonotfound" => EmploymentCheckResult.NinoNotFound,
+                "ninofailure" => EmploymentCheckResult.NinoFailure,
+                "ninoinvalid" => EmploymentCheckResult.NinoInvalid,
+                "payenotfound" => EmploymentCheckResult.PAYENotFound,
+                "payefailure" => EmploymentCheckResult.PAYEFailure,
+                "ninoandpayenotfound" => EmploymentCheckResult.NinoAndPAYENotFound,
+                "hmrcfailure" => EmploymentCheckResult.HmrcFailure,
+                _ => throw new ArgumentException($"Unexpected Employment Check result received : {errorType}"),
             };
         }
     }

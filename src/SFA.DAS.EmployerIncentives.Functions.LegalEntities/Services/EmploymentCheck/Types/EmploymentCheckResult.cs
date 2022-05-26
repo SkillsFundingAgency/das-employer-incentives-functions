@@ -4,8 +4,12 @@
     {
         Employed = 0,
         NotEmployed = 1,
-        HMRCUnknown = 2,
-        NoNINOFound = 3,
-        NoAccountFound = 4
+        NinoNotFound = 2,
+        NinoFailure = 3,
+        NinoInvalid = 4,
+        PAYENotFound = 5,
+        PAYEFailure = 6,
+        NinoAndPAYENotFound = 7,
+        HmrcFailure = 8
     }
 }

@@ -15,6 +15,7 @@
     <PackageReference Include="SFA.DAS.Configuration.AzureTableStorage" Version="3.0.84" />
     <PackageReference Include="SFA.DAS.EmployerAccounts.Messages" Version="1.6.2978" />
     <PackageReference Include="SFA.DAS.EmployerIncentives.Messages" Version="0.1.219-EI-1584-employment-check-receive-result.9-prerelease" />
+    <PackageReference Include="SFA.DAS.EmploymentCheck.Types" Version="1.1.63-prerelease-47" />
     <PackageReference Include="SFA.DAS.Http" Version="3.2.53" />
   </ItemGroup>
   <ItemGroup>
