@@ -7,6 +7,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
+using System.Linq;
 
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawService
 {
@@ -73,6 +74,66 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
 
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("ULN not set (Parameter 'ULN')");
+        }
+
+        [Test]
+        public void Then_an_exception_is_thrown_when_the_ServiceRequest_is_not_set()
+        {
+            // Arrange
+            var reinstateApplicationRequest = _fixture.Create<ReinstateApplicationRequest>();
+            reinstateApplicationRequest.Applications.First().ServiceRequest = default;
+
+            // Act
+            Func<Task> result = async () => await _sut.Reinstate(reinstateApplicationRequest);
+
+            // Assert
+            result.Should().Throw<ArgumentException>().WithMessage("Service Request is not set*");
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase(" ")]
+        public void Then_an_exception_is_thrown_when_the_ServiceRequest_TaskId_is_not_set(string value)
+        {
+            // Arrange
+            var reinstateApplicationRequest = _fixture.Create<ReinstateApplicationRequest>();
+            reinstateApplicationRequest.Applications.First().ServiceRequest.TaskId = value;
+
+            // Act
+            Func<Task> result = async () => await _sut.Reinstate(reinstateApplicationRequest);
+
+            // Assert
+            result.Should().Throw<ArgumentException>().WithMessage("Service Request Task Id is not set*");
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase(" ")]
+        public void Then_an_exception_is_thrown_when_the_ServiceRequest_DecisionReference_is_not_set(string value)
+        {
+            // Arrange
+            var reinstateApplicationRequest = _fixture.Create<ReinstateApplicationRequest>();
+            reinstateApplicationRequest.Applications.First().ServiceRequest.DecisionReference = value;
+
+            // Act
+            Func<Task> result = async () => await _sut.Reinstate(reinstateApplicationRequest);
+
+            // Assert
+            result.Should().Throw<ArgumentException>().WithMessage("Service Request Decision Reference is not set*");
+        }
+
+        [Test]
+        public void Then_an_exception_is_thrown_when_the_ServiceRequest_TaskCreatedDate_is_not_set()
+        {
+            // Arrange
+            var reinstateApplicationRequest = _fixture.Create<ReinstateApplicationRequest>();
+            reinstateApplicationRequest.Applications.First().ServiceRequest.TaskCreatedDate = default;
+
+            // Act
+            Func<Task> result = async () => await _sut.Reinstate(reinstateApplicationRequest);
+
+            // Assert
+            result.Should().Throw<ArgumentException>().WithMessage("Service Request Task Created Date is not set*");
         }
     }
 }
