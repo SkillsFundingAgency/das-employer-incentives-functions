@@ -14,6 +14,7 @@ using SFA.DAS.Http;
 using System;
 using System.Net.Http;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RecalculateEarnings;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RevertPayments;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
@@ -58,6 +59,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.Decorate<IRecalculateEarningsService, RecalculateEarningsServiceWithLogging>();
             serviceCollection.AddClient<IValidationOverrideService>((c, s) => new ValidationOverrideService(c));
             serviceCollection.Decorate<IValidationOverrideService, ValidationOverrideServiceValidation>();
+            serviceCollection.AddClient<IRevertPaymentsService>((c, s) => new RevertPaymentsService(c));
+            serviceCollection.Decorate<IRevertPaymentsService, RevertPaymentsServiceValidation>();
 
             return serviceCollection;
         }
