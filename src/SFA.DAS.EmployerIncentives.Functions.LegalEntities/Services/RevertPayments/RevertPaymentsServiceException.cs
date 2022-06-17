@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Net;
+using System.Runtime.Serialization;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RevertPayments
 {
+    [Serializable]
     public class RevertPaymentsServiceException : Exception
     {
         public HttpStatusCode HttpStatusCode { get; }
@@ -12,6 +14,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RevertPaym
         {
             HttpStatusCode = httpStatusCode;
             Content = content;
+        }
+
+        protected RevertPaymentsServiceException(SerializationInfo serializationInfo, StreamingContext streamingContext) 
+            : base(serializationInfo, streamingContext)
+        {
         }
     }
 }
