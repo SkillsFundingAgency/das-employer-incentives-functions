@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types;
+using SFA.DAS.EmployerIncentives.Types;
 
 #pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments
@@ -42,23 +43,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments
             {
                 throw new ArgumentException("Action is not set or invalid", nameof(request.Action));
             }
-            
-            if (request.ServiceRequest == null)
-            {
-                throw new ArgumentException("Service Request is not set", nameof(request.ServiceRequest));
-            }
-            if (string.IsNullOrWhiteSpace(request.ServiceRequest.TaskId))
-            {
-                throw new ArgumentException("Service Request Task Id is not set", nameof(request.ServiceRequest.TaskId));
-            }
-            if (string.IsNullOrWhiteSpace(request.ServiceRequest.DecisionReference))
-            {
-                throw new ArgumentException("Service Request Decision Reference is not set", nameof(request.ServiceRequest.DecisionReference));
-            }
-            if (request.ServiceRequest.TaskCreatedDate == null)
-            {
-                throw new ArgumentException("Service Request Task Created Date is not set", nameof(request.ServiceRequest.TaskCreatedDate));
-            }
+
+            EnsureServiceRequestIsValid(request.ServiceRequest);
         }
 
         private void EnsureApplicationIsValid(Application application)
@@ -80,21 +66,26 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments
                 throw new ArgumentException("Payment Ids are not set", nameof(request.Payments));
             }
 
-            if (request.ServiceRequest == null)
+            EnsureServiceRequestIsValid(request.ServiceRequest);
+        }
+
+        private void EnsureServiceRequestIsValid(ServiceRequest serviceRequest)
+        {
+            if (serviceRequest == null)
             {
-                throw new ArgumentException("Service Request is not set", nameof(request.ServiceRequest));
+                throw new ArgumentException("Service Request is not set", nameof(serviceRequest));
             }
-            if (string.IsNullOrWhiteSpace(request.ServiceRequest.TaskId))
+            if (string.IsNullOrWhiteSpace(serviceRequest.TaskId))
             {
-                throw new ArgumentException("Service Request Task Id is not set", nameof(request.ServiceRequest.TaskId));
+                throw new ArgumentException("Service Request Task Id is not set", nameof(serviceRequest.TaskId));
             }
-            if (string.IsNullOrWhiteSpace(request.ServiceRequest.DecisionReference))
+            if (string.IsNullOrWhiteSpace(serviceRequest.DecisionReference))
             {
-                throw new ArgumentException("Service Request Decision Reference is not set", nameof(request.ServiceRequest.DecisionReference));
+                throw new ArgumentException("Service Request Decision Reference is not set", nameof(serviceRequest.DecisionReference));
             }
-            if (request.ServiceRequest.TaskCreatedDate == null)
+            if (serviceRequest.TaskCreatedDate == null)
             {
-                throw new ArgumentException("Service Request Task Created Date is not set", nameof(request.ServiceRequest.TaskCreatedDate));
+                throw new ArgumentException("Service Request Task Created Date is not set", nameof(serviceRequest.TaskCreatedDate));
             }
         }
     }
