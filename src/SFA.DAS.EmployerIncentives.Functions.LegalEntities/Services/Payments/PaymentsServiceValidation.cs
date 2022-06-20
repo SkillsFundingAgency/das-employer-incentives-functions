@@ -16,18 +16,18 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments
             _paymentsService = paymentsService;
         }
 
-        public async Task SetPauseStatus(PausePaymentsRequest request)
+        public Task SetPauseStatus(PausePaymentsRequest request)
         {
             EnsureSetPauseStatusRequestIsValid(request);
 
-            await _paymentsService.SetPauseStatus(request);
+            return _paymentsService.SetPauseStatus(request);
         }
 
-        public async Task RevertPayments(RevertPaymentsRequest request)
+        public Task RevertPayments(RevertPaymentsRequest request)
         {
             EnsureRevertPaymentsRequestIsValid(request);
 
-            await _paymentsService.RevertPayments(request);
+            return _paymentsService.RevertPayments(request);
         }
 
         private void EnsureSetPauseStatusRequestIsValid(PausePaymentsRequest request)
