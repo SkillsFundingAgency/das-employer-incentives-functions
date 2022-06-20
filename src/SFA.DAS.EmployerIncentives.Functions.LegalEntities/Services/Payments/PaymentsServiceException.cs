@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments
 {
+    [Serializable]
     public class PaymentsServiceException : Exception
     {
         public HttpStatusCode HttpStatusCode { get; }
