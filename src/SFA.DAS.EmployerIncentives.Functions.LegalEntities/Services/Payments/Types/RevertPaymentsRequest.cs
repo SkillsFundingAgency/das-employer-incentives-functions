@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SFA.DAS.EmployerIncentives.Types;
 
-namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RevertPayments.Types
+namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types
 {
     public class RevertPaymentsRequest
     {

@@ -7,21 +7,19 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RecalculateEarnings;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RecalculateEarnings.Types;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RevertPayments;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RevertPayments.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types;
 using SFA.DAS.EmployerIncentives.Types;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
     public class HandleRevertPaymentsRequest
     {
-        private readonly IRevertPaymentsService _revertPaymentsService;
+        private readonly IPaymentsService _paymentsService;
 
-        public HandleRevertPaymentsRequest(IRevertPaymentsService revertPaymentsService)
+        public HandleRevertPaymentsRequest(IPaymentsService paymentsService)
         {
-            _revertPaymentsService = revertPaymentsService;
+            _paymentsService = paymentsService;
         }
 
         [FunctionName("HttpTriggerRevertPaymentsRequest")]
@@ -31,7 +29,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             {
                 var recalculateEarningsRequest =
                     JsonConvert.DeserializeObject<RevertPaymentsRequest>(await request.Content.ReadAsStringAsync());
-                await _revertPaymentsService.RevertPayments(recalculateEarningsRequest);
+                await _paymentsService.RevertPayments(recalculateEarningsRequest);
             }
             catch (ArgumentException ex)
             {
@@ -56,7 +54,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                     })
                 };
             }
-            catch (RevertPaymentsServiceException ex)
+            catch (PaymentsServiceException ex)
             {
                 return new ContentResult()
                 {

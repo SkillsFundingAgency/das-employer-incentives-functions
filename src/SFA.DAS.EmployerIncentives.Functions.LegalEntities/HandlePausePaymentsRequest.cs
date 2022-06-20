@@ -2,24 +2,24 @@
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Newtonsoft.Json;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types;
 using SFA.DAS.EmployerIncentives.Types;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
     public class HandlePausePaymentsRequest
     {
-        private readonly IPausePaymentsService _pausePaymentsService;
+        private readonly IPaymentsService _paymentsService;
 
-        public HandlePausePaymentsRequest(IPausePaymentsService pausePaymentsService)
+        public HandlePausePaymentsRequest(IPaymentsService paymentsService)
         {
-            _pausePaymentsService = pausePaymentsService;
+            _paymentsService = paymentsService;
         }
 
         [FunctionName("HttpTriggerPausePaymentsRequest")]
@@ -29,7 +29,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             {
                 var pausePaymentsRequest =
                     JsonConvert.DeserializeObject<PausePaymentsRequest>(await request.Content.ReadAsStringAsync());
-                await _pausePaymentsService.SetPauseStatus(pausePaymentsRequest);
+                await _paymentsService.SetPauseStatus(pausePaymentsRequest);
             }
             catch (ArgumentException ex)
             {
@@ -40,7 +40,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                     Content = ErrorContent(ex)
                 };
             }
-            catch (PausePaymentServiceException ex)
+            catch (PaymentsServiceException ex)
             {
                 return new ContentResult()
                 {

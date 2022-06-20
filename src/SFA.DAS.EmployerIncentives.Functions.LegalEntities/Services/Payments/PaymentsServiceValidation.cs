@@ -1,28 +1,35 @@
-﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types;
 
 #pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 
-namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments
+namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments
 {
-    public class PausePaymentsServiceValidation : IPausePaymentsService
+    public class PaymentsServiceValidation : IPaymentsService
     {
-        private readonly IPausePaymentsService _pausePaymentsService;
+        private readonly IPaymentsService _paymentsService;
 
-        public PausePaymentsServiceValidation(IPausePaymentsService pausePaymentsService)
+        public PaymentsServiceValidation(IPaymentsService paymentsService)
         {
-            _pausePaymentsService = pausePaymentsService;
+            _paymentsService = paymentsService;
         }
 
         public async Task SetPauseStatus(PausePaymentsRequest request)
         {
-            EnsureRequestIsValid(request);
+            EnsureSetPauseStatusRequestIsValid(request);
 
-            await _pausePaymentsService.SetPauseStatus(request);
+            await _paymentsService.SetPauseStatus(request);
         }
-        
-        private void EnsureRequestIsValid(PausePaymentsRequest request)
+
+        public async Task RevertPayments(RevertPaymentsRequest request)
+        {
+            EnsureRevertPaymentsRequestIsValid(request);
+
+            await _paymentsService.RevertPayments(request);
+        }
+
+        private void EnsureSetPauseStatusRequestIsValid(PausePaymentsRequest request)
         {
             if (request.Applications.Select(r => new { r.AccountLegalEntityId, r.ULN }).Distinct().Count() != request.Applications.Count())
             {
@@ -63,6 +70,31 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayme
             if (application.ULN == default)
             {
                 throw new ArgumentException($"ULN not set for AccountLegalEntityId : {application.AccountLegalEntityId}, ULN : {application.ULN}");
+            }
+        }
+
+        private void EnsureRevertPaymentsRequestIsValid(RevertPaymentsRequest request)
+        {
+            if (request.Payments.Count == 0)
+            {
+                throw new ArgumentException("Payment Ids are not set", nameof(request.Payments));
+            }
+
+            if (request.ServiceRequest == null)
+            {
+                throw new ArgumentException("Service Request is not set", nameof(request.ServiceRequest));
+            }
+            if (string.IsNullOrWhiteSpace(request.ServiceRequest.TaskId))
+            {
+                throw new ArgumentException("Service Request Task Id is not set", nameof(request.ServiceRequest.TaskId));
+            }
+            if (string.IsNullOrWhiteSpace(request.ServiceRequest.DecisionReference))
+            {
+                throw new ArgumentException("Service Request Decision Reference is not set", nameof(request.ServiceRequest.DecisionReference));
+            }
+            if (request.ServiceRequest.TaskCreatedDate == null)
+            {
+                throw new ArgumentException("Service Request Task Created Date is not set", nameof(request.ServiceRequest.TaskCreatedDate));
             }
         }
     }

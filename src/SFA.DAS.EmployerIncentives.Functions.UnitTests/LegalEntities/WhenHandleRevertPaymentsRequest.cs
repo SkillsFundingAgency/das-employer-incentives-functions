@@ -10,8 +10,8 @@ using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RevertPayments;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RevertPayments.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
 
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
@@ -20,14 +20,14 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
     public class WhenHandleRevertPaymentsRequest
     {
         private HandleRevertPaymentsRequest _sut;
-        private Mock<IRevertPaymentsService> _service;
+        private Mock<IPaymentsService> _service;
         private Fixture _fixture;
 
         [SetUp]
         public void Arrange()
         {
             _fixture = new Fixture();
-            _service = new Mock<IRevertPaymentsService>();
+            _service = new Mock<IPaymentsService>();
 
             _service.Setup(m => m.RevertPayments(It.IsAny<RevertPaymentsRequest>()))
                 .Returns(Task.FromResult<IActionResult>(new OkResult()));

@@ -8,7 +8,7 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RevertPayments.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types;
 using SFA.DAS.EmployerIncentives.Types;
 using TechTalk.SpecFlow;
 using WireMock;

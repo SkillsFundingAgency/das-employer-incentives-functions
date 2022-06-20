@@ -6,16 +6,16 @@ using AutoFixture;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RevertPayments;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RevertPayments.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types;
 using SFA.DAS.EmployerIncentives.Types;
 
-namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.RevertPaymentsService
+namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsService
 {
     [TestFixture]
     public class WhenRevertingPayments
     {
-        private IRevertPaymentsService _sut;
+        private IPaymentsService _sut;
         private Uri _baseAddress;
         private TestHttpClient _testClient;
         private Fixture _fixture;
@@ -30,9 +30,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.RevertPayments
 
             _testClient.SetUpPostAsAsync(HttpStatusCode.OK);
 
-            _sut = new RevertPaymentsServiceValidation(
-                new Functions.LegalEntities.Services.RevertPayments.RevertPaymentsService(_testClient)
-            );
+            _sut = new PaymentsServiceValidation(new Functions.LegalEntities.Services.Payments.PaymentsService(_testClient));
         }
 
         [Test]
@@ -59,7 +57,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.RevertPayments
             Func<Task> result = async () => await _sut.RevertPayments(revertPaymentsRequest);
 
             // Assert
-            result.Should().Throw<RevertPaymentsServiceException>();
+            result.Should().Throw<PaymentsServiceException>();
         }
 
         [Test]
