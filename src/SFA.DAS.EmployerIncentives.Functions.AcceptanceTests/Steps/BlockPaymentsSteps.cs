@@ -55,7 +55,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .Given(
                     Request
                         .Create()
-                        .WithPath($"/blockedpayments")
+                        .WithPath($"/employerincentives/blockedpayments")
                         .WithBody(json)
                         .UsingPatch()
                 )
@@ -80,7 +80,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 .FindLogEntries(
                     Request
                         .Create()
-                        .WithPath($"/blockedpayments")
+                        .WithPath($"/employerincentives/blockedpayments")
                         .WithBody(JsonConvert.SerializeObject(_blockPaymentsRequest))
                         .UsingPatch());
 
