@@ -16,7 +16,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayme
 
         public async Task BlockAccountLegalEntitiesForPayments(BlockAccountLegalEntityForPaymentsRequest blockPaymentsRequest)
         {
-            var response = await _client.PatchAsync($"/employerincentives/blockedpayments", blockPaymentsRequest.GetStringContent());
+            var response = await _client.PatchAsync("blockedpayments", blockPaymentsRequest.GetStringContent());
 
             if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
             {

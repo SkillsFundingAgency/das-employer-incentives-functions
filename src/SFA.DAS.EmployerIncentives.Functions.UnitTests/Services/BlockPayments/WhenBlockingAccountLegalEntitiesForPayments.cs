@@ -43,7 +43,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
             await _sut.BlockAccountLegalEntitiesForPayments(blockPaymentsRequest);
 
             // Assert
-            _testClient.VerifyPatchAsAsync($"employerincentives/blockedpayments", Times.Once());
+            _testClient.VerifyPatchAsAsync("blockedpayments", Times.Once());
         }
 
         [TestCase(HttpStatusCode.NotFound)]
