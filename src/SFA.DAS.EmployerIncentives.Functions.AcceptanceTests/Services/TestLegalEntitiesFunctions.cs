@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayments;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RecalculateEarnings;
 using Config = SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 
@@ -49,6 +50,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         public HandleRecalculateEarningsRequest HttpTriggerHandleRecalculateEarningsRequest { get; set; }
         public IVrfCaseRefreshRepository VrfCaseRefreshRepository { get; private set; }
         
+        public HandleBlockPaymentsRequest HttpTriggerHandleBlockPaymentsRequest { get; set; }
+
         public TestLegalEntitiesFunctions(TestContext testContext)
         {
             _testContext = testContext;
@@ -139,6 +142,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             HttpTriggerHandlePausePayments = new HandlePausePaymentsRequest(host.Services.GetService(typeof(IPausePaymentsService)) as IPausePaymentsService);
             HttpTriggerHandleRefreshEmploymentChecks = new HandleRefreshEmploymentChecksRequest(host.Services.GetService(typeof(IJobsService)) as IJobsService);
             HttpTriggerHandleRefreshEmploymentCheck = new HandleRefreshEmploymentCheckRequest(host.Services.GetService(typeof(IEmploymentCheckService)) as IEmploymentCheckService);
+            HttpTriggerHandleBlockPaymentsRequest = new HandleBlockPaymentsRequest(host.Services.GetService(typeof(IBlockPaymentsService)) as IBlockPaymentsService);
             HttpTriggerHandleRecalculateEarningsRequest = new HandleRecalculateEarningsRequest(host.Services.GetService(typeof(IRecalculateEarningsService)) as IRecalculateEarningsService);
             HttpTriggerHandleReinstateApplication = new HandleReinstateApplicationRequest(host.Services.GetService(typeof(IWithdrawalService)) as IWithdrawalService);
             HttpTriggerHandleValidationOverride = new HandleValidationOverrideRequest(host.Services.GetService(typeof(IValidationOverrideService)) as IValidationOverrideService);
