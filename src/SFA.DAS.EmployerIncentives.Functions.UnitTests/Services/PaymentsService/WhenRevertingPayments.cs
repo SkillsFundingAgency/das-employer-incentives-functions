@@ -77,6 +77,22 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
         }
 
         [Test]
+        public void Then_an_exception_is_thrown_if_the_payment_ids_are_not_supplied()
+        {
+            // Arrange
+            var revertPaymentsRequest = _fixture.Build<RevertPaymentsRequest>()
+                .Without(x => x.Payments)
+                .Create();
+            _testClient.SetUpPostAsAsync(HttpStatusCode.BadRequest);
+
+            // Act
+            Func<Task> result = async () => await _sut.RevertPayments(revertPaymentsRequest);
+
+            // Assert
+            result.Should().Throw<ArgumentException>().WithMessage("Payment Ids are not set*");
+        }
+
+        [Test]
         public void Then_an_exception_is_thrown_when_the_ServiceRequest_is_not_set()
         {
             // Arrange

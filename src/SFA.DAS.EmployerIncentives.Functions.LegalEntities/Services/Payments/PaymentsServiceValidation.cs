@@ -61,7 +61,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments
 
         private void EnsureRevertPaymentsRequestIsValid(RevertPaymentsRequest request)
         {
-            if (request.Payments.Count == 0)
+            if (request.Payments == null || request.Payments.Count == 0)
             {
                 throw new ArgumentException("Payment Ids are not set", nameof(request.Payments));
             }
