@@ -1,17 +1,16 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types;
 
 #pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 
-namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments
+namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments
 {
-    public class PausePaymentsService : IPausePaymentsService
+    public class PaymentsService : IPaymentsService
     {
         private readonly HttpClient _client;
 
-        public PausePaymentsService(HttpClient client)
+        public PaymentsService(HttpClient client)
         {
             _client = client;
         }
@@ -22,7 +21,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayme
 
             if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
             {
-                throw new PausePaymentServiceException(response.StatusCode, await GetContentAsString(response));
+                throw new PaymentsServiceException(response.StatusCode, await GetContentAsString(response));
+            }
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task RevertPayments(RevertPaymentsRequest request)
+        {
+            var response = await _client.PostAsJsonAsync("revert-payments", request);
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                throw new PaymentsServiceException(response.StatusCode, await GetContentAsString(response));
             }
 
             response.EnsureSuccessStatusCode();
@@ -40,7 +51,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayme
                 // Do nothing
             }
             return content;
-        }        
+        }
     }
 }
 #pragma warning restore S3928 // Parameter names used into ArgumentException constructors should match an existing one 

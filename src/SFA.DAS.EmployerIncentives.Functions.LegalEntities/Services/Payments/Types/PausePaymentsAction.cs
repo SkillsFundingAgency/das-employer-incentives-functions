@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types
+namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types
 {
     public enum PausePaymentsAction : Byte
     {
