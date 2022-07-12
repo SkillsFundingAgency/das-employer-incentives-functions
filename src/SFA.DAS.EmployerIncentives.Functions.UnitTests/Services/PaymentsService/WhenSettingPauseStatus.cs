@@ -6,14 +6,14 @@ using AutoFixture;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.PausePayments.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types;
 
-namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PausePaymentsService
+namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsService
 {
     public class WhenSettingPauseStatus
     {
-        private IPausePaymentsService _sut;
+        private IPaymentsService _sut;
         private Uri _baseAddress;
         private TestHttpClient _testClient;
         private Fixture _fixture;
@@ -28,8 +28,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PausePaymentsS
 
             _testClient.SetUpPostAsAsync(HttpStatusCode.OK);
 
-            _sut = new PausePaymentsServiceValidation(
-                new Functions.LegalEntities.Services.PausePayments.PausePaymentsService(_testClient)
+            _sut = new PaymentsServiceValidation(
+                new Functions.LegalEntities.Services.Payments.PaymentsService(_testClient)
                 );
         }
 
@@ -58,7 +58,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PausePaymentsS
             Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
 
             // Assert
-            result.Should().Throw<PausePaymentServiceException>();
+            result.Should().Throw<PaymentsServiceException>();
         }
 
         [Test]

@@ -78,6 +78,10 @@
         },
         "tags": {
             "type": "object"
+        },
+        "utcValue": {
+            "type": "string",
+            "defaultValue": "[utcNow()]"
         }
     },
     "variables": {
@@ -99,7 +103,7 @@
         },
         {
             "apiVersion": "2020-06-01",
-            "name": "apim-subscription",
+            "name": "[concat('apim-subscription-', parameters('utcValue'))]",
             "resourceGroup": "[parameters('sharedApimResourceGroup')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -123,7 +127,7 @@
         },
         {
             "apiVersion": "2020-06-01",
-            "name": "worker-app-service-plan",
+            "name": "[concat('worker-app-service-plan-', parameters('utcValue'))]",
             "resourceGroup": "[variables('resourceGroupName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -147,7 +151,7 @@
         },
         {
             "apiVersion": "2020-06-01",
-            "name": "function-app-subnet",
+            "name": "[concat('function-app-subnet-', parameters('utcValue'))]",
             "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -177,7 +181,7 @@
         },
         {
             "apiVersion": "2020-06-01",
-            "name": "application-insights",
+            "name": "[concat('application-insights-', parameters('utcValue'))]",
             "resourceGroup": "[variables('resourceGroupName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -198,7 +202,7 @@
         },
         {
             "apiVersion": "2020-06-01",
-            "name": "function-app",
+            "name": "[concat('function-app-', parameters('utcValue'))]",
             "resourceGroup": "[variables('resourceGroupName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -221,7 +225,7 @@
                         "value": "[parameters('functionAppAllowedIps')]"
                     },
                     "subnetResourceId": {
-                        "value": "[reference('function-app-subnet').outputs.SubnetResourceId.value]"
+                        "value": "[reference(concat('function-app-subnet-', parameters('utcValue'))).outputs.SubnetResourceId.value]"
                     },
                     "functionAppAppSettings": {
                         "value": {
@@ -232,7 +236,7 @@
                                 },
                                 {
                                     "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                    "value": "[reference('application-insights').outputs.InstrumentationKey.value]"
+                                    "value": "[reference(concat('application-insights-', parameters('utcValue'))).outputs.InstrumentationKey.value]"
                                 },
                                 {
                                     "name": "ConfigNames",
@@ -298,7 +302,7 @@
         },
         {
             "apiVersion": "2020-06-01",
-            "name": "function-app-sb-role-assignment",
+            "name": "[concat('function-app-sb-role-assignment-', parameters('utcValue'))]",
             "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -309,7 +313,7 @@
                 },
                 "parameters": {
                     "principalId": {
-                        "value": "[reference('function-app').outputs.managedServiceIdentityId.value]"
+                        "value": "[reference(concat('function-app-', parameters('utcValue'))).outputs.managedServiceIdentityId.value]"
                     },
                     "assignmentType": {
                         "value": "ServiceBusOwner"
@@ -320,7 +324,7 @@
                 }
             },
             "dependsOn": [
-                "function-app"
+                "[concat('function-app-', parameters('utcValue'))]"
             ]
         }
     ],
