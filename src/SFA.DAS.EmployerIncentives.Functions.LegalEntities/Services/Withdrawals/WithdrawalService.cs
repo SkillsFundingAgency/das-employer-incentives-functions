@@ -1,6 +1,7 @@
 ﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
 using SFA.DAS.EmployerIncentives.Types;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 #pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 
@@ -35,25 +36,51 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
 
         private void EnsureRequestIsvalid(WithdrawRequest request)
         {
+            EnsureRequestApplicationsAreValid(request.Applications);
+
             if (request.WithdrawalType == WithdrawalType.NotSet)
             {
                 throw new ArgumentException("WithdrawalType not set or invalid", nameof(request.WithdrawalType));
             }
-            if (request.AccountLegalEntityId == default)
-            {
-                throw new ArgumentException("AccountLegalEntityId not set", nameof(request.AccountLegalEntityId));
-            }
-            if (request.ULN == default)
-            {
-                throw new ArgumentException("ULN not set", nameof(request.ULN));
-            }
+            
             if (request.ServiceRequest == null)
             {
-                request.ServiceRequest = new ServiceRequest() { };
+                throw new ArgumentException("ServiceRequest not set", nameof(request.ServiceRequest));
             }
+
+            if (request.ServiceRequest.TaskId == default)
+            {
+                throw new ArgumentException("ServiceRequest TaskId not set", nameof(request.ServiceRequest.TaskId));
+            }
+
+            if (request.ServiceRequest.DecisionReference == default)
+            {
+                throw new ArgumentException("ServiceRequest DecisionReference not set", nameof(request.ServiceRequest.DecisionReference));
+            }
+
             if (request.ServiceRequest.TaskCreatedDate == null)
             {
-                request.ServiceRequest.TaskCreatedDate = DateTime.UtcNow;
+                throw new ArgumentException("ServiceRequest TaskCreatedDate not set", nameof(request.ServiceRequest.TaskCreatedDate));
+            }
+        }
+
+        private void EnsureRequestApplicationsAreValid(Application[] applications)
+        {
+            if (applications == null || !applications.Any())
+            {
+                throw new ArgumentException("Applications are not set", nameof(applications));
+            }
+
+            foreach(var application in applications)
+            {
+                if (application.AccountLegalEntityId == default)
+                {
+                    throw new ArgumentException("AccountLegalEntityId not set", nameof(application.AccountLegalEntityId));
+                }
+                if (application.ULN == default)
+                {
+                    throw new ArgumentException("ULN not set", nameof(application.ULN));
+                }
             }
         }
 

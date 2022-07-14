@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Ty
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using FluentAssertions.Common;
 
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
 {
@@ -36,7 +38,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
         public async Task Then_a_Withdrawal_Request_is_sent_to_the_EmployerIncentivesService()
         {
             // Arrange
-            var requestMessage = _fixture.Create<WithdrawRequest>();  
+            var applications = _fixture.CreateMany<Application>(5).ToArray();
+            var requestMessage = _fixture.Build<WithdrawRequest>()
+                .With(x => x.Applications, applications).Create();
+            
             var request = new HttpRequestMessage()
             {
                 Content = new StringContent(JsonConvert.SerializeObject(requestMessage), Encoding.UTF8, "application/json")
@@ -48,13 +53,22 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
             // Assert
             _mockWithdrawalService
                 .Verify(m => m.Withdraw(It.Is<WithdrawRequest>(r =>
-                    r.AccountLegalEntityId == requestMessage.AccountLegalEntityId &&
-                    r.ULN == requestMessage.ULN &&
                     r.ServiceRequest.TaskId == requestMessage.ServiceRequest.TaskId &&
                     r.ServiceRequest.DecisionReference == requestMessage.ServiceRequest.DecisionReference &&
                     r.ServiceRequest.TaskCreatedDate == requestMessage.ServiceRequest.TaskCreatedDate
                 ))
                 , Times.Once);
+
+            foreach(var application in applications)
+            {
+                _mockWithdrawalService
+                    .Verify(m => m.Withdraw(It.Is<WithdrawRequest>(r =>
+                        r.Applications.FirstOrDefault(x => 
+                            x.AccountLegalEntityId == application.AccountLegalEntityId && x.ULN == application.ULN) 
+                        != null
+                    ))
+                    , Times.Once);
+            }
         }
 
         [Test]
