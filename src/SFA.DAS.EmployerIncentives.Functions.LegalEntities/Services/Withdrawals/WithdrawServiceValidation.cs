@@ -16,21 +16,21 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
 
         public async Task Withdraw(WithdrawRequest request)
         {
-            EnsureRequestIsvalid(request);
+            EnsureWithdrawRequestIsvalid(request);
 
             await _service.Withdraw(request);
         }
 
         public async Task Reinstate(ReinstateApplicationRequest request)
         {
-            EnsureRequestIsvalid(request);
+            EnsureReinstateRequestIsValid(request);
 
             await _service.Reinstate(request);
         }
 
-        private void EnsureRequestIsvalid(WithdrawRequest request)
+        private void EnsureWithdrawRequestIsvalid(WithdrawRequest request)
         {
-            EnsureRequestApplicationsAreValid(request.Applications);
+            EnsureWithdrawRequestApplicationsAreValid(request.Applications);
 
             if (request.WithdrawalType == WithdrawalType.NotSet)
             {
@@ -57,8 +57,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
                 throw new ArgumentException("ServiceRequest TaskCreatedDate not set", nameof(request.ServiceRequest.TaskCreatedDate));
             }
         }
-
-        private void EnsureRequestApplicationsAreValid(Application[] applications)
+        
+        private void EnsureWithdrawRequestApplicationsAreValid(Application[] applications)
         {
             if (applications == null || !applications.Any())
             {
@@ -77,8 +77,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
                 }
             }
         }
-
-        private void EnsureRequestIsvalid(ReinstateApplicationRequest request)
+        
+        private void EnsureReinstateRequestIsValid(ReinstateApplicationRequest request)
         {
             foreach (var application in request.Applications)
             {
