@@ -51,9 +51,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             var reinstateApplicationRequest = _fixture.Create<ReinstateApplicationRequest>(); 
             reinstateApplicationRequest.Applications = new[] { application };
             application.AccountLegalEntityId = default;
+            var service = new WithdrawServiceValidation(_sut);
 
             // Act
-            Func<Task> result = async () => await _sut.Reinstate(reinstateApplicationRequest);
+            Func<Task> result = async () => await service.Reinstate(reinstateApplicationRequest);
 
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("AccountLegalEntityId not set (Parameter 'AccountLegalEntityId')");
@@ -67,9 +68,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             var reinstateApplicationRequest = _fixture.Create<ReinstateApplicationRequest>();
             reinstateApplicationRequest.Applications = new[] { application };
             application.ULN = default;
+            var service = new WithdrawServiceValidation(_sut);
 
             // Act
-            Func<Task> result = async () => await _sut.Reinstate(reinstateApplicationRequest);
+            Func<Task> result = async () => await service.Reinstate(reinstateApplicationRequest);
 
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("ULN not set (Parameter 'ULN')");
