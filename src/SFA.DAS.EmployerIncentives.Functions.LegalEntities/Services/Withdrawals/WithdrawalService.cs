@@ -3,6 +3,7 @@ using SFA.DAS.EmployerIncentives.Types;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+
 #pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals
 {
@@ -47,6 +48,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
             {
                 throw new ArgumentException("ULN not set", nameof(request.ULN));
             }
+
             if (request.ServiceRequest == null)
             {
                 request.ServiceRequest = new ServiceRequest() { };
@@ -69,6 +71,23 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
                 if (application.ULN == default)
                 {
                     throw new ArgumentException("ULN not set", nameof(application.ULN));
+                }
+
+                if (application.ServiceRequest == null)
+                {
+                    throw new ArgumentException($"Service Request is not set for application with ULN {application.ULN}", nameof(application.ServiceRequest));
+                }
+                if (string.IsNullOrWhiteSpace(application.ServiceRequest.TaskId))
+                {
+                    throw new ArgumentException("Service Request Task Id is not set for application with ULN {application.ULN}", nameof(application.ServiceRequest.TaskId));
+                }
+                if (string.IsNullOrWhiteSpace(application.ServiceRequest.DecisionReference))
+                {
+                    throw new ArgumentException("Service Request Decision Reference is not set for application with ULN {application.ULN}", nameof(application.ServiceRequest.DecisionReference));
+                }
+                if (application.ServiceRequest.TaskCreatedDate == null)
+                {
+                    throw new ArgumentException("Service Request Task Created Date is not set for application with ULN {application.ULN}", nameof(application.ServiceRequest.TaskCreatedDate));
                 }
             }
         }
