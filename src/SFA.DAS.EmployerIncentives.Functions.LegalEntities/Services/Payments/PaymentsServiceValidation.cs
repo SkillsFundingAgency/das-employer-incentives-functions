@@ -30,6 +30,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments
             return _paymentsService.RevertPayments(request);
         }
 
+        public Task ReinstatePayments(ReinstatePaymentsRequest request)
+        {
+            EnsureReinstatePaymentsRequestIsValid(request);
+
+            return _paymentsService.ReinstatePayments(request);
+        }
+
         private void EnsureSetPauseStatusRequestIsValid(PausePaymentsRequest request)
         {
             if (request.Applications.Select(r => new { r.AccountLegalEntityId, r.ULN }).Distinct().Count() != request.Applications.Count())
@@ -67,6 +74,21 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments
             }
 
             EnsureServiceRequestIsValid(request.ServiceRequest);
+        }
+        
+        private void EnsureReinstatePaymentsRequestIsValid(ReinstatePaymentsRequest request)
+        {
+            if (request?.Payments == null || request.Payments.Count == 0)
+            {
+                throw new ArgumentException("Payment Ids are not set", nameof(request.Payments));
+            }
+
+            EnsureServiceRequestIsValid(request.ServiceRequest);
+
+            if (String.IsNullOrWhiteSpace(request.ServiceRequest.Process))
+            {
+                throw new ArgumentException("Service Request Process is not set", nameof(request.ServiceRequest.Process));
+            }
         }
 
         private void EnsureServiceRequestIsValid(ServiceRequest serviceRequest)

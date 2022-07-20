@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <SpecFlowObsoleteCodeBehindFiles Remove="Features\RevertPayments - Copy.feature.cs" />
     <SpecFlowObsoleteCodeBehindFiles Remove="Features\SetPausePaymentStatus - Copy.feature.cs" />
   </ItemGroup>
 
@@ -53,12 +54,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Features\ReinstatePayments.feature.cs">
+      <DependentUpon>ReinstatePayments.feature</DependentUpon>
+    </Compile>
     <Compile Update="Features\RevertPayments.feature.cs">
       <DependentUpon>RevertPayments.feature</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <SpecFlowFeatureFiles Update="Features\ReinstatePayments.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
     <SpecFlowFeatureFiles Update="Features\RevertPayments.feature">
       <Visible>$(UsingMicrosoftNETSdk)</Visible>
       <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
