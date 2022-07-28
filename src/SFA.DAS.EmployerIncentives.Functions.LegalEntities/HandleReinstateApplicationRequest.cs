@@ -41,7 +41,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                         Example = new[] {
                             new {
                                 AccountLegalEntityId = 1234,
-                                ULN = 5678
+                                ULN = 5678,
+                                ServiceRequest = new ServiceRequest()
+                                {
+                                    TaskId = "taskId1234",
+                                    DecisionReference = "decisionReference123",
+                                    TaskCreatedDate = DateTime.UtcNow
+                                }
                             }
                         }
                     })

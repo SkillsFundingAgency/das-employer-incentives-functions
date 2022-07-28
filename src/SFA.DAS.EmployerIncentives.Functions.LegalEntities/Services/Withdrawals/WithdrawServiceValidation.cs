@@ -91,6 +91,23 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
                 {
                     throw new ArgumentException("ULN not set", nameof(application.ULN));
                 }
+
+                if (application.ServiceRequest == null)
+                {
+                    throw new ArgumentException($"Service Request is not set for application with ULN {application.ULN}", nameof(application.ServiceRequest));
+                }
+                if (string.IsNullOrWhiteSpace(application.ServiceRequest.TaskId))
+                {
+                    throw new ArgumentException("Service Request Task Id is not set for application with ULN {application.ULN}", nameof(application.ServiceRequest.TaskId));
+                }
+                if (string.IsNullOrWhiteSpace(application.ServiceRequest.DecisionReference))
+                {
+                    throw new ArgumentException("Service Request Decision Reference is not set for application with ULN {application.ULN}", nameof(application.ServiceRequest.DecisionReference));
+                }
+                if (application.ServiceRequest.TaskCreatedDate == null)
+                {
+                    throw new ArgumentException("Service Request Task Created Date is not set for application with ULN {application.ULN}", nameof(application.ServiceRequest.TaskCreatedDate));
+                }
             }
         }
     }
