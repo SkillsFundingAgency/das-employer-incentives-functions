@@ -30,8 +30,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             _withdrawRequest = new WithdrawRequest
             {
                 WithdrawalType = WithdrawalType.Employer,
-                AccountLegalEntityId = _fixture.Create<long>(),
-                ULN = _fixture.Create<long>(),
+                Applications = new [] 
+                {
+                    new Application { AccountLegalEntityId = _fixture.Create<long>(), ULN = _fixture.Create<long>() }
+                },
                 ServiceRequest = _fixture.Create<ServiceRequest>()
             };
 
@@ -46,10 +48,24 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             await WhenAWithdrawalRequestIsReceived();
         }
 
-        [When(@"a compliance withdrawal request is received")]
-        public async Task WhenAComplianceWithdrawalRequestIsReceived()
+        [When(@"a compliance withdrawal request for a single application is received")]
+        public async Task WhenAComplianceWithdrawalRequestForASingleApplicationIsReceived()
         {
             _withdrawRequest.WithdrawalType = WithdrawalType.Compliance;
+
+            await WhenAWithdrawalRequestIsReceived();
+        }
+
+        [When(@"a compliance withdrawal request with multiple applications is received")]
+        public async Task WhenAComplianceWithdrawalRequestForMultipleApplicationsIsReceived()
+        {
+            _withdrawRequest.WithdrawalType = WithdrawalType.Compliance;
+            _withdrawRequest.Applications = new []
+            {
+                new Application { AccountLegalEntityId = _fixture.Create<long>(), ULN = _fixture.Create<long>() },
+                new Application { AccountLegalEntityId = _fixture.Create<long>(), ULN = _fixture.Create<long>() },
+                new Application { AccountLegalEntityId = _fixture.Create<long>(), ULN = _fixture.Create<long>() }
+            };
 
             await WhenAWithdrawalRequestIsReceived();
         }

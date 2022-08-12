@@ -52,6 +52,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.Decorate<ICollectionCalendarService, CollectionCalendarServiceWithLogging>();
 
             serviceCollection.AddClient<IWithdrawalService>((c, s) => new WithdrawalService(c));
+            serviceCollection.Decorate<IWithdrawalService, WithdrawServiceValidation>();
             serviceCollection.AddClient<IPaymentsService>((c, s) => new PaymentsService(c));
             serviceCollection.Decorate<IPaymentsService, PaymentsServiceValidation>();
             serviceCollection.AddClient<IBlockPaymentsService>((c, s) => new BlockPaymentsService(c));
