@@ -5,8 +5,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawal
     public class WithdrawRequest
     {
         public WithdrawalType WithdrawalType { get; set; }
-        public long AccountLegalEntityId { get; set; }
-        public long ULN { get; set; }
+        public Application[] Applications { get; set; }
         public ServiceRequest ServiceRequest { get; set; }
     }
 }
