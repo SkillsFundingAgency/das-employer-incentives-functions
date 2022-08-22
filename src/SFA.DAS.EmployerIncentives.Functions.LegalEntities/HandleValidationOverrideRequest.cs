@@ -70,19 +70,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                                 {
                                     new
                                     {
-                                        ValidationType = "HasDaysInLearning|IsInLearning|HasNoDataLocks|EmployedBeforeSchemeStarted|EmployedAtStartOfApprenticeship",
+                                        ValidationType = "HasDaysInLearning|IsInLearning|HasNoDataLocks|EmployedBeforeSchemeStarted|EmployedAtStartOfApprenticeship|EmployedAt365Days",
                                         ExpiryDate = DateTime.UtcNow.AddDays(10).Date,
                                         Remove = "true|false|(optional)"
                                     },
                                     new
                                     {
-                                        ValidationType = "HasDaysInLearning|IsInLearning|HasNoDataLocks|EmployedBeforeSchemeStarted|EmployedAtStartOfApprenticeship",
+                                        ValidationType = "HasDaysInLearning|IsInLearning|HasNoDataLocks|EmployedBeforeSchemeStarted|EmployedAtStartOfApprenticeship|EmployedAt365Days",
                                         ExpiryDate = DateTime.UtcNow.AddDays(10).Date,
                                         Remove = "true|false|(optional)"
                                     },
                                     new
                                     {
-                                        ValidationType = "HasDaysInLearning|IsInLearning|HasNoDataLocks|EmployedBeforeSchemeStarted|EmployedAtStartOfApprenticeship",
+                                        ValidationType = "HasDaysInLearning|IsInLearning|HasNoDataLocks|EmployedBeforeSchemeStarted|EmployedAtStartOfApprenticeship|EmployedAt365Days",
                                         ExpiryDate = DateTime.UtcNow.AddDays(15).Date,
                                         Remove = "true|false|(optional)"
                                     }
@@ -102,7 +102,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                                 {
                                     new
                                     {
-                                        ValidationType = "HasDaysInLearning|IsInLearning|HasNoDataLocks|EmployedBeforeSchemeStarted|EmployedAtStartOfApprenticeship",
+                                        ValidationType = "HasDaysInLearning|IsInLearning|HasNoDataLocks|EmployedBeforeSchemeStarted|EmployedAtStartOfApprenticeship|EmployedAt365Days",
                                         ExpiryDate = DateTime.UtcNow.AddDays(20).Date,
                                         Remove = "true|false|(optional)"
                                     }
