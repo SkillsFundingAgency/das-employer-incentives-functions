@@ -8,6 +8,7 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Types;
 
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsService
 {

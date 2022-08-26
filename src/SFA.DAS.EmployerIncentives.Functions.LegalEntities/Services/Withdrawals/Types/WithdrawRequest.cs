@@ -1,4 +1,6 @@
-﻿using SFA.DAS.EmployerIncentives.Types;
+﻿using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Types;
+using SFA.DAS.EmployerIncentives.Types;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types
 {
