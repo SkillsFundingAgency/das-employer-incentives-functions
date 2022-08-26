@@ -36,7 +36,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs
                 $"jobs",
                 new JobRequest
                 {
-                    Type = JobType.RefreshEmploymentChecks
+                    Type = JobType.RefreshAllEmploymentChecks
                 });
 
             response.EnsureSuccessStatusCode();

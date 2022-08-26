@@ -3,7 +3,7 @@
     public enum JobType
     {
         RefreshLegalEntities = 1,
-        RefreshEmploymentChecks = 2,
-        RefreshEmploymentCheck = 3
+        RefreshAllEmploymentChecks = 2,
+        RefreshEmploymentChecks = 3
     }
 }
