@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Net;
+using Newtonsoft.Json;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck.Types;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs.Types;
 using System.Net.Http;
@@ -21,14 +22,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Employment
                $"jobs",
                new JobRequest
                {
-                   Type = JobType.RefreshEmploymentCheck,
+                   Type = JobType.RefreshEmploymentChecks,
                    Data = new System.Collections.Generic.Dictionary<string, string>
                     {
-                        { "AccountLegalEntityId", request.AccountLegalEntityId.ToString() },
-                        { "ULN", request.ULN.ToString() },
+                        { "CheckType", request.CheckType.ToString() },
+                        { "Applications", JsonConvert.SerializeObject(request.Applications) },
                         { "ServiceRequest", JsonConvert.SerializeObject(request.ServiceRequest) }
                     }
                });
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                throw new EmploymentCheckServiceException(response.StatusCode, await GetContentAsString(response));
+            }
 
             response.EnsureSuccessStatusCode();
         }
@@ -37,6 +43,20 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Employment
         {
             var response = await _client.PutAsJsonAsync($"employmentchecks/{request.CorrelationId}", request);
             response.EnsureSuccessStatusCode();
+        }
+        
+        public async Task<string> GetContentAsString(HttpResponseMessage response)
+        {
+            string content = null;
+            try
+            {
+                content = await response.Content.ReadAsStringAsync();
+            }
+            catch
+            {
+                // Do nothing
+            }
+            return content;
         }
     }
 }

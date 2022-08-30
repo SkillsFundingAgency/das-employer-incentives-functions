@@ -20,20 +20,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Employment
 
         public async Task Refresh(EmploymentCheckRequest request)
         {
-            try
-            {
-                _logger.LogInformation("[EmploymentCheck] Calling IEmploymentCheckService.Refresh with parameters: [AccountLegalEntityId={accountLegalEntityId}, ULN={uln}]", request.AccountLegalEntityId, request.ULN);
+            _logger.LogInformation($"[EmploymentCheck] Calling IEmploymentCheckService.Refresh for service request: {request.ServiceRequest.TaskId}");
 
-                await _employmentCheckService.Refresh(request);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation("[EmploymentCheck] Error calling IEmploymentCheckService.Refresh with parameters: [AccountLegalEntityId={accountLegalEntityId}, ULN={uln}]", request.AccountLegalEntityId, request.ULN);
-
-                _logger.LogError(ex, "[EmploymentCheck] Error calling IEmploymentCheckService.Refresh with parameters: [AccountLegalEntityId={accountLegalEntityId}, ULN={uln}]", request.AccountLegalEntityId, request.ULN);
-
-                throw;
-            }
+            await _employmentCheckService.Refresh(request);
         }
 
         public async Task Update(UpdateRequest request)

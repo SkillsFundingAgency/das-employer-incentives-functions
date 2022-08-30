@@ -6,6 +6,7 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
 using SFA.DAS.EmployerIncentives.Types;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -38,17 +39,33 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                     Content = JsonConvert.SerializeObject(new { 
                         ex.ParamName, 
                         ex.Message, 
-                        Example = new[] {
-                            new {
-                                AccountLegalEntityId = 1234,
-                                ULN = 5678,
-                                ServiceRequest = new ServiceRequest()
+                        Example = new ReinstateApplicationRequest
+                        {
+                            Applications = new List<Application>
+                            {
+                                new Application
                                 {
-                                    TaskId = "taskId1234",
-                                    DecisionReference = "decisionReference123",
-                                    TaskCreatedDate = DateTime.UtcNow
+                                    AccountLegalEntityId = 1234,
+                                            ULN = 5678,
+                                            ServiceRequest = new ServiceRequest
+                                            {
+                                                TaskId = "taskId1234",
+                                                DecisionReference = "decisionReference123",
+                                                TaskCreatedDate = DateTime.UtcNow
+                                            }
+                                },
+                                new Application
+                                {
+                                    AccountLegalEntityId = 2345,
+                                    ULN = 6789,
+                                    ServiceRequest = new ServiceRequest
+                                    {
+                                        TaskId = "taskId1234",
+                                        DecisionReference = "decisionReference123",
+                                        TaskCreatedDate = DateTime.UtcNow
+                                    }
                                 }
-                            }
+                            }.ToArray()
                         }
                     })
                 };
