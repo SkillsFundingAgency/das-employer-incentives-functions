@@ -6,6 +6,7 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals.Types;
 using SFA.DAS.EmployerIncentives.Types;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -41,12 +42,15 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                         Example = new  
                         {
                             WithdrawalType = "Employer|Compliance",
-                            AccountLegalEntityId = 1234,
-                            ULN = 5678,
+                            Applications = new List<Application>
+                            {
+                                new Application { AccountLegalEntityId = 123, ULN = 345 },
+                                new Application { AccountLegalEntityId = 243, ULN = 4567 }
+                            },
                             ServiceRequest = new ServiceRequest()
                             {
-                                 TaskId = "taskId1234_optional",
-                                 DecisionReference = "decisionReference123_optional",
+                                 TaskId = "taskId1234",
+                                 DecisionReference = "decisionReference123",
                                  TaskCreatedDate = DateTime.UtcNow
                             }
                         }

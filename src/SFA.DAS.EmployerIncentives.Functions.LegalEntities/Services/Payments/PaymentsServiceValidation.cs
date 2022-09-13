@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Types;
 using SFA.DAS.EmployerIncentives.Types;
 
 #pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 

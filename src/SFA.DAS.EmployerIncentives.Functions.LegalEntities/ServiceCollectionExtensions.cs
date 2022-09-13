@@ -25,6 +25,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.AddClient<IJobsService>((c, s) => new JobsService(c));
             serviceCollection.AddClient<IEmploymentCheckService>((c, s) => new EmploymentCheckService(c));
             serviceCollection.Decorate<IEmploymentCheckService, EmploymentCheckServiceWithLogging>();
+            serviceCollection.Decorate<IEmploymentCheckService, EmploymentCheckValidation>();
             serviceCollection.AddClient<ILegalEntitiesService>((c, s) => new LegalEntitiesService(c));
             serviceCollection.AddSingleton<IVrfCaseRefreshRepository>(
                 c =>
@@ -52,6 +53,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             serviceCollection.Decorate<ICollectionCalendarService, CollectionCalendarServiceWithLogging>();
 
             serviceCollection.AddClient<IWithdrawalService>((c, s) => new WithdrawalService(c));
+            serviceCollection.Decorate<IWithdrawalService, WithdrawServiceValidation>();
             serviceCollection.AddClient<IPaymentsService>((c, s) => new PaymentsService(c));
             serviceCollection.Decorate<IPaymentsService, PaymentsServiceValidation>();
             serviceCollection.AddClient<IBlockPaymentsService>((c, s) => new BlockPaymentsService(c));

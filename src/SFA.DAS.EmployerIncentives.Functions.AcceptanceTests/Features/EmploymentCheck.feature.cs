@@ -167,10 +167,13 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("An employment check refresh is requested by support")]
-        public virtual void AnEmploymentCheckRefreshIsRequestedBySupport()
+        [NUnit.Framework.TestCaseAttribute("InitialEmploymentChecks", null)]
+        [NUnit.Framework.TestCaseAttribute("EmployedAt365DaysCheck", null)]
+        public virtual void AnEmploymentCheckRefreshIsRequestedBySupport(string employmentCheckType, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("EmploymentCheckType", employmentCheckType);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("An employment check refresh is requested by support", null, tagsOfScenario, argumentsOfScenario);
 #line 27
 this.ScenarioInitialize(scenarioInfo);
@@ -193,7 +196,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 28
- testRunner.When("an employment check refresh request is received", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When(string.Format("an {0} employment check refresh request is received", employmentCheckType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 29
  testRunner.Then("the request is forwarded to the Employer Incentives system", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
