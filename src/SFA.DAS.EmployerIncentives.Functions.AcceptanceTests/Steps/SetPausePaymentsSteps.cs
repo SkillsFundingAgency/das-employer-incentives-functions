@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments.Types;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Types;
 using TechTalk.SpecFlow;
 using WireMock;
 using WireMock.RequestBuilders;

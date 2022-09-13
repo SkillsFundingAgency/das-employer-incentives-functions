@@ -36,7 +36,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.Jobs
             // Arrange
             var expected = new JobRequest
             {
-                Type = JobType.RefreshEmploymentChecks
+                Type = JobType.RefreshAllEmploymentChecks
             };
 
             // Act

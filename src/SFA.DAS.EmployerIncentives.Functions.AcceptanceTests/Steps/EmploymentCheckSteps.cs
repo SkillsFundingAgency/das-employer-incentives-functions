@@ -9,11 +9,13 @@ using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs.Types;
 using SFA.DAS.EmployerIncentives.Messages.Events;
 using SFA.DAS.EmployerIncentives.Types;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Types;
 using TechTalk.SpecFlow;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
@@ -38,8 +40,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
 
             _employmentCheckRequest = new EmploymentCheckRequest
             {
-                AccountLegalEntityId = _fixture.Create<long>(),
-                ULN = _fixture.Create<long>(),
+                CheckType = RefreshEmploymentCheckType.InitialEmploymentChecks.ToString(),
+                Applications = new List<Application>
+                {
+                    new Application {AccountLegalEntityId = _fixture.Create<long>(), ULN = _fixture.Create<long>()}
+                }.ToArray(),
                 ServiceRequest = _fixture.Create<ServiceRequest>()
             };
         }
@@ -94,16 +99,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 await _testContext.TestMessageBus.Publish(completedEvent));
         }
 
-        [When(@"an employment check refresh request is received")]
-        public async Task WhenAnEmploymentCheckRefreshRequestIsReceived()
+        [When(@"an (.*) employment check refresh request is received")]
+        public async Task WhenAnEmploymentCheckRefreshRequestIsReceived(string checkType)
         {
+            _employmentCheckRequest.CheckType = checkType;
             _jobRequest = new JobRequest
             {
-                Type = JobType.RefreshEmploymentCheck,
-                Data = new System.Collections.Generic.Dictionary<string, string>
+                Type = JobType.RefreshEmploymentChecks,
+                Data = new Dictionary<string, string>
                     {
-                        { "AccountLegalEntityId", _employmentCheckRequest.AccountLegalEntityId.ToString() },
-                        { "ULN", _employmentCheckRequest.ULN.ToString() },
+                        { "CheckType", _employmentCheckRequest.CheckType },
+                        { "Applications", JsonConvert.SerializeObject(_employmentCheckRequest.Applications) },
                         { "ServiceRequest", JsonConvert.SerializeObject(_employmentCheckRequest.ServiceRequest) }
                     }
             };
