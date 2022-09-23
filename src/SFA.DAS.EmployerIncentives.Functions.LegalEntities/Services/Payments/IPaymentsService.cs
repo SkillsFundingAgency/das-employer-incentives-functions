@@ -7,5 +7,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments
     {
         Task SetPauseStatus(PausePaymentsRequest request);
         Task RevertPayments(RevertPaymentsRequest request);
+        Task ReinstatePayments(ReinstatePaymentsRequest request);
     }
 }

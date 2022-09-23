@@ -39,6 +39,18 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task ReinstatePayments(ReinstatePaymentsRequest request)
+        {
+            var response = await _client.PostAsJsonAsync("reinstate-payments", request);
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                throw new PaymentsServiceException(response.StatusCode, await GetContentAsString(response));
+            }
+
+            response.EnsureSuccessStatusCode();
+        }
+
         public async Task<string> GetContentAsString(HttpResponseMessage response)
         {
             string content = null;
