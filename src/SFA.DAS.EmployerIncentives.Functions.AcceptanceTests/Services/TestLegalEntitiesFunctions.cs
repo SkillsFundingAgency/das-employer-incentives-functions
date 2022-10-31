@@ -44,8 +44,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         public HandleValidationOverrideRequest HttpTriggerHandleValidationOverride { get; set; }
 
         public HandleBankDetailsRepeatReminderEmails TimerTriggerBankDetailsRepeatReminderEmails { get; set; }
-
-        public HandleRefreshEmploymentChecksRequest HttpTriggerHandleRefreshEmploymentChecks { get; set; }
         public HandleRefreshEmploymentCheckRequest HttpTriggerHandleRefreshEmploymentCheck { get; set; }
         public HandleRecalculateEarningsRequest HttpTriggerHandleRecalculateEarningsRequest { get; set; }
         public HandleRevertPaymentsRequest HttpTriggerHandleRevertPaymentsRequest { get; set; }
@@ -142,7 +140,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             HttpTriggerUpdateCollectionCalendarPeriod = new HandleUpdateCollectionCalendarPeriod(host.Services.GetService(typeof(ICollectionCalendarService)) as ICollectionCalendarService);
             HttpTriggerHandleWithdrawal = new HandleWithdrawalRequest(host.Services.GetService(typeof(IWithdrawalService)) as IWithdrawalService);
             HttpTriggerHandlePausePayments = new HandlePausePaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
-            HttpTriggerHandleRefreshEmploymentChecks = new HandleRefreshEmploymentChecksRequest(host.Services.GetService(typeof(IJobsService)) as IJobsService);
             HttpTriggerHandleRefreshEmploymentCheck = new HandleRefreshEmploymentCheckRequest(host.Services.GetService(typeof(IEmploymentCheckService)) as IEmploymentCheckService);
             HttpTriggerHandleBlockPaymentsRequest = new HandleBlockPaymentsRequest(host.Services.GetService(typeof(IBlockPaymentsService)) as IBlockPaymentsService);
             HttpTriggerHandleRecalculateEarningsRequest = new HandleRecalculateEarningsRequest(host.Services.GetService(typeof(IRecalculateEarningsService)) as IRecalculateEarningsService);
