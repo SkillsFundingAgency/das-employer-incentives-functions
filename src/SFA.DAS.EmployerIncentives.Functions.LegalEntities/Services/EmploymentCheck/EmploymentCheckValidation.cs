@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck.Types;
@@ -22,11 +23,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Employment
             return _employmentCheckService.Update(request);
         }
 
-        public Task Refresh(EmploymentCheckRequest request)
+        public Task Refresh(IEnumerable<EmploymentCheckRequest> requests)
         {
-            ValidateRefreshEmploymentChecksRequest(request);
+            if (requests == null || !requests.Any())
+            {
+                throw new ArgumentException("Request data not set", nameof(requests));
+            }
 
-            return _employmentCheckService.Refresh(request);
+            foreach(var request in requests)
+            {
+                ValidateRefreshEmploymentChecksRequest(request);
+            }
+
+            return _employmentCheckService.Refresh(requests);
         }
 
         private void ValidateUpdateEmploymentChecksRequest(UpdateRequest request)
@@ -49,11 +58,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Employment
 
         private void ValidateRefreshEmploymentChecksRequest(EmploymentCheckRequest request)
         {
-            if (request == null)
-            {
-                throw new ArgumentException("Request data not set", nameof(request));
-            }
-
             if (String.IsNullOrWhiteSpace(request.CheckType))
             {
                 throw new ArgumentException("Employment check type not set", nameof(request.CheckType));

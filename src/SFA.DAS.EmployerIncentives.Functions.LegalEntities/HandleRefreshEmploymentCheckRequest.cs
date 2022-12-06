@@ -28,8 +28,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         {
             try
             {
-                var employmentCheckRequest = JsonConvert.DeserializeObject<EmploymentCheckRequest>(await request.Content.ReadAsStringAsync());
-                await _employmentCheckService.Refresh(employmentCheckRequest);
+                var employmentCheckRequests = JsonConvert.DeserializeObject<IEnumerable<EmploymentCheckRequest>>(await request.Content.ReadAsStringAsync());
+                await _employmentCheckService.Refresh(employmentCheckRequests);
             }
             catch(ArgumentException ex)
             {

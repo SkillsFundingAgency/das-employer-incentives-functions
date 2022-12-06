@@ -10,6 +10,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Types;
+using System.Collections.Generic;
 
 namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentCheck
 {
@@ -37,23 +38,21 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
         public async Task Then_the_request_is_forwarded_to_the_client()
         {
             // Arrange            
-            var refreshRequest = _fixture
+            var refreshRequests = _fixture
                 .Build<EmploymentCheckRequest>()
-                .Create();
+                .CreateMany(1);
 
             var expected = new JobRequest
             {
                 Type = JobType.RefreshEmploymentChecks,
                 Data = new System.Collections.Generic.Dictionary<string, string>
                     {
-                        { "CheckType", refreshRequest.CheckType.ToString() },
-                        { "Applications", JsonConvert.SerializeObject(refreshRequest.Applications) },
-                        { "ServiceRequest", JsonConvert.SerializeObject(refreshRequest.ServiceRequest) }
+                        { "Requests", JsonConvert.SerializeObject(refreshRequests) }
                     }
             };
 
             // Act
-            await _sut.Refresh(refreshRequest);
+            await _sut.Refresh(refreshRequests);
 
             // Assert
             _testClient.VerifyPutAsAsync($"jobs", expected, Times.Once());
@@ -68,11 +67,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             var refreshRequest = _fixture.Build<EmploymentCheckRequest>()
                 .With(x => x.CheckType, value)
                 .Create();
-            
+
+            var refreshRequests = new List<EmploymentCheckRequest> { refreshRequest };
+
             var service = new EmploymentCheckValidation(_sut);
             
             // Act
-            Func<Task> result = async () => await service.Refresh(refreshRequest);
+            Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("Employment check type not set*");
@@ -85,11 +86,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             var refreshRequest = _fixture.Build<EmploymentCheckRequest>()
                 .With(x => x.CheckType, "Test")
                 .Create();
+            var refreshRequests = new List<EmploymentCheckRequest> {  refreshRequest };
             
             var service = new EmploymentCheckValidation(_sut);
 
             // Act
-            Func<Task> result = async () => await service.Refresh(refreshRequest);
+            Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("Invalid employment check type*");
@@ -103,11 +105,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
                 .With(x => x.CheckType, RefreshEmploymentCheckType.EmployedAt365DaysCheck.ToString())
                 .Without(x => x.Applications)
                 .Create();
-            
+            var refreshRequests = new List<EmploymentCheckRequest> { refreshRequest };
+
             var service = new EmploymentCheckValidation(_sut);
 
             // Act
-            Func<Task> result = async () => await service.Refresh(refreshRequest);
+            Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("Applications not set*");
@@ -121,11 +124,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
                 .With(x => x.CheckType, RefreshEmploymentCheckType.EmployedAt365DaysCheck.ToString())
                 .With(x => x.Applications, Array.Empty<Application>())
                 .Create();
-            
+            var refreshRequests = new List<EmploymentCheckRequest> { refreshRequest };
+
             var service = new EmploymentCheckValidation(_sut);
 
             // Act
-            Func<Task> result = async () => await service.Refresh(refreshRequest);
+            Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("Applications not set*");
@@ -139,11 +143,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
                 .With(x => x.CheckType, RefreshEmploymentCheckType.EmployedAt365DaysCheck.ToString())
                 .Without(x => x.ServiceRequest)
                 .Create();
-            
+            var refreshRequests = new List<EmploymentCheckRequest> { refreshRequest };
+
             var service = new EmploymentCheckValidation(_sut);
 
             // Act
-            Func<Task> result = async () => await service.Refresh(refreshRequest);
+            Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("ServiceRequest not set*");
@@ -159,11 +164,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
                 .With(x => x.CheckType, RefreshEmploymentCheckType.InitialEmploymentChecks.ToString())
                 .Create();
             refreshRequest.ServiceRequest.TaskId = value;
+            var refreshRequests = new List<EmploymentCheckRequest> { refreshRequest };
 
             var service = new EmploymentCheckValidation(_sut);
 
             // Act
-            Func<Task> result = async () => await service.Refresh(refreshRequest);
+            Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("ServiceRequest TaskId not set*");
@@ -179,11 +185,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
                 .With(x => x.CheckType, RefreshEmploymentCheckType.InitialEmploymentChecks.ToString())
                 .Create();
             refreshRequest.ServiceRequest.DecisionReference = value;
+            var refreshRequests = new List<EmploymentCheckRequest> { refreshRequest };
 
             var service = new EmploymentCheckValidation(_sut);
 
             // Act
-            Func<Task> result = async () => await service.Refresh(refreshRequest);
+            Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("ServiceRequest DecisionReference not set*");
@@ -197,14 +204,43 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
                 .With(x => x.CheckType, RefreshEmploymentCheckType.InitialEmploymentChecks.ToString())
                 .Create();
             refreshRequest.ServiceRequest.TaskCreatedDate = null;
+            var refreshRequests = new List<EmploymentCheckRequest> { refreshRequest };
 
             var service = new EmploymentCheckValidation(_sut);
 
             // Act
-            Func<Task> result = async () => await service.Refresh(refreshRequest);
+            Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("ServiceRequest TaskCreatedDate not set*");
+        }
+
+        [Test]
+        public void Then_the_request_is_invalid_if_the_list_is_empty()
+        {
+            // Arrange
+            var refreshRequests = new List<EmploymentCheckRequest>();
+
+            var service = new EmploymentCheckValidation(_sut);
+
+            // Act
+            Func<Task> result = async () => await service.Refresh(refreshRequests);
+
+            // Assert
+            result.Should().Throw<ArgumentException>().WithMessage("Request data not set*");
+        }
+
+        [Test]
+        public void Then_the_request_is_invalid_if_the_list_is_null()
+        {
+            // Arrange
+            var service = new EmploymentCheckValidation(_sut);
+
+            // Act
+            Func<Task> result = async () => await service.Refresh(null);
+
+            // Assert
+            result.Should().Throw<ArgumentException>().WithMessage("Request data not set*");
         }
     }
 }
