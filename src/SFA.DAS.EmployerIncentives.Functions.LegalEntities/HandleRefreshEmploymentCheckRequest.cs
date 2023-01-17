@@ -28,8 +28,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         {
             try
             {
-                var employmentCheckRequest = JsonConvert.DeserializeObject<EmploymentCheckRequest>(await request.Content.ReadAsStringAsync());
-                await _employmentCheckService.Refresh(employmentCheckRequest);
+                var employmentCheckRequests = JsonConvert.DeserializeObject<IEnumerable<EmploymentCheckRequest>>(await request.Content.ReadAsStringAsync());
+                await _employmentCheckService.Refresh(employmentCheckRequests);
             }
             catch(ArgumentException ex)
             {
@@ -71,19 +71,37 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             {
                 paramName,
                 message,
-                Example = new EmploymentCheckRequest
+                Example = new List<EmploymentCheckRequest>
                 {
-                    CheckType = "InitialEmploymentChecks|EmployedAt365DaysCheck",
-                    Applications = new List<Application>
+                    new EmploymentCheckRequest
                     {
-                        new Application { AccountLegalEntityId = 1234, ULN = 567890 },
-                        new Application { AccountLegalEntityId = 2345, ULN = 678901 }
-                    }.ToArray(),
-                    ServiceRequest = new ServiceRequest()
+                        CheckType = "InitialEmploymentChecks|EmployedAt365DaysCheck",
+                        Applications = new List<Application>
+                        {
+                            new Application { AccountLegalEntityId = 1234, ULN = 567890 },
+                            new Application { AccountLegalEntityId = 2345, ULN = 678901 }
+                        }.ToArray(),
+                        ServiceRequest = new ServiceRequest()
+                        {
+                            TaskId = "taskId1234_optional",
+                            DecisionReference = "decisionReference123_optional",
+                            TaskCreatedDate = DateTime.UtcNow
+                        }
+                    },
+                    new EmploymentCheckRequest
                     {
-                        TaskId = "taskId1234_optional",
-                        DecisionReference = "decisionReference123_optional",
-                        TaskCreatedDate = DateTime.UtcNow
+                        CheckType = "InitialEmploymentChecks|EmployedAt365DaysCheck",
+                        Applications = new List<Application>
+                        {
+                            new Application { AccountLegalEntityId = 3456, ULN = 111222 },
+                            new Application { AccountLegalEntityId = 5678, ULN = 333444 }
+                        }.ToArray(),
+                        ServiceRequest = new ServiceRequest()
+                        {
+                            TaskId = "taskId1234_optional",
+                            DecisionReference = "decisionReference123_optional",
+                            TaskCreatedDate = DateTime.UtcNow
+                        }
                     }
                 }
             });

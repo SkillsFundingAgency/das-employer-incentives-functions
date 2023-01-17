@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck.Types;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck
@@ -18,11 +20,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Employment
             _logger = logger;
         }
 
-        public async Task Refresh(EmploymentCheckRequest request)
+        public async Task Refresh(IEnumerable<EmploymentCheckRequest> requests)
         {
-            _logger.LogInformation($"[EmploymentCheck] Calling IEmploymentCheckService.Refresh for service request: {request.ServiceRequest.TaskId}");
+            _logger.LogInformation($"[EmploymentCheck] Calling IEmploymentCheckService.Refresh for {requests.Count()} service requests");
 
-            await _employmentCheckService.Refresh(request);
+            await _employmentCheckService.Refresh(requests);
         }
 
         public async Task Update(UpdateRequest request)

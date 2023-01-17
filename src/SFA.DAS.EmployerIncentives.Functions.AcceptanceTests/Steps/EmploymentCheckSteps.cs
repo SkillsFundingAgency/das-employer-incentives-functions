@@ -29,7 +29,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         private readonly TestContext _testContext;
         private readonly Fixture _fixture;
         private WaitForResult _messagePublishResult;
-        private readonly EmploymentCheckRequest _employmentCheckRequest;
+        private readonly List<EmploymentCheckRequest> _employmentCheckRequests;
         private JobRequest _jobRequest;
         private const string InvalidErrorType = "Invalid";
 
@@ -38,7 +38,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             _testContext = testContext;
             _fixture = new Fixture();
 
-            _employmentCheckRequest = new EmploymentCheckRequest
+            var employmentCheckRequest = new EmploymentCheckRequest
             {
                 CheckType = RefreshEmploymentCheckType.InitialEmploymentChecks.ToString(),
                 Applications = new List<Application>
@@ -47,6 +47,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 }.ToArray(),
                 ServiceRequest = _fixture.Create<ServiceRequest>()
             };
+            _employmentCheckRequests = new List<EmploymentCheckRequest> { employmentCheckRequest };
         }
 
         [When(@"an employment check result is received with an invalid error type")]
@@ -102,15 +103,13 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         [When(@"an (.*) employment check refresh request is received")]
         public async Task WhenAnEmploymentCheckRefreshRequestIsReceived(string checkType)
         {
-            _employmentCheckRequest.CheckType = checkType;
+            _employmentCheckRequests[0].CheckType = checkType;
             _jobRequest = new JobRequest
             {
                 Type = JobType.RefreshEmploymentChecks,
                 Data = new Dictionary<string, string>
                     {
-                        { "CheckType", _employmentCheckRequest.CheckType },
-                        { "Applications", JsonConvert.SerializeObject(_employmentCheckRequest.Applications) },
-                        { "ServiceRequest", JsonConvert.SerializeObject(_employmentCheckRequest.ServiceRequest) }
+                        { "Requests", JsonConvert.SerializeObject(_employmentCheckRequests) }
                     }
             };
 
@@ -129,7 +128,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
 
             var request = new HttpRequestMessage(HttpMethod.Post, "")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(_employmentCheckRequest), Encoding.UTF8, "application/json")
+                Content = new StringContent(JsonConvert.SerializeObject(_employmentCheckRequests), Encoding.UTF8, "application/json")
             };
             await _testContext.LegalEntitiesFunctions.HttpTriggerHandleRefreshEmploymentCheck.RunHttp(request);
         }
