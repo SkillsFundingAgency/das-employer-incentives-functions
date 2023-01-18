@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using Newtonsoft.Json;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck.Types;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs.Types;
@@ -16,18 +17,16 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Employment
             _client = client;
         }
 
-        public async Task Refresh(EmploymentCheckRequest request)
+        public async Task Refresh(IEnumerable<EmploymentCheckRequest> requests)
         {
             var response = await _client.PutAsJsonAsync(
                $"jobs",
                new JobRequest
                {
                    Type = JobType.RefreshEmploymentChecks,
-                   Data = new System.Collections.Generic.Dictionary<string, string>
+                   Data = new Dictionary<string, string>
                     {
-                        { "CheckType", request.CheckType.ToString() },
-                        { "Applications", JsonConvert.SerializeObject(request.Applications) },
-                        { "ServiceRequest", JsonConvert.SerializeObject(request.ServiceRequest) }
+                        { "Requests", JsonConvert.SerializeObject(requests) }
                     }
                });
 
