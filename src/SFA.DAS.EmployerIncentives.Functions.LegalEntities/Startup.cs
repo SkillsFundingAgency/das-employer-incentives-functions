@@ -17,8 +17,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder.Services.AddNLog();
-
             var serviceProvider = builder.Services.BuildServiceProvider();
 
             var configuration = serviceProvider.GetService<IConfiguration>();
@@ -50,10 +48,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             builder.Services.Configure<EmployerIncentivesApiOptions>(config.GetSection(EmployerIncentivesApiOptions.EmployerIncentivesApi));
             builder.Services.Configure<FunctionConfigurationOptions>(config.GetSection(FunctionConfigurationOptions.EmployerIncentivesFunctionsConfiguration));
 
-            var logger = serviceProvider.GetService<ILoggerProvider>().CreateLogger(GetType().AssemblyQualifiedName);
+            builder.Services.AddNLog(config);
+
             if (config["NServiceBusConnectionString"] == "UseDevelopmentStorage=true")
             {
-                builder.Services.AddNServiceBus(logger, (options) =>
+                builder.Services.AddNServiceBus(GetType().AssemblyQualifiedName, (options) =>
                 {
                     options.EndpointConfiguration = (endpoint) =>
                     {
@@ -64,7 +63,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             }
             else
             {
-                builder.Services.AddNServiceBus(logger);
+                builder.Services.AddNServiceBus(GetType().AssemblyQualifiedName);
             }
 
             builder.Services

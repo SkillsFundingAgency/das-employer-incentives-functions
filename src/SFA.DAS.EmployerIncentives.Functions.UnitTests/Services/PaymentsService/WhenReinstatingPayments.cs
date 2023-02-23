@@ -57,7 +57,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.ReinstatePayments(reinstatePaymentsRequest);
 
             // Assert
-            result.Should().Throw<PaymentsServiceException>();
+            result.Should().ThrowAsync<PaymentsServiceException>();
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.ReinstatePayments(reinstatePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Payment Ids are not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Payment Ids are not set*");
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.ReinstatePayments(reinstatePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Payment Ids are not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Payment Ids are not set*");
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.ReinstatePayments(reinstatePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request is not set*");
         }
 
         [TestCase(null)]
@@ -121,7 +121,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.ReinstatePayments(reinstatePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Task Id is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Task Id is not set*");
         }
 
         [TestCase(null)]
@@ -137,7 +137,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.ReinstatePayments(reinstatePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Decision Reference is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Decision Reference is not set*");
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.ReinstatePayments(reinstatePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Task Created Date is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Task Created Date is not set*");
         }
 
         [TestCase(null)]
@@ -169,7 +169,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.ReinstatePayments(reinstatePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Process is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Process is not set*");
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using FluentAssertions;
-using Newtonsoft.Json;
+﻿using DurableTask.Core;
+using FluentAssertions;
 using NServiceBus.Transport;
 using SFA.DAS.EmployerAccounts.Messages.Events;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Extensions;
@@ -9,6 +9,7 @@ using SFA.DAS.EmployerIncentives.Messages.Events;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using WireMock.RequestBuilders;
@@ -49,7 +50,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                         Request
                         .Create()
                         .WithPath($"/api/accounts/{addLegalEntityRequest.AccountId}/legalEntities")
-                        .WithBody(JsonConvert.SerializeObject(addLegalEntityRequest))
+                        .WithBody(JsonSerializer.Serialize(addLegalEntityRequest))
                         .UsingPost()
                         )
                     .RespondWith(
@@ -139,7 +140,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                          Request
                          .Create()
                          .WithPath($"/api/jobs")
-                         .WithBody(JsonConvert.SerializeObject(jobRequest))
+                         .WithBody(JsonSerializer.Serialize(jobRequest))
                          .UsingPut()
                          )
                      .RespondWith(
@@ -173,7 +174,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                         Request
                         .Create()
                         .WithPath($"/api/accounts/{addLegalEntityRequest.AccountId}/legalEntities")
-                        .WithBody(JsonConvert.SerializeObject(addLegalEntityRequest))
+                        .WithBody(JsonSerializer.Serialize(addLegalEntityRequest))
                         .UsingPost()
                         )
                     .RespondWith(
@@ -242,7 +243,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                     Request
                         .Create()
                         .WithPath($"/api/jobs")
-                        .WithBody(JsonConvert.SerializeObject(jobRequest))
+                        .WithBody(JsonSerializer.Serialize(jobRequest))
                 );
 
             requests.AsEnumerable().Count().Should().Be(1);
@@ -259,7 +260,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                            Request
                            .Create()
                            .WithPath($"/api/accounts/{addLegalEntityRequest.AccountId}/legalEntities")
-                           .WithBody(JsonConvert.SerializeObject(addLegalEntityRequest))
+                           .WithBody(JsonSerializer.Serialize(addLegalEntityRequest))
                            .UsingPut());
             
             requests.AsEnumerable().Count().Should().Be(1);

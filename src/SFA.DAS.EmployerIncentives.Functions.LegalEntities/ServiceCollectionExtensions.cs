@@ -2,19 +2,23 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NLog;
 using NLog.Extensions.Logging;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayments;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RecalculateEarnings;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ValidationOverrides;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals;
 using SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 using SFA.DAS.Http;
 using System;
+using System.IO;
 using System.Net.Http;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayments;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RecalculateEarnings;
+using System.Reflection;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 {
@@ -93,22 +97,35 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             return serviceCollection;
         }
 
-        public static IServiceCollection AddNLog(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddNLog(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            var nLogConfiguration = new NLogConfiguration();
+
+            var env = Environment.GetEnvironmentVariable("EnvironmentName");
+            var configFileName = "nlog.config";
+            if (string.IsNullOrEmpty(env) || env.Equals("LOCAL", StringComparison.CurrentCultureIgnoreCase))
+            {
+                configFileName = "nlog.local.config";
+            }
+            var rootDirectory = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ".."));
+            var configFilePath = Directory.GetFiles(rootDirectory, configFileName, SearchOption.AllDirectories)[0];
+            LogManager.Setup()
+                .SetupExtensions(e => e.AutoLoadExtensions())
+                .LoadConfigurationFromFile(configFilePath, optional: false)
+                .LoadConfiguration(builder => builder.LogFactory.AutoShutdown = false)
+                .GetCurrentClassLogger();
 
             serviceCollection.AddLogging((options) =>
             {
-                options.AddFilter(typeof(Startup).Namespace, LogLevel.Information);
+                options.AddFilter("SFA.DAS", LogLevel.Information); // this is because all logging is filtered out by default
                 options.SetMinimumLevel(LogLevel.Trace);
                 options.AddNLog(new NLogProviderOptions
                 {
                     CaptureMessageTemplates = true,
                     CaptureMessageProperties = true
                 });
+#if DEBUG
                 options.AddConsole();
-
-                nLogConfiguration.ConfigureNLog();
+#endif
             });
 
             return serviceCollection;

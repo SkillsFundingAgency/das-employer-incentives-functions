@@ -59,7 +59,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
 
             // Assert
-            result.Should().Throw<PaymentsServiceException>();
+            result.Should().ThrowAsync<PaymentsServiceException>();
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("AccountLegalEntityId not set for AccountLegalEntityId : 0, ULN : 1234");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("AccountLegalEntityId not set for AccountLegalEntityId : 0, ULN : 1234");
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("ULN not set for AccountLegalEntityId : 1234, ULN : 0");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("ULN not set for AccountLegalEntityId : 1234, ULN : 0");
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Action is not set or invalid*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Action is not set or invalid*");
         }
 
         [Test]
@@ -134,7 +134,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request is not set*");
         }
 
         [TestCase(null)]
@@ -150,7 +150,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Task Id is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Task Id is not set*");
         }
 
         [TestCase(null)]
@@ -166,7 +166,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Decision Reference is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Decision Reference is not set*");
         }
 
         [Test]
@@ -180,7 +180,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Task Created Date is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Task Created Date is not set*");
         }
 
         [Test]
@@ -208,7 +208,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.PaymentsServic
             Func<Task> result = async () => await _sut.SetPauseStatus(pausePaymentsRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Duplicate application entries exist. The combination of AccountLegalEntityId and ULN should be unique.");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Duplicate application entries exist. The combination of AccountLegalEntityId and ULN should be unique.");
         }
 
         private PausePaymentsRequest BuildValidPausePaymentsRequest()

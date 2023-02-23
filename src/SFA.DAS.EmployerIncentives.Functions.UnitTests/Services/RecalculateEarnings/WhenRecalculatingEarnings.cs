@@ -58,7 +58,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.RecalculateEar
             Func<Task> result = async () => await _sut.RecalculateEarnings(request);
 
             // Assert
-            result.Should().Throw<RecalculateEarningsServiceException>();
+            result.Should().ThrowAsync<RecalculateEarningsServiceException>();
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.RecalculateEar
             Func<Task> result = async () => await service.RecalculateEarnings(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Incentive Learner Identifiers are not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Incentive Learner Identifiers are not set*");
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.RecalculateEar
             Func<Task> result = async () => await service.RecalculateEarnings(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Incentive Learner Identifiers are not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Incentive Learner Identifiers are not set*");
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.RecalculateEar
             Func<Task> result = async () => await service.RecalculateEarnings(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Incentive Learner Identifier Account Legal Entity not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Incentive Learner Identifier Account Legal Entity not set*");
         }
 
 
@@ -117,7 +117,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.RecalculateEar
             Func<Task> result = async () => await service.RecalculateEarnings(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Incentive Learner Identifier ULN not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Incentive Learner Identifier ULN not set*");
         }
 
         private RecalculateEarningsRequest BuildValidRecalculateEarningsRequest()

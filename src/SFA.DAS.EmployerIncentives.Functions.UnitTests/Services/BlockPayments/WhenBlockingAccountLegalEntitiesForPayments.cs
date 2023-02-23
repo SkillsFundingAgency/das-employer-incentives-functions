@@ -58,7 +58,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
             Func<Task> result = async () => await _sut.BlockAccountLegalEntitiesForPayments(blockPaymentsRequest);
 
             // Assert
-            result.Should().Throw<BlockPaymentsServiceException>();
+            result.Should().ThrowAsync<BlockPaymentsServiceException>();
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
             Func<Task> result = async () => await service.BlockAccountLegalEntitiesForPayments(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request is not set*");
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
             Func<Task> result = async () => await service.BlockAccountLegalEntitiesForPayments(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Task Id is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Task Id is not set*");
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
             Func<Task> result = async () => await service.BlockAccountLegalEntitiesForPayments(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Decision Reference is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Decision Reference is not set*");
         }
 
         [Test]
@@ -118,7 +118,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
             Func<Task> result = async () => await service.BlockAccountLegalEntitiesForPayments(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Task Created Date is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Task Created Date is not set*");
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
             Func<Task> result = async () => await service.BlockAccountLegalEntitiesForPayments(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Vendor Blocks are not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Vendor Blocks are not set*");
         }
 
         [Test]
@@ -148,7 +148,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
             Func<Task> result = async () => await service.BlockAccountLegalEntitiesForPayments(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Vendor Blocks are not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Vendor Blocks are not set*");
         }
 
         [Test]
@@ -163,7 +163,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
             Func<Task> result = async () => await service.BlockAccountLegalEntitiesForPayments(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Vendor Block Vendor Id is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Vendor Block Vendor Id is not set*");
         }
 
         [Test]
@@ -178,7 +178,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
             Func<Task> result = async () => await service.BlockAccountLegalEntitiesForPayments(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Vendor Block End Date is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Vendor Block End Date is not set*");
         }
 
         [Test]
@@ -193,7 +193,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
             Func<Task> result = async () => await service.BlockAccountLegalEntitiesForPayments(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Vendor Block End Date must be in the future*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Vendor Block End Date must be in the future*");
         }
         
         private BlockAccountLegalEntityForPaymentsRequest BuildValidBlockPaymentsRequest()

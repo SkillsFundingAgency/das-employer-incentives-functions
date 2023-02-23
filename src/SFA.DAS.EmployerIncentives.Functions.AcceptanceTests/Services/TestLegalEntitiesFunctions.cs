@@ -101,7 +101,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                 VrfCaseRefreshRepository = new TestVrfCaseRefreshRepository();
                 s.AddSingleton<IVrfCaseRefreshRepository>(VrfCaseRefreshRepository);
 
-                _ = s.AddNServiceBus(new LoggerFactory().CreateLogger<TestLegalEntitiesFunctions>(),
+                _ = s.AddNServiceBus(typeof(TestLegalEntitiesFunctions).FullName,
                     (o) =>
                     {
                         o.EndpointConfiguration = (endpoint) =>
