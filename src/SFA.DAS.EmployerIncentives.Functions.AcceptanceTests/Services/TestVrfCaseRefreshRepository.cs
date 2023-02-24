@@ -13,14 +13,16 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             _lastRunDateTime = DateTime.Now;
         }
 
-        public async Task<DateTime> GetLastRunDateTime()
+        public Task<DateTime> GetLastRunDateTime()
         {
-            return _lastRunDateTime;
+            return Task.FromResult(_lastRunDateTime);
         }
 
-        public async Task UpdateLastRunDateTime(DateTime value)
+        public Task UpdateLastRunDateTime(DateTime value)
         {
             _lastRunDateTime = value;
+
+            return Task.CompletedTask;
         }
     }
 }
