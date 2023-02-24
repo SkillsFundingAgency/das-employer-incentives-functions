@@ -13,8 +13,9 @@ jobs:
   - name: BuildConfiguration
     value: release
   - group: BUILD Management Resources
+
   
-  steps:
+  steps:  
   - bash: |
     sudo npm install -g azurite
     sudo mkdir azurite
