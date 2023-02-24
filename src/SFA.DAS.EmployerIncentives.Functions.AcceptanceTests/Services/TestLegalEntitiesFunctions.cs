@@ -147,7 +147,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             HttpTriggerHandleValidationOverride = new HandleValidationOverrideRequest(host.Services.GetService(typeof(IValidationOverrideService)) as IValidationOverrideService);
             HttpTriggerHandleRevertPaymentsRequest = new HandleRevertPaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
             HttpTriggerHandleReinstatePaymentsRequest = new HandleReinstatePaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
-            //AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
+            AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
         }
 
         public void Dispose()
