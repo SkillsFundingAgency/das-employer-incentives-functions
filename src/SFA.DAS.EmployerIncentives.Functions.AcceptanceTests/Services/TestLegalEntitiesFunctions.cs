@@ -6,20 +6,18 @@ using NServiceBus;
 using NServiceBus.Transport;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Hooks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayments;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.EmploymentCheck;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RecalculateEarnings;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.ValidationOverrides;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Withdrawals;
 using SFA.DAS.EmployerIncentives.Infrastructure;
-using SFA.DAS.Testing.AzureStorageEmulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.Payments;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayments;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.RecalculateEarnings;
 using Config = SFA.DAS.EmployerIncentives.Infrastructure.Configuration;
 
 namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
@@ -147,7 +145,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             HttpTriggerHandleValidationOverride = new HandleValidationOverrideRequest(host.Services.GetService(typeof(IValidationOverrideService)) as IValidationOverrideService);
             HttpTriggerHandleRevertPaymentsRequest = new HandleRevertPaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
             HttpTriggerHandleReinstatePaymentsRequest = new HandleReinstatePaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
-            AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
         }
 
         public void Dispose()
