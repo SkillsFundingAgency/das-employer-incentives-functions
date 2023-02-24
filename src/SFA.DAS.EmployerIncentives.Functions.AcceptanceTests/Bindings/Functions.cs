@@ -1,5 +1,4 @@
 ﻿using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
