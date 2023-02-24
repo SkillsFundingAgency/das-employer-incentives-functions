@@ -16,16 +16,16 @@ jobs:
 
   
   steps:  
-  
   - task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      sudo npm install -g azurite
-      sudo mkdir azurite
-      sudo azurite --silent --location azurite --debug azurite\debug.log &
-      displayName: 'Install and Run Azurite'
-  
+    inputs:
+      targetType: 'inline'
+      script: |
+        sudo npm install -g azurite
+        sudo mkdir azurite
+        sudo azurite --silent --location azurite --debug 
+        azurite\debug.log &
+    displayName: 'Install and Run Azurite'
+
   - template: azure-pipelines-templates/build/step/gitversion.yml@das-platform-building-blocks
 
   - template: azure-pipelines-templates/build/step/app-build.yml@das-platform-building-blocks
