@@ -16,13 +16,17 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
         [AfterScenario()]
         public async Task CleanUp()
         {
-            if (_context.TestMessageBus.IsRunning)
+            try
             {
-                await _context.TestMessageBus.Stop();
+                if (_context.TestMessageBus.IsRunning)
+                {
+                    await _context.TestMessageBus.Stop();
+                }
+                Directory.Delete(_context.TestDirectory.FullName, true);
+                _context.LegalEntitiesFunctions?.Dispose();
+                _context.EmployerIncentivesApi?.Dispose();
             }
-            Directory.Delete(_context.TestDirectory.FullName, true);
-            _context.LegalEntitiesFunctions?.Dispose();
-            _context.EmployerIncentivesApi?.Dispose();
+            catch { }
         }
     }
 }
