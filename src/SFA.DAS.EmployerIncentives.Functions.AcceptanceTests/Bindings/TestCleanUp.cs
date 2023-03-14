@@ -13,7 +13,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
             _context = context;
         }
 
-        [AfterScenario()]
+        [AfterScenario(Order = 100)]
         public async Task CleanUp()
         {
             try
