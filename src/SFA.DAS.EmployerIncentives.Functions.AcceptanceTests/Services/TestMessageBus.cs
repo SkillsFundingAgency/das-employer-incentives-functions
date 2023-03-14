@@ -28,6 +28,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                 .StorageDirectory(StorageDirectory.FullName);
             endpointConfiguration.UseLearningTransport(s => s.AddRouting());
 
+            endpointConfiguration.SetDiagnosticsPath(Path.Combine(testDirectory.FullName, "diagnostics"));
+
             _endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
             IsRunning = true;
         }
