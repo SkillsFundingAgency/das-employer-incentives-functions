@@ -21,16 +21,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Features
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("Withdrawal")]
-    [NUnit.Framework.CategoryAttribute("messageBus")]
-    [NUnit.Framework.CategoryAttribute("employerIncentivesApi")]
     public partial class WithdrawalFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private string[] _featureTags = new string[] {
-                "messageBus",
-                "employerIncentivesApi"};
+        private string[] _featureTags = ((string[])(null));
         
 #line 1 "Withdrawal.feature"
 #line hidden
@@ -40,9 +36,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Withdrawal", "\tWhen a support user wants to withdraw an apprenticeship incentive\r\n\tThen the req" +
-                    "uest is forwarded to the EmployerIncentives system", ProgrammingLanguage.CSharp, new string[] {
-                        "messageBus",
-                        "employerIncentivesApi"});
+                    "uest is forwarded to the EmployerIncentives system", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
