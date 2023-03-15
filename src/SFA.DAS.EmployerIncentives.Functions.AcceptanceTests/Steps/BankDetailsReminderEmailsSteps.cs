@@ -36,8 +36,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             }
 
             var rootDirectory = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).Parent.Parent;
+            //var configFilePath = Directory.GetFiles(rootDirectory.FullName, configFileName, SearchOption.AllDirectories)[0];
 
-            env.Should().Be("env");
+            rootDirectory.Should().Be("rootDirectory");
 
             return Task.CompletedTask;
 
