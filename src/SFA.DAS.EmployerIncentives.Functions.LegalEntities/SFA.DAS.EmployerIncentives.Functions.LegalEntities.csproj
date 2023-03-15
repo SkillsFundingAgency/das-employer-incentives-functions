@@ -5,14 +5,10 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="NLog.config" />
-    <None Remove="NLog.local.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="nlog.config">
+    <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="nlog.local.config">
+    <Content Include="NLog.local.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
