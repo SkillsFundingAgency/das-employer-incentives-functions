@@ -35,7 +35,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                 configFileName = "nlog.local.config";
             }
 
-            configFileName.Should().Be("configFileName");
+            var rootDirectory = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).Parent.Parent;
+
+            env.Should().Be("env");
 
             return Task.CompletedTask;
 
