@@ -31,7 +31,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             }
             catch(System.Exception ex)
             {
-                ex.Message.Should().Be("Empty");
+                ex.StackTrace.Should().Be("Empty");
             }
 
             //_testContext.EmployerIncentivesApi.MockServer
