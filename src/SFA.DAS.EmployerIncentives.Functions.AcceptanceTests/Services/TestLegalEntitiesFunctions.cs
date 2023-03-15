@@ -84,7 +84,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                         a.Sources.Clear();
                         a.AddInMemoryCollection(_appConfig);
                         //a.SetBasePath(_testMessageBus.StorageDirectory.FullName);
-                        a.SetBasePath(_testContext.TestDirectory.FullName);
+                        //a.SetBasePath(_testContext.TestDirectory.FullName);
                     })
                     .ConfigureWebJobs(startUp.Configure)
                 ;
@@ -93,7 +93,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             {
                 s.Configure<Config.EmployerIncentivesApiOptions>(a =>
                 {
-                    a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
+                    //a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
                     a.SubscriptionKey = "";
                 });
 
