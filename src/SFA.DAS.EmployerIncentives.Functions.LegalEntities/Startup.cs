@@ -48,7 +48,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             builder.Services.Configure<EmployerIncentivesApiOptions>(config.GetSection(EmployerIncentivesApiOptions.EmployerIncentivesApi));
             builder.Services.Configure<FunctionConfigurationOptions>(config.GetSection(FunctionConfigurationOptions.EmployerIncentivesFunctionsConfiguration));
 
-            builder.Services.AddNLog(config);
+            //builder.Services.AddNLog(config);
 
             if (config["NServiceBusConnectionString"] == "UseDevelopmentStorage=true")
             {
