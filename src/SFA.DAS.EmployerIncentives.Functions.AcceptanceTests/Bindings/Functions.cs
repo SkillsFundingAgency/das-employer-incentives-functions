@@ -14,11 +14,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
             _context = context;
         }
 
-       // [BeforeScenario()]
-       // public async Task InitialiseFunctions()
-       // {
-       //     _context.LegalEntitiesFunctions = new TestLegalEntitiesFunctions(_context);
-       //     await _context.LegalEntitiesFunctions.Start();
-       //}
+        [BeforeScenario()]
+        public async Task InitialiseFunctions()
+        {
+            _context.LegalEntitiesFunctions = new TestLegalEntitiesFunctions(_context);
+            await _context.LegalEntitiesFunctions.Start();
+        }
     }
 }
