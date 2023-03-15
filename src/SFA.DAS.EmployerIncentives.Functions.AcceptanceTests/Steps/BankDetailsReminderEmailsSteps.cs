@@ -36,7 +36,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             }
 
             var rootDirectory = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).Parent.Parent;
-            var configFilePath = Directory.GetFiles(rootDirectory.FullName, "NLog.config", SearchOption.AllDirectories);
+            var configFilePath = Directory.GetFiles(rootDirectory.FullName, configFileName, SearchOption.AllDirectories);
 
             configFilePath.Count().Should().Be(2);
 
