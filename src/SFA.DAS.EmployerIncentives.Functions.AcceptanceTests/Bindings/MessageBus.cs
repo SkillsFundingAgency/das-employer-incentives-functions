@@ -22,8 +22,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
         {
             _context.TestMessageBus = new TestMessageBus();
             _context.Hooks.Add(new Hook<MessageContext>());
-            //return _context.TestMessageBus.Start(_context.TestDirectory);
-            return Task.CompletedTask;
+            return _context.TestMessageBus.Start(_context.TestDirectory);            
         }
     }
 }

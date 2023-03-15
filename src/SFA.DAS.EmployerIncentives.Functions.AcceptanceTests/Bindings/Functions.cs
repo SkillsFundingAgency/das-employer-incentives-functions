@@ -15,11 +15,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
         }
 
         [BeforeScenario(Order = 2)]
-        public Task InitialiseFunctions()
+        public async Task InitialiseFunctions()
         {
             _context.LegalEntitiesFunctions = new TestLegalEntitiesFunctions(_context);
-            //await _context.LegalEntitiesFunctions.Start();         
-            return Task.CompletedTask;
+            await _context.LegalEntitiesFunctions.Start();                     
         }
     }
 }
