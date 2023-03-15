@@ -17,12 +17,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
             _context = context;
         }
 
-        //[BeforeScenario(Order = 1)]
-        //public Task InitialiseMessageBus()
-        //{
-        //    _context.TestMessageBus = new TestMessageBus();
-        //    _context.Hooks.Add(new Hook<MessageContext>());
-        //    return _context.TestMessageBus.Start(_context.TestDirectory);
-        //}
+        [BeforeScenario(Order = 1)]
+        public Task InitialiseMessageBus()
+        {
+            _context.TestMessageBus = new TestMessageBus();
+            _context.Hooks.Add(new Hook<MessageContext>());
+            return _context.TestMessageBus.Start(_context.TestDirectory);
+        }
     }
 }

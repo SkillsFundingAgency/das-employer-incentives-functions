@@ -12,7 +12,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         private IEndpointInstance _endpointInstance;
         public bool IsRunning { get; private set; }
         public DirectoryInfo StorageDirectory { get; private set; }
-        public async Task Start(DirectoryInfo testDirectory)
+        public  Task Start(DirectoryInfo testDirectory)
         {
             StorageDirectory = new DirectoryInfo(Path.Combine(testDirectory.FullName, ".learningtransport"));
             if (!StorageDirectory.Exists)
@@ -20,18 +20,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                 Directory.CreateDirectory(StorageDirectory.FullName);
             }
 
-            var endpointConfiguration = new EndpointConfiguration("SFA.DAS.EmployerIncentives.Functions.Legalentities.TestMessageBus");
-            endpointConfiguration
-                .UseNewtonsoftJsonSerializer()
-                .UseMessageConventions()
-                .UseTransport<LearningTransport>()
-                .StorageDirectory(StorageDirectory.FullName);
-            endpointConfiguration.UseLearningTransport(s => s.AddRouting());
+            //var endpointConfiguration = new EndpointConfiguration("SFA.DAS.EmployerIncentives.Functions.Legalentities.TestMessageBus");
+            //endpointConfiguration
+            //    .UseNewtonsoftJsonSerializer()
+            //    .UseMessageConventions()
+            //    .UseTransport<LearningTransport>()
+            //    .StorageDirectory(StorageDirectory.FullName);
+            //endpointConfiguration.UseLearningTransport(s => s.AddRouting());
 
-            endpointConfiguration.SetDiagnosticsPath(Path.Combine(testDirectory.FullName, "diagnostics"));
+            //endpointConfiguration.SetDiagnosticsPath(Path.Combine(testDirectory.FullName, "diagnostics"));
 
-            _endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
+            //_endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
             IsRunning = true;
+            return Task.CompletedTask;
         }
 
         public async Task Stop()
