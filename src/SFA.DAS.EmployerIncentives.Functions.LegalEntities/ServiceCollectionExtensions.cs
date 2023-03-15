@@ -101,7 +101,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         {
 
             var env = Environment.GetEnvironmentVariable("EnvironmentName");
-            var configFileName = "nlog.config";
+            var configFileName = "NLog.config";
             if (string.IsNullOrEmpty(env) || env.Equals("LOCAL", StringComparison.CurrentCultureIgnoreCase))
             {
                 configFileName = "nlog.local.config";
