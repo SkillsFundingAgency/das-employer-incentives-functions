@@ -84,7 +84,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                         a.Sources.Clear();
                         a.AddInMemoryCollection(_appConfig);
                         //a.SetBasePath(_testMessageBus.StorageDirectory.FullName);
-                        //a.SetBasePath(_testContext.TestDirectory.FullName);
+                        a.SetBasePath(_testContext.TestDirectory.FullName);
                     })
                     .ConfigureWebJobs(startUp.Configure)
                 ;
@@ -93,7 +93,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             {
                 s.Configure<Config.EmployerIncentivesApiOptions>(a =>
                 {
-                    //a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
+                    a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
                     a.SubscriptionKey = "";
                 });
 
@@ -132,20 +132,20 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             host = await hostBuilder.StartAsync();
             
             // ideally use the test server but no functions support yet.
-            HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
-            TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVrfCaseRefreshService)) as IVrfCaseRefreshService);
-            TimerTriggerEarningsResilienceCheck = new HandleEarningsResilienceCheck(host.Services.GetService(typeof(IEarningsResilienceCheckService)) as IEarningsResilienceCheckService);
-            TimerTriggerBankDetailsRepeatReminderEmails = new HandleBankDetailsRepeatReminderEmails(host.Services.GetService(typeof(IEmailService)) as IEmailService, host.Services.GetService(typeof(IConfiguration)) as IConfiguration);
-            HttpTriggerUpdateCollectionCalendarPeriod = new HandleUpdateCollectionCalendarPeriod(host.Services.GetService(typeof(ICollectionCalendarService)) as ICollectionCalendarService);
-            HttpTriggerHandleWithdrawal = new HandleWithdrawalRequest(host.Services.GetService(typeof(IWithdrawalService)) as IWithdrawalService);
-            HttpTriggerHandlePausePayments = new HandlePausePaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
-            HttpTriggerHandleRefreshEmploymentCheck = new HandleRefreshEmploymentCheckRequest(host.Services.GetService(typeof(IEmploymentCheckService)) as IEmploymentCheckService);
-            HttpTriggerHandleBlockPaymentsRequest = new HandleBlockPaymentsRequest(host.Services.GetService(typeof(IBlockPaymentsService)) as IBlockPaymentsService);
-            HttpTriggerHandleRecalculateEarningsRequest = new HandleRecalculateEarningsRequest(host.Services.GetService(typeof(IRecalculateEarningsService)) as IRecalculateEarningsService);
-            HttpTriggerHandleReinstateApplication = new HandleReinstateApplicationRequest(host.Services.GetService(typeof(IWithdrawalService)) as IWithdrawalService);
-            HttpTriggerHandleValidationOverride = new HandleValidationOverrideRequest(host.Services.GetService(typeof(IValidationOverrideService)) as IValidationOverrideService);
-            HttpTriggerHandleRevertPaymentsRequest = new HandleRevertPaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
-            HttpTriggerHandleReinstatePaymentsRequest = new HandleReinstatePaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
+            //HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
+            //TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVrfCaseRefreshService)) as IVrfCaseRefreshService);
+            //TimerTriggerEarningsResilienceCheck = new HandleEarningsResilienceCheck(host.Services.GetService(typeof(IEarningsResilienceCheckService)) as IEarningsResilienceCheckService);
+            //TimerTriggerBankDetailsRepeatReminderEmails = new HandleBankDetailsRepeatReminderEmails(host.Services.GetService(typeof(IEmailService)) as IEmailService, host.Services.GetService(typeof(IConfiguration)) as IConfiguration);
+            //HttpTriggerUpdateCollectionCalendarPeriod = new HandleUpdateCollectionCalendarPeriod(host.Services.GetService(typeof(ICollectionCalendarService)) as ICollectionCalendarService);
+            //HttpTriggerHandleWithdrawal = new HandleWithdrawalRequest(host.Services.GetService(typeof(IWithdrawalService)) as IWithdrawalService);
+            //HttpTriggerHandlePausePayments = new HandlePausePaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
+            //HttpTriggerHandleRefreshEmploymentCheck = new HandleRefreshEmploymentCheckRequest(host.Services.GetService(typeof(IEmploymentCheckService)) as IEmploymentCheckService);
+            //HttpTriggerHandleBlockPaymentsRequest = new HandleBlockPaymentsRequest(host.Services.GetService(typeof(IBlockPaymentsService)) as IBlockPaymentsService);
+            //HttpTriggerHandleRecalculateEarningsRequest = new HandleRecalculateEarningsRequest(host.Services.GetService(typeof(IRecalculateEarningsService)) as IRecalculateEarningsService);
+            //HttpTriggerHandleReinstateApplication = new HandleReinstateApplicationRequest(host.Services.GetService(typeof(IWithdrawalService)) as IWithdrawalService);
+            //HttpTriggerHandleValidationOverride = new HandleValidationOverrideRequest(host.Services.GetService(typeof(IValidationOverrideService)) as IValidationOverrideService);
+            //HttpTriggerHandleRevertPaymentsRequest = new HandleRevertPaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
+            //HttpTriggerHandleReinstatePaymentsRequest = new HandleReinstatePaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
         }
 
         public void Dispose()
