@@ -14,10 +14,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
             _context = context;
         }
 
-        //[BeforeScenario(Order = 2)]
-        //public void InitialiseApi()
-        //{
-        //    _context.EmployerIncentivesApi = new TestEmployerIncentivesApi();
-        //}
+        [BeforeScenario(Order = 2)]
+        public void InitialiseApi()
+        {
+            _context.EmployerIncentivesApi = new TestEmployerIncentivesApi();
+        }
     }
 }
