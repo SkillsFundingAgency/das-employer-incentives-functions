@@ -23,10 +23,16 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         }
 
         [When(@"a bank details reminder emails job is triggered")]
-        public Task WhenABankDetailsReminderEmailsJobIsTriggered()
+        public async Task WhenABankDetailsReminderEmailsJobIsTriggered()
         {
-            //await _testContext.LegalEntitiesFunctions.Start();
-            return Task.CompletedTask;
+            try
+            {
+                await _testContext.LegalEntitiesFunctions.Start();
+            }
+            catch(System.Exception ex)
+            {
+                ex.Message.Should().Be("Empty");
+            }
 
             //_testContext.EmployerIncentivesApi.MockServer
             //    .Given(
