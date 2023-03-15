@@ -99,7 +99,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
 
         public static IServiceCollection AddNLog(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-
             var env = Environment.GetEnvironmentVariable("EnvironmentName");
             var configFileName = "nlog.config";
             if (string.IsNullOrEmpty(env) || env.Equals("LOCAL", StringComparison.CurrentCultureIgnoreCase))
