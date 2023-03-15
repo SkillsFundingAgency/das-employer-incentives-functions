@@ -101,10 +101,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         public static IServiceCollection AddNLog(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             var env = Environment.GetEnvironmentVariable("EnvironmentName");
-            var configFileName = "nlog.config";
+            var configFileName = "NLog.config";
             if (string.IsNullOrEmpty(env) || env.Equals("LOCAL", StringComparison.CurrentCultureIgnoreCase))
             {
-                configFileName = "nlog.local.config";
+                configFileName = "NLog.local.config";
             }
             
             var rootDirectory = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).Parent.Parent;
