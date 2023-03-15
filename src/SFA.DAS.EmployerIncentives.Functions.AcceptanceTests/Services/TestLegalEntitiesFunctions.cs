@@ -88,44 +88,44 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
                     .ConfigureWebJobs(startUp.Configure)
                 ;
 
-            _ = hostBuilder.ConfigureServices((s) =>
-            {
-                s.Configure<Config.EmployerIncentivesApiOptions>(a =>
-                {
-                    a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
-                    a.SubscriptionKey = "";
-                });
+            //_ = hostBuilder.ConfigureServices((s) =>
+            //{
+            //    s.Configure<Config.EmployerIncentivesApiOptions>(a =>
+            //    {
+            //        a.ApiBaseUrl = _testEmployerIncentivesApi.BaseAddress;
+            //        a.SubscriptionKey = "";
+            //    });
 
-                VrfCaseRefreshRepository = new TestVrfCaseRefreshRepository();
-                s.AddSingleton<IVrfCaseRefreshRepository>(VrfCaseRefreshRepository);
+            //    VrfCaseRefreshRepository = new TestVrfCaseRefreshRepository();
+            //    s.AddSingleton<IVrfCaseRefreshRepository>(VrfCaseRefreshRepository);
 
-                _ = s.AddNServiceBus(typeof(TestLegalEntitiesFunctions).FullName,
-                    (o) =>
-                    {
-                        o.EndpointConfiguration = (endpoint) =>
-                        {
-                            endpoint.UseTransport<LearningTransport>().StorageDirectory(_testMessageBus.StorageDirectory.FullName);
-                            return endpoint;
-                        };
+            //    _ = s.AddNServiceBus(typeof(TestLegalEntitiesFunctions).FullName,
+            //        (o) =>
+            //        {
+            //            o.EndpointConfiguration = (endpoint) =>
+            //            {
+            //                endpoint.UseTransport<LearningTransport>().StorageDirectory(_testMessageBus.StorageDirectory.FullName);
+            //                return endpoint;
+            //            };
 
-                        var hook = _messageHooks.SingleOrDefault(h => h is Hook<MessageContext>) as Hook<MessageContext>;
-                        if (hook != null)
-                        {
-                            o.OnMessageReceived = (message) =>
-                            {
-                                hook?.OnReceived(message);
-                            };
-                            o.OnMessageProcessed = (message) =>
-                            {
-                                hook?.OnProcessed(message);
-                            };
-                            o.OnMessageErrored = (exception, message) =>
-                            {
-                                hook?.OnErrored(exception, message);
-                            };
-                        }
-                    });
-            });
+            //            var hook = _messageHooks.SingleOrDefault(h => h is Hook<MessageContext>) as Hook<MessageContext>;
+            //            if (hook != null)
+            //            {
+            //                o.OnMessageReceived = (message) =>
+            //                {
+            //                    hook?.OnReceived(message);
+            //                };
+            //                o.OnMessageProcessed = (message) =>
+            //                {
+            //                    hook?.OnProcessed(message);
+            //                };
+            //                o.OnMessageErrored = (exception, message) =>
+            //                {
+            //                    hook?.OnErrored(exception, message);
+            //                };
+            //            }
+            //        });
+            //});
 
             hostBuilder.UseEnvironment("LOCAL");
             host = await hostBuilder.StartAsync();
@@ -160,8 +160,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             if (disposing)
             {
                 host?.StopAsync();
-            }
-            host?.Dispose();
+            }            
 
             host?.Dispose();
 
