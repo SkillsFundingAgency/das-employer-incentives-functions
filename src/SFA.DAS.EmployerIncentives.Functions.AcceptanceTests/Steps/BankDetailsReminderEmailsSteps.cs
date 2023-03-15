@@ -1,11 +1,8 @@
 ﻿using FluentAssertions;
 using HandlebarsDotNet;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services;
-using System.IO;
-using System;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using WireMock;
@@ -26,33 +23,16 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
         }
 
         [When(@"a bank details reminder emails job is triggered")]
-        public Task WhenABankDetailsReminderEmailsJobIsTriggered()
+        public async Task WhenABankDetailsReminderEmailsJobIsTriggered()
         {
-            var env = Environment.GetEnvironmentVariable("EnvironmentName");
-            var configFileName = "NLog.config";
-            if (string.IsNullOrEmpty(env) || env.Equals("LOCAL", StringComparison.CurrentCultureIgnoreCase))
+            try
             {
-                configFileName = "NLog.local.config";
+                await _testContext.LegalEntitiesFunctions.Start();
             }
-
-            var rootDirectory = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).Parent.Parent;
-            var configFilePath = Directory.GetFiles(rootDirectory.FullName, configFileName, SearchOption.AllDirectories);
-
-            configFilePath.Count().Should().Be(2);
-
-            return Task.CompletedTask;
-
-            //var rootDirectory = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).Parent.Parent;
-
-            //try
-            //{   
-                
-            //    await _testContext.LegalEntitiesFunctions.Start();
-            //}
-            //catch(System.Exception ex)
-            //{
-            //    ex.StackTrace.Should().Be("Empty");
-            //}
+            catch(System.Exception ex)
+            {
+                ex.StackTrace.Should().Be("Empty");
+            }
 
             //_testContext.EmployerIncentivesApi.MockServer
             //    .Given(
