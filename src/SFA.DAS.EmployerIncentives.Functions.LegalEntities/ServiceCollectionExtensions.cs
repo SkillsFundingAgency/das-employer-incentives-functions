@@ -106,8 +106,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             {
                 configFileName = "nlog.local.config";
             }
-            var rootDirectory = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ".."));
-            var configFilePath = Directory.GetFiles(rootDirectory, configFileName, SearchOption.AllDirectories)[0];
+            
+            var rootDirectory = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).Parent.Parent;
+            var configFilePath = Directory.GetFiles(rootDirectory.FullName, configFileName, SearchOption.AllDirectories)[0];
             LogManager.Setup()
                 .SetupExtensions(e => e.AutoLoadExtensions())
                 .LoadConfigurationFromFile(configFilePath, optional: false)
