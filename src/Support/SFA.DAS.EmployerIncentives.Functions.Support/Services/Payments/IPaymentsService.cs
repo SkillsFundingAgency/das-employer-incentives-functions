@@ -1,0 +1,12 @@
+﻿using System.Threading.Tasks;
+using SFA.DAS.EmployerIncentives.Functions.Support.Services.Payments.Types;
+
+namespace SFA.DAS.EmployerIncentives.Functions.Support.Services.Payments
+{
+    public interface IPaymentsService
+    {
+        Task SetPauseStatus(PausePaymentsRequest request);
+        Task RevertPayments(RevertPaymentsRequest request);
+        Task ReinstatePayments(ReinstatePaymentsRequest request);
+    }
+}

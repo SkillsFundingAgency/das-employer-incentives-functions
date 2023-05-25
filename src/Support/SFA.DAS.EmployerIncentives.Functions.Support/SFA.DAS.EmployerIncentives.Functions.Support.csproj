@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AzureFunctionsVersion>v3</AzureFunctionsVersion>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.NLogTarget" Version="2.21.0" />
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Http" Version="3.0.2" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.6.5" />
+
+    <PackageReference Include="NServiceBus" Version="7.1.7" />
+    <PackageReference Include="SFA.DAS.Configuration.AzureTableStorage" Version="3.0.84" />
+    <PackageReference Include="SFA.DAS.EmployerAccounts.Messages" Version="1.6.2978" />
+    <PackageReference Include="SFA.DAS.EmployerIncentives.Messages" Version="0.1.219-EI-1584-employment-check-receive-result.9-prerelease" />
+    <PackageReference Include="SFA.DAS.EmploymentCheck.Types" Version="1.1.63-prerelease-47" />
+    <PackageReference Include="SFA.DAS.Http" Version="3.2.53" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SFA.DAS.EmployerIncentives.Support.Infrastructure\SFA.DAS.EmployerIncentives.Support.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local.settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup> 
+</Project>
