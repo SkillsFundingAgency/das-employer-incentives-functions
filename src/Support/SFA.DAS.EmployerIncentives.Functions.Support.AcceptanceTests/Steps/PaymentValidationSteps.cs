@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Newtonsoft.Json;
 using SFA.DAS.EmployerIncentives.Functions.Support.Services.Jobs.Types;
 using TechTalk.SpecFlow;
 using WireMock.RequestBuilders;
@@ -12,29 +11,25 @@ using WireMock.ResponseBuilders;
 namespace SFA.DAS.EmployerIncentives.Functions.Support.AcceptanceTests.Steps
 {
     [Binding]
-    [Scope(Feature = "LegalEntities")]
-    public class LegalEntitySteps : StepsBase    
+    [Scope(Feature = "PaymentValidation")]
+    public class PaymentValidationSteps : StepsBase    
     {
         private readonly TestContext _testContext;
         
-        public LegalEntitySteps(TestContext testContext) : base(testContext)
+        public PaymentValidationSteps(TestContext testContext) : base(testContext)
         {
             _testContext = testContext;
         }
 
-        [When(@"a request to refresh legal entities is received")]
-        public async Task WhenRefreshLegalEntitiesRequestIsReceived()
+        [When(@"a request to trigger payment validation is received")]
+        public async Task WhenTriggerPaymentValidationRequestIsReceived()
         {
             var jobRequest = _testContext.TestData.GetOrCreate(onCreate: () =>
             {
                 return new JobRequest
                 {
-                    Type = JobType.RefreshLegalEntities,
-                    Data = new Dictionary<string, string>
-                    {
-                        { "PageNumber", "1" },
-                        { "PageSize", "200" }
-                    }
+                    Type = JobType.PaymentValidation,
+                    Data = new Dictionary<string, string>()
                 };
             });
 
@@ -42,7 +37,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.Support.AcceptanceTests.Steps
                .Given(
                        Request
                        .Create()
-                       .WithPath(x => x.Contains("legalentities/refresh"))
+                       .WithPath(x => x.Contains("jobs"))
                        .UsingPut()
                        )
                    .RespondWith(
@@ -50,27 +45,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.Support.AcceptanceTests.Steps
                    .WithStatusCode(HttpStatusCode.OK)
                    .WithHeader("Content-Type", "application/json"));
 
-            await _testContext.LegalEntitiesFunctions.HttpTriggerRefreshLegalEntities.RunHttp(null);
+            await _testContext.LegalEntitiesFunctions.HttpTriggerHandleTriggerPaymentValidation.RunHttp(null);
         }
-
-        [Then(@"a request is made to the Employer Incentives system")]
-        public void TheARequestIsMadeToTheApi()
-        {
-            var jobRequest = _testContext.TestData.GetOrCreate<JobRequest>();
-
-            var requests = _testContext
-                .EmployerIncentivesApi
-                .MockServer
-                .FindLogEntries(
-                    Request
-                        .Create()
-                        .WithPath($"/api/jobs")
-                        .WithBody(JsonConvert.SerializeObject((object)jobRequest))
-                );
-
-            requests.AsEnumerable().Count().Should().Be(1);
-        }
-
+        
         [Then(@"the request is forwarded to the Employer Incentives system")]
         public void ThenTheRefreshRequestIsForwardedToTheApi()
         {
@@ -82,7 +59,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.Support.AcceptanceTests.Steps
                        .FindLogEntries(
                            Request
                            .Create()
-                           .WithPath(x => x.Contains("legalentities/refresh")));
+                           .WithPath(x => x.Contains("jobs")));
 
             requests.AsEnumerable().Count().Should().Be(1);
         }

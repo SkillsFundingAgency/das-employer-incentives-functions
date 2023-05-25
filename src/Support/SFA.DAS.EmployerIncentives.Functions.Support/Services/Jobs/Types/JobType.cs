@@ -3,6 +3,9 @@
     public enum JobType
     {
         RefreshLegalEntities = 1,
-        RefreshEmploymentChecks = 2
+        RefreshEmploymentChecks = 2,
+        RefreshLearnerMatch = 3,
+        PaymentValidation = 4,
+        PaymentApproval = 5
     }
 }

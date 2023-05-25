@@ -11,6 +11,7 @@ using NServiceBus.Transport;
 using SFA.DAS.EmployerIncentives.Functions.Support.AcceptanceTests.Hooks;
 using SFA.DAS.EmployerIncentives.Functions.Support.Services.BlockPayments;
 using SFA.DAS.EmployerIncentives.Functions.Support.Services.EmploymentCheck;
+using SFA.DAS.EmployerIncentives.Functions.Support.Services.Jobs;
 using SFA.DAS.EmployerIncentives.Functions.Support.Services.LegalEntities;
 using SFA.DAS.EmployerIncentives.Functions.Support.Services.Payments;
 using SFA.DAS.EmployerIncentives.Functions.Support.Services.RecalculateEarnings;
@@ -44,6 +45,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.Support.AcceptanceTests.Services
         public HandleBlockPaymentsRequest HttpTriggerHandleBlockPaymentsRequest { get; set; }
 
         public HandleReinstatePaymentsRequest HttpTriggerHandleReinstatePaymentsRequest { get; set; }
+
+        public HandleRefreshLearnerMatchRequest HttpTriggerHandleRefreshLearnerMatchRequest { get; set; }
+        public HandleTriggerPaymentValidation HttpTriggerHandleTriggerPaymentValidation { get; set; }
+        public HandleTriggerPaymentApproval HttpTriggerHandleTriggerPaymentApproval { get; set; }
         public TestLegalEntitiesFunctions(TestContext testContext)
         {
             _testContext = testContext;
@@ -132,6 +137,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.Support.AcceptanceTests.Services
             HttpTriggerHandleValidationOverride = new HandleValidationOverrideRequest(host.Services.GetService(typeof(IValidationOverrideService)) as IValidationOverrideService);
             HttpTriggerHandleRevertPaymentsRequest = new HandleRevertPaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
             HttpTriggerHandleReinstatePaymentsRequest = new HandleReinstatePaymentsRequest(host.Services.GetService(typeof(IPaymentsService)) as IPaymentsService);
+            HttpTriggerHandleRefreshLearnerMatchRequest = new HandleRefreshLearnerMatchRequest(host.Services.GetService(typeof(IJobsService)) as IJobsService);
+            HttpTriggerHandleTriggerPaymentValidation = new HandleTriggerPaymentValidation(host.Services.GetService(typeof(IJobsService)) as IJobsService);
+            HttpTriggerHandleTriggerPaymentApproval = new HandleTriggerPaymentApproval(host.Services.GetService(typeof(IJobsService)) as IJobsService);
             AzureStorageEmulatorManager.StartStorageEmulator(); // only works if emulator sits here: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe"
         }
 

@@ -23,8 +23,44 @@ namespace SFA.DAS.EmployerIncentives.Functions.Support.Services.Jobs
             };
 
             var response = await _client.PutAsJsonAsync(
-                $"jobs", 
+                "jobs", 
                 new JobRequest { Type = JobType.RefreshLegalEntities, Data = data 
+                });
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task RefreshLearnerMatch()
+        {
+            var response = await _client.PutAsJsonAsync(
+                "jobs",
+                new JobRequest { Type = JobType.RefreshLearnerMatch, Data = new Dictionary<string, string>()
+                });
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task TriggerPaymentValidation()
+        {
+            var response = await _client.PutAsJsonAsync(
+                "jobs",
+                new JobRequest
+                {
+                    Type = JobType.PaymentValidation,
+                    Data = new Dictionary<string, string>()
+                });
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task TriggerPaymentApproval()
+        {
+            var response = await _client.PutAsJsonAsync(
+                "jobs",
+                new JobRequest
+                {
+                    Type = JobType.PaymentApproval,
+                    Data = new Dictionary<string, string>()
                 });
 
             response.EnsureSuccessStatusCode();
