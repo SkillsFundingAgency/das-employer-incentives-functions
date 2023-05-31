@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -21,19 +20,15 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
     [TestFixture]
     public class WhenHandleBlockPaymentsRequest
     {
-        private HandleBlockPaymentsRequest _sut;
-        private Mock<IBlockPaymentsService> _mockBlockPaymentsService;
-        private Fixture _fixture;
-        private BlockAccountLegalEntityForPaymentsRequest _request;
-
         [SetUp]
         public void Setup()
         {
             _fixture = new Fixture();
 
-            _request = _fixture.Build<BlockAccountLegalEntityForPaymentsRequest>()
+            var request = _fixture.Build<BlockAccountLegalEntityForPaymentsRequest>()
                 .With(x => x.ServiceRequest, _fixture.Create<ServiceRequest>())
-                .With(x => x.VendorBlocks, new List<VendorBlock> {
+                .With(x => x.VendorBlocks, new List<VendorBlock>
+                {
                     _fixture.Build<VendorBlock>()
                         .With(x => x.VendorBlockEndDate, DateTime.Today.AddMonths(1))
                         .Create(),
@@ -43,8 +38,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
                 })
                 .Create();
 
+            _request = new List<BlockAccountLegalEntityForPaymentsRequest> { request };
             _mockBlockPaymentsService = new Mock<IBlockPaymentsService>();
-            
+
             _mockBlockPaymentsService
                 .Setup(m => m.BlockAccountLegalEntitiesForPayments(_request))
                 .Returns(Task.FromResult<IActionResult>(new NoContentResult()));
@@ -52,11 +48,16 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
             _sut = new HandleBlockPaymentsRequest(_mockBlockPaymentsService.Object);
         }
 
+        private HandleBlockPaymentsRequest _sut;
+        private Mock<IBlockPaymentsService> _mockBlockPaymentsService;
+        private Fixture _fixture;
+        private List<BlockAccountLegalEntityForPaymentsRequest> _request;
+
         [Test]
         public async Task Then_a_RefreshLegalEntities_Request_is_sent_to_the_EmployerIncentivesService()
         {
             // Arrange
-            var request = new HttpRequestMessage()
+            var request = new HttpRequestMessage
             {
                 Content = new StringContent(JsonConvert.SerializeObject(_request), Encoding.UTF8, "application/json")
             };
@@ -66,7 +67,9 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
 
             // Assert
             _mockBlockPaymentsService
-                .Verify(m => m.BlockAccountLegalEntitiesForPayments(It.IsAny<BlockAccountLegalEntityForPaymentsRequest>())
+                .Verify(m =>
+                        m.BlockAccountLegalEntitiesForPayments(
+                            It.IsAny<List<BlockAccountLegalEntityForPaymentsRequest>>())
                     , Times.Once);
         }
 
@@ -74,7 +77,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
         public async Task Then_an_OkResult_is_returned_on_success()
         {
             // Arrange
-            var request = new HttpRequestMessage()
+            var request = new HttpRequestMessage
             {
                 Content = new StringContent(JsonConvert.SerializeObject(_request), Encoding.UTF8, "application/json")
             };
@@ -91,11 +94,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
         {
             // Arrange
             _mockBlockPaymentsService
-                .Setup(m => m.BlockAccountLegalEntitiesForPayments(It.IsAny<BlockAccountLegalEntityForPaymentsRequest>()))
+                .Setup(m => m.BlockAccountLegalEntitiesForPayments(
+                    It.IsAny<List<BlockAccountLegalEntityForPaymentsRequest>>()))
                 .Throws(new ArgumentException("Invalid input"));
             _sut = new HandleBlockPaymentsRequest(_mockBlockPaymentsService.Object);
 
-            var request = new HttpRequestMessage()
+            var request = new HttpRequestMessage
             {
                 Content = new StringContent(JsonConvert.SerializeObject(_request), Encoding.UTF8, "application/json")
             };
@@ -113,11 +117,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
         {
             // Arrange
             _mockBlockPaymentsService
-                .Setup(m => m.BlockAccountLegalEntitiesForPayments(It.IsAny<BlockAccountLegalEntityForPaymentsRequest>()))
+                .Setup(m =>
+                    m.BlockAccountLegalEntitiesForPayments(It.IsAny<List<BlockAccountLegalEntityForPaymentsRequest>>()))
                 .Throws(new BlockPaymentsServiceException(HttpStatusCode.Conflict, "System error"));
             _sut = new HandleBlockPaymentsRequest(_mockBlockPaymentsService.Object);
 
-            var request = new HttpRequestMessage()
+            var request = new HttpRequestMessage
             {
                 Content = new StringContent(JsonConvert.SerializeObject(_request), Encoding.UTF8, "application/json")
             };
@@ -135,11 +140,12 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
         {
             // Arrange
             _mockBlockPaymentsService
-                .Setup(m => m.BlockAccountLegalEntitiesForPayments(It.IsAny<BlockAccountLegalEntityForPaymentsRequest>()))
+                .Setup(m =>
+                    m.BlockAccountLegalEntitiesForPayments(It.IsAny<List<BlockAccountLegalEntityForPaymentsRequest>>()))
                 .Throws(new Exception("Unexpected error"));
             _sut = new HandleBlockPaymentsRequest(_mockBlockPaymentsService.Object);
 
-            var request = new HttpRequestMessage()
+            var request = new HttpRequestMessage
             {
                 Content = new StringContent(JsonConvert.SerializeObject(_request), Encoding.UTF8, "application/json")
             };
