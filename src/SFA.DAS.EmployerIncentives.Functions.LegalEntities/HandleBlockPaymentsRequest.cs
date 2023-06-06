@@ -17,10 +17,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
     {
         private readonly IBlockPaymentsService _blockPaymentsService;
 
-        public HandleBlockPaymentsRequest(IBlockPaymentsService blockPaymentsService)
-        {
-            _blockPaymentsService = blockPaymentsService;
-        }
+        public HandleBlockPaymentsRequest(IBlockPaymentsService blockPaymentsService) => _blockPaymentsService = blockPaymentsService;
 
         [FunctionName("HttpTriggerHandleBlockPaymentsRequest")]
         public async Task<IActionResult> RunHttp(
@@ -32,6 +29,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 var blockPaymentsRequest =
                     JsonConvert.DeserializeObject<List<BlockAccountLegalEntityForPaymentsRequest>>(
                         await request.Content.ReadAsStringAsync());
+
                 await _blockPaymentsService.BlockAccountLegalEntitiesForPayments(blockPaymentsRequest);
             }
             catch (ArgumentException ex)
@@ -44,20 +42,29 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                     {
                         ex.ParamName,
                         ex.Message,
-                        Example = new
+                        Example = new List<BlockAccountLegalEntityForPaymentsRequest>
                         {
-                            VendorBlocks = new List<VendorBlock>
+                            new BlockAccountLegalEntityForPaymentsRequest
                             {
-                                new VendorBlock
-                                    { VendorId = "P10001234", VendorBlockEndDate = new DateTime(2022, 01, 01) },
-                                new VendorBlock
-                                    { VendorId = "P10001255", VendorBlockEndDate = new DateTime(2022, 02, 01) }
-                            },
-                            ServiceRequest = new ServiceRequest
-                            {
-                                TaskId = "taskId1234",
-                                DecisionReference = "decisionReference123",
-                                TaskCreatedDate = DateTime.UtcNow
+                                VendorBlocks = new List<VendorBlock>
+                                {
+                                    new VendorBlock
+                                    {
+                                        VendorId = "P10001234",
+                                        VendorBlockEndDate = new DateTime(2022, 01, 01)
+                                    },
+                                    new VendorBlock
+                                    {
+                                        VendorId = "P10001255",
+                                        VendorBlockEndDate = new DateTime(2022, 02, 01)
+                                    }
+                                },
+                                ServiceRequest = new ServiceRequest
+                                {
+                                    TaskId = "taskId1234",
+                                    DecisionReference = "decisionReference123",
+                                    TaskCreatedDate = DateTime.UtcNow
+                                }
                             }
                         }
                     })
@@ -78,7 +85,10 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 {
                     StatusCode = (int)HttpStatusCode.InternalServerError,
                     ContentType = "application/json",
-                    Content = JsonConvert.SerializeObject(new { ex.Message })
+                    Content = JsonConvert.SerializeObject(new
+                    {
+                        ex.Message
+                    })
                 };
             }
 
