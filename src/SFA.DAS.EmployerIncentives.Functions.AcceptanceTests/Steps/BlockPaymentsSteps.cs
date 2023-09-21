@@ -21,18 +21,19 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
     [Scope(Feature = "BlockPayments")]
     public class BlockPaymentsSteps : StepsBase
     {
-        private readonly TestContext _testContext;
+        private readonly List<BlockAccountLegalEntityForPaymentsRequest> _blockPaymentsRequest;
         private readonly Fixture _fixture;
-        private readonly BlockAccountLegalEntityForPaymentsRequest _blockPaymentsRequest;
+        private readonly TestContext _testContext;
         private IActionResult _response;
 
         public BlockPaymentsSteps(TestContext testContext) : base(testContext)
         {
             _testContext = testContext;
             _fixture = new Fixture();
-            _blockPaymentsRequest = _fixture.Build<BlockAccountLegalEntityForPaymentsRequest>()
+            var request = _fixture.Build<BlockAccountLegalEntityForPaymentsRequest>()
                 .With(x => x.ServiceRequest, _fixture.Create<ServiceRequest>())
-                .With(x => x.VendorBlocks, new List<VendorBlock> {
+                .With(x => x.VendorBlocks, new List<VendorBlock>
+                {
                     _fixture.Build<VendorBlock>()
                         .With(x => x.VendorBlockEndDate, DateTime.Today.AddMonths(1))
                         .Create(),
@@ -44,6 +45,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
                         .Create()
                 })
                 .Create();
+            _blockPaymentsRequest = new List<BlockAccountLegalEntityForPaymentsRequest> { request };
         }
 
         [When(@"a block payments request is received")]
@@ -68,7 +70,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Steps
             {
                 Content = new StringContent(json, Encoding.UTF8, "application/json")
             };
-            _response = await _testContext.LegalEntitiesFunctions.HttpTriggerHandleBlockPaymentsRequest.RunHttp(request);
+            _response = await _testContext.LegalEntitiesFunctions.HttpTriggerHandleBlockPaymentsRequest
+                .RunHttp(request);
         }
 
         [Then(@"the block payments request is forwarded to the Employer Incentives API")]

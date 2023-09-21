@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayments.Types;
@@ -14,7 +15,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayme
             _client = client;
         }
 
-        public async Task BlockAccountLegalEntitiesForPayments(BlockAccountLegalEntityForPaymentsRequest blockPaymentsRequest)
+        public async Task BlockAccountLegalEntitiesForPayments(
+            List<BlockAccountLegalEntityForPaymentsRequest> blockPaymentsRequest)
         {
             var response = await _client.PatchAsync("blockedpayments", blockPaymentsRequest.GetStringContent());
 
@@ -37,8 +39,8 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.BlockPayme
             {
                 // Do nothing
             }
+
             return content;
         }
-
     }
 }

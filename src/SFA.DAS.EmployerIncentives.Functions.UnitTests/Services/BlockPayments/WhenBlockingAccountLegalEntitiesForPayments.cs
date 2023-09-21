@@ -15,11 +15,6 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
     [TestFixture]
     public class WhenBlockingAccountLegalEntitiesForPayments
     {
-        private BlockPaymentsService _sut;
-        private Uri _baseAddress;
-        private TestHttpClient _testClient;
-        private Fixture _fixture;
-
         [SetUp]
         public void Setup()
         {
@@ -32,6 +27,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
 
             _sut = new BlockPaymentsService(_testClient);
         }
+
+        private BlockPaymentsService _sut;
+        private Uri _baseAddress;
+        private TestHttpClient _testClient;
+        private Fixture _fixture;
 
         [Test]
         public async Task Then_the_request_is_forwarded_to_the_client()
@@ -66,7 +66,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
         {
             // Arrange
             var request = BuildValidBlockPaymentsRequest();
-            request.ServiceRequest = null;
+            request[0].ServiceRequest = null;
             var service = new BlockPaymentsServiceValidation(_sut);
 
             // Act
@@ -81,7 +81,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
         {
             // Arrange
             var request = BuildValidBlockPaymentsRequest();
-            request.ServiceRequest.TaskId = null;
+            request[0].ServiceRequest.TaskId = null;
             var service = new BlockPaymentsServiceValidation(_sut);
 
             // Act
@@ -96,7 +96,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
         {
             // Arrange
             var request = BuildValidBlockPaymentsRequest();
-            request.ServiceRequest.DecisionReference = null;
+            request[0].ServiceRequest.DecisionReference = null;
             var service = new BlockPaymentsServiceValidation(_sut);
 
             // Act
@@ -111,7 +111,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
         {
             // Arrange
             var request = BuildValidBlockPaymentsRequest();
-            request.ServiceRequest.TaskCreatedDate = null;
+            request[0].ServiceRequest.TaskCreatedDate = null;
             var service = new BlockPaymentsServiceValidation(_sut);
 
             // Act
@@ -126,7 +126,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
         {
             // Arrange
             var request = BuildValidBlockPaymentsRequest();
-            request.VendorBlocks = null;
+            request[0].VendorBlocks = null;
             var service = new BlockPaymentsServiceValidation(_sut);
 
             // Act
@@ -141,7 +141,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
         {
             // Arrange
             var request = BuildValidBlockPaymentsRequest();
-            request.VendorBlocks = new List<VendorBlock>();
+            request[0].VendorBlocks = new List<VendorBlock>();
             var service = new BlockPaymentsServiceValidation(_sut);
 
             // Act
@@ -156,7 +156,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
         {
             // Arrange
             var request = BuildValidBlockPaymentsRequest();
-            request.VendorBlocks[0].VendorId = null;
+            request[0].VendorBlocks[0].VendorId = null;
             var service = new BlockPaymentsServiceValidation(_sut);
 
             // Act
@@ -171,7 +171,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
         {
             // Arrange
             var request = BuildValidBlockPaymentsRequest();
-            request.VendorBlocks[0].VendorBlockEndDate = DateTime.MinValue;
+            request[0].VendorBlocks[0].VendorBlockEndDate = DateTime.MinValue;
             var service = new BlockPaymentsServiceValidation(_sut);
 
             // Act
@@ -186,7 +186,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
         {
             // Arrange
             var request = BuildValidBlockPaymentsRequest();
-            request.VendorBlocks[0].VendorBlockEndDate = DateTime.Now.AddMinutes(-1);
+            request[0].VendorBlocks[0].VendorBlockEndDate = DateTime.Now.AddMinutes(-1);
             var service = new BlockPaymentsServiceValidation(_sut);
 
             // Act
@@ -195,17 +195,18 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.BlockPayments
             // Assert
             result.Should().Throw<ArgumentException>().WithMessage("Vendor Block End Date must be in the future*");
         }
-        
-        private BlockAccountLegalEntityForPaymentsRequest BuildValidBlockPaymentsRequest()
+
+        private List<BlockAccountLegalEntityForPaymentsRequest> BuildValidBlockPaymentsRequest()
         {
-            return _fixture.Build<BlockAccountLegalEntityForPaymentsRequest>()
+            var request = _fixture.Build<BlockAccountLegalEntityForPaymentsRequest>()
                 .With(x => x.ServiceRequest, _fixture.Create<ServiceRequest>())
-                .With(x => x.VendorBlocks, new List<VendorBlock> {
+                .With(x => x.VendorBlocks, new List<VendorBlock>
+                {
                     _fixture.Build<VendorBlock>()
                         .With(x => x.VendorBlockEndDate, DateTime.Today.AddMonths(1))
                         .Create()
-                })
-                .Create();
+                }).Create();
+            return new List<BlockAccountLegalEntityForPaymentsRequest> { request };
         }
     }
 }
