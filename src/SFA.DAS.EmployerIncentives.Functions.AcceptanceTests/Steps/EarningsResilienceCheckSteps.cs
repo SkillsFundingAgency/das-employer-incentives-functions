@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services;
-using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
