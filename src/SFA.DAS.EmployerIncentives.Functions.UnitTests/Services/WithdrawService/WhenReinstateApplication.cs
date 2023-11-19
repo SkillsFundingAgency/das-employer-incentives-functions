@@ -58,7 +58,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Reinstate(reinstateApplicationRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("AccountLegalEntityId not set (Parameter 'AccountLegalEntityId')");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("AccountLegalEntityId not set (Parameter 'AccountLegalEntityId')");
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Reinstate(reinstateApplicationRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("ULN not set (Parameter 'ULN')");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("ULN not set (Parameter 'ULN')");
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Reinstate(reinstateApplicationRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request is not set*");
         }
 
         [TestCase(null)]
@@ -107,7 +107,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Reinstate(reinstateApplicationRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Task Id is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Task Id is not set*");
         }
 
         [TestCase(null)]
@@ -124,7 +124,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Reinstate(reinstateApplicationRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Decision Reference is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Decision Reference is not set*");
         }
 
         [Test]
@@ -139,7 +139,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Reinstate(reinstateApplicationRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Service Request Task Created Date is not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Service Request Task Created Date is not set*");
         }
     }
 }

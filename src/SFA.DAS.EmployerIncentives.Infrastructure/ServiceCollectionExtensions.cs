@@ -11,11 +11,13 @@ namespace SFA.DAS.EmployerIncentives.Infrastructure
     {
         public static IServiceCollection AddNServiceBus(
             this IServiceCollection serviceCollection,
-            ILogger logger,
+            string logCategoryName,
             Action<NServiceBusOptions> OnConfigureOptions = null)
         {
             serviceCollection.AddSingleton<IExtensionConfigProvider, NServiceBusExtensionConfigProvider>((c) =>
             {
+                var logger = c.GetService<ILoggerProvider>().CreateLogger(logCategoryName);
+
                 var options = new NServiceBusOptions
                 {
                     OnMessageReceived = (context) =>

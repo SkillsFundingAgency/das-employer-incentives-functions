@@ -87,7 +87,7 @@ namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
             Func<Task> result = async () => await _sut.RunEvent(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage($"Unexpected Error type set when employmentResult is set : {errorType}");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage($"Unexpected Error type set when employmentResult is set : {errorType}");
             _mockEmploymentCheckService.Verify(m => m.Update(It.IsAny<UpdateRequest>()), Times.Never());
         }
 
@@ -106,7 +106,7 @@ namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
             Func<Task> result = async () => await _sut.RunEvent(request);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage($"Unexpected Employment Check result received : {errorType}");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage($"Unexpected Employment Check result received : {errorType}");
             _mockEmploymentCheckService.Verify(m => m.Update(It.IsAny<UpdateRequest>()), Times.Never());
         }
 
@@ -130,7 +130,7 @@ namespace SFA.DAS.EmployerIncentives.Api.UnitTests.Account
             Func<Task> result = async () => await _sut.RunEvent(request);
 
             // Assert
-            result.Should().Throw<Exception>().WithMessage("Test");
+            result.Should().ThrowAsync<Exception>().WithMessage("Test");
         }
 
         private EmploymentCheckResult Map(bool? result, string errorType)

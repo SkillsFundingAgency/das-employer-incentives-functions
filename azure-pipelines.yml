@@ -17,8 +17,7 @@ resources:
     endpoint: SkillsFundingAgency
 
 pool:
-  name: DAS - Continuous Integration Agents
-  demands: LATEST_DOTNET_VERSION -equals 3.1
+  name: DAS - Continuous Integration Agents  
 
 stages:
 - stage: Build

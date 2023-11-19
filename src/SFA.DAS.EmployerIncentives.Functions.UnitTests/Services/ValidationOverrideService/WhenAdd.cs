@@ -68,7 +68,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             Func<Task> result = async () => await _sut.Add(_validationOverrideRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Duplicate ValidationOverride entries exist. The combination of AccountLegalEntityId and ULN should be unique.");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Duplicate ValidationOverride entries exist. The combination of AccountLegalEntityId and ULN should be unique.");
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             Func<Task> result = async () => await _sut.Add(_validationOverrideRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Duplicate ValidationOverride entries exist. The combination of AccountLegalEntityId and ULN should be unique.");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Duplicate ValidationOverride entries exist. The combination of AccountLegalEntityId and ULN should be unique.");
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             Func<Task> result = async () => await _sut.Add(_validationOverrideRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage($"ValidationSteps not set or invalid for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage($"ValidationSteps not set or invalid for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}");
         }
 
         [Test]
@@ -108,7 +108,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             Func<Task> result = async () => await _sut.Add(_validationOverrideRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage($"ValidationSteps not set or invalid for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage($"ValidationSteps not set or invalid for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}");
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             Func<Task> result = async () => await _sut.Add(_validationOverrideRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage($"ULN not set for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage($"ULN not set for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}");
         }
 
         [Test]
@@ -134,7 +134,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             Func<Task> result = async () => await _sut.Add(_validationOverrideRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage($"AccountLegalEntityId not set for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage($"AccountLegalEntityId not set for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}");
         }
 
         [Test]
@@ -147,7 +147,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             Func<Task> result = async () => await _sut.Add(_validationOverrideRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage($"Duplicate ValidationSteps exist for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage($"Duplicate ValidationSteps exist for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}");
         }
 
         [Test]
@@ -160,7 +160,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             Func<Task> result = async () => await _sut.Add(_validationOverrideRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage($"ValidationStep invalid for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}, Error : ValidationType not set or invalid");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage($"ValidationStep invalid for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}, Error : ValidationType not set or invalid");
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             Func<Task> result = async () => await _sut.Add(_validationOverrideRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage($"ValidationStep invalid for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}, Error : ExpiryDate '{_validationOverrideRequests[0].ValidationSteps[0].ExpiryDate:yyyy'-'MM'-'dd'T'HH':'mm'Z'}' can not be in the past");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage($"ValidationStep invalid for AccountLegalEntityId : {_validationOverrideRequests[0].AccountLegalEntityId}, ULN : {_validationOverrideRequests[0].ULN}, Error : ExpiryDate '{_validationOverrideRequests[0].ValidationSteps[0].ExpiryDate:yyyy'-'MM'-'dd'T'HH':'mm'Z'}' can not be in the past");
         }
 
         [Test]
@@ -226,7 +226,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.ValidationOver
             Func <Task> result = async () => await _sut.Add(_validationOverrideRequests);
 
             // Assert
-            result.Should().NotThrow<ArgumentException>();
+            result.Should().NotThrowAsync<ArgumentException>();
         }
 
     }

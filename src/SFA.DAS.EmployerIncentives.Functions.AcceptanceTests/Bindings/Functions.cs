@@ -1,5 +1,4 @@
 ﻿using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
@@ -15,11 +14,11 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Bindings
             _context = context;
         }
 
-        [BeforeScenario()]
+        [BeforeScenario(Order = 2)]
         public async Task InitialiseFunctions()
         {
             _context.LegalEntitiesFunctions = new TestLegalEntitiesFunctions(_context);
-            await _context.LegalEntitiesFunctions.Start();
-       }
+            await _context.LegalEntitiesFunctions.Start();                     
+        }
     }
 }

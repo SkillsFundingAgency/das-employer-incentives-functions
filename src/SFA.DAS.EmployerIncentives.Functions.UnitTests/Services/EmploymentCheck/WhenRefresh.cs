@@ -76,7 +76,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Employment check type not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Employment check type not set*");
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Invalid employment check type*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Invalid employment check type*");
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Applications not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Applications not set*");
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Applications not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Applications not set*");
         }
 
         [Test]
@@ -151,7 +151,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("ServiceRequest not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("ServiceRequest not set*");
         }
 
         [TestCase("")]
@@ -172,7 +172,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("ServiceRequest TaskId not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("ServiceRequest TaskId not set*");
         }
 
         [TestCase("")]
@@ -193,7 +193,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("ServiceRequest DecisionReference not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("ServiceRequest DecisionReference not set*");
         }
 
         [Test]
@@ -212,7 +212,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("ServiceRequest TaskCreatedDate not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("ServiceRequest TaskCreatedDate not set*");
         }
 
         [Test]
@@ -227,7 +227,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             Func<Task> result = async () => await service.Refresh(refreshRequests);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Request data not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Request data not set*");
         }
 
         [Test]
@@ -240,7 +240,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.EmploymentChec
             Func<Task> result = async () => await service.Refresh(null);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Request data not set*");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Request data not set*");
         }
     }
 }

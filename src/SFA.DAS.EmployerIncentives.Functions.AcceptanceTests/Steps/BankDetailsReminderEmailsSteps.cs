@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using HandlebarsDotNet;
 using SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services;
 using System.Linq;
 using System.Net;

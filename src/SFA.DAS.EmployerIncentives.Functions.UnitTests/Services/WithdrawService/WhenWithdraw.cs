@@ -56,7 +56,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Withdraw(withdrawRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Applications are not set (Parameter 'applications')");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Applications are not set (Parameter 'applications')");
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Withdraw(withdrawRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("Applications are not set (Parameter 'applications')");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("Applications are not set (Parameter 'applications')");
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Withdraw(withdrawRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("AccountLegalEntityId not set (Parameter 'AccountLegalEntityId')");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("AccountLegalEntityId not set (Parameter 'AccountLegalEntityId')");
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Withdraw(withdrawRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("WithdrawalType not set or invalid (Parameter 'WithdrawalType')");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("WithdrawalType not set or invalid (Parameter 'WithdrawalType')");
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Withdraw(withdrawRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("ULN not set (Parameter 'ULN')");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("ULN not set (Parameter 'ULN')");
         }
 
         [Test]
@@ -139,7 +139,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Withdraw(withdrawRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("ServiceRequest not set (Parameter 'ServiceRequest')");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("ServiceRequest not set (Parameter 'ServiceRequest')");
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Withdraw(withdrawRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("ServiceRequest TaskId not set (Parameter 'TaskId')");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("ServiceRequest TaskId not set (Parameter 'TaskId')");
         }
         
         [Test]
@@ -173,7 +173,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Withdraw(withdrawRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("ServiceRequest DecisionReference not set (Parameter 'DecisionReference')");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("ServiceRequest DecisionReference not set (Parameter 'DecisionReference')");
         }
 
         [Test]
@@ -190,7 +190,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.Services.WithdrawServic
             Func<Task> result = async () => await service.Withdraw(withdrawRequest);
 
             // Assert
-            result.Should().Throw<ArgumentException>().WithMessage("ServiceRequest TaskCreatedDate not set (Parameter 'TaskCreatedDate')");
+            result.Should().ThrowAsync<ArgumentException>().WithMessage("ServiceRequest TaskCreatedDate not set (Parameter 'TaskCreatedDate')");
         }
     }
 }
