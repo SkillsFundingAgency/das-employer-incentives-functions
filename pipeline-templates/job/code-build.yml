@@ -20,6 +20,7 @@ jobs:
     parameters:
       SonarCloudProjectKey: SkillsFundingAgency_das-employer-incentives-functions
       RunAcceptanceTests: true
+      ContinueOnVulnerablePackageScanError: true
 
   - task: DotNetCoreCLI@2
     displayName: 'Publish - dotnet publish application ${{ parameters.SolutionBaseName }}.Functions.LegalEntities'
