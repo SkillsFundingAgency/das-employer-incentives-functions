@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntities.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
             _table.CreateIfNotExistsAsync();
         }
 
-        public async Task<DateTime> GetLastRunDateTime()
+        public async Task<VrfCaseRefresh> Get()
         {
             var data = await GetEntitiesFromTable<RefreshVendorRegistrationFormStatusData>(_table);
 
@@ -34,17 +35,21 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
                 RowKey = RowKey,
             };
 
-            return record.LastRunDateTime ?? DefaultLastRunDateTime;
+            return new VrfCaseRefresh
+            {
+                LastRunDateTime = record.LastRunDateTime ?? DefaultLastRunDateTime,
+                IsPaused = record.IsPaused ?? false
+            };
         }
 
-        public async Task UpdateLastRunDateTime(DateTime value)
+        public async Task Update(VrfCaseRefresh vrfCaseRefresh)
         {
-            value = DateTime.SpecifyKind(value, DateTimeKind.Utc);
             var record = new RefreshVendorRegistrationFormStatusData
             {
                 PartitionKey = _partitionKey,
                 RowKey = RowKey,
-                LastRunDateTime = value
+                LastRunDateTime = DateTime.SpecifyKind(vrfCaseRefresh.LastRunDateTime, DateTimeKind.Utc),
+                IsPaused = vrfCaseRefresh.IsPaused
             };
 
             var operation = TableOperation.InsertOrReplace(record);
@@ -69,7 +74,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities
         private class RefreshVendorRegistrationFormStatusData : TableEntity
         {
             public DateTime? LastRunDateTime { get; set; }
+            public bool? IsPaused { get; set; }
         }
-
     }
 }
