@@ -19,17 +19,34 @@ namespace SFA.DAS.EmployerIncentives.Functions.LegalEntities.Services.LegalEntit
             _logger = logger;
         }
 
-        public async Task RefreshStatuses()
+        public async Task Pause()
         {
-            var from = await _repository.GetLastRunDateTime();
+            var vrfCaseRefreshStatus = await _repository.Get();
+            vrfCaseRefreshStatus.IsPaused = true;
+            await _repository.Update(vrfCaseRefreshStatus);
+        }
 
-            _logger.LogInformation("[VRF Refresh] Updating vrf case status from {from}", from);
+        public async Task Refresh()
+        {
+            var vrfCaseRefreshStatus = await _repository.Get();
+            if (!vrfCaseRefreshStatus.IsPaused)
+            {
+                _logger.LogInformation("[VRF Refresh] Updating vrf case status from {from}", vrfCaseRefreshStatus.LastRunDateTime);
 
-            var lastCaseUpdate = await _vrfService.Update(from);
+                var lastCaseUpdate = await _vrfService.Update(vrfCaseRefreshStatus.LastRunDateTime);
 
-            _logger.LogInformation("[VRF Refresh] Updating vrf case status last run date time to {lastCaseUpdate}", lastCaseUpdate);
+                _logger.LogInformation("[VRF Refresh] Updating vrf case status last run date time to {lastCaseUpdate}", lastCaseUpdate);
 
-            await _repository.UpdateLastRunDateTime(lastCaseUpdate);
+                vrfCaseRefreshStatus.LastRunDateTime = lastCaseUpdate;
+                await _repository.Update(vrfCaseRefreshStatus);
+            }
+        }
+
+        public async Task Resume()
+        {
+            var vrfCaseRefreshStatus = await _repository.Get();
+            vrfCaseRefreshStatus.IsPaused = false;
+            await _repository.Update(vrfCaseRefreshStatus);
         }
     }
 }
