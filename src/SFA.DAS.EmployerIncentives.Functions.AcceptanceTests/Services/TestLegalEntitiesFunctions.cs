@@ -35,7 +35,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
         private IHost host;
         private bool isDisposed;
         public HandleRefreshLegalEntitiesRequest HttpTriggerRefreshLegalEntities { get; set; }
-        public RefreshVendorRegistrationCaseStatus TimerTriggerRefreshVendorRegistrationCaseStatus { get; set; }
+        public RefreshVendorRegistrationCaseStatus RefreshVendorRegistrationCaseStatus { get; set; }
         public HandleEarningsResilienceCheck TimerTriggerEarningsResilienceCheck { get; set; }
         public HandleUpdateCollectionCalendarPeriod HttpTriggerUpdateCollectionCalendarPeriod { get; set; }
         public HandleWithdrawalRequest HttpTriggerHandleWithdrawal { get; set; }
@@ -134,7 +134,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.AcceptanceTests.Services
             
             // ideally use the test server but no functions support yet.
             HttpTriggerRefreshLegalEntities = new HandleRefreshLegalEntitiesRequest(host.Services.GetService(typeof(ILegalEntitiesService)) as ILegalEntitiesService);
-            TimerTriggerRefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVrfCaseRefreshService)) as IVrfCaseRefreshService);
+            RefreshVendorRegistrationCaseStatus = new RefreshVendorRegistrationCaseStatus(host.Services.GetService(typeof(IVrfCaseRefreshService)) as IVrfCaseRefreshService);
             TimerTriggerEarningsResilienceCheck = new HandleEarningsResilienceCheck(host.Services.GetService(typeof(IEarningsResilienceCheckService)) as IEarningsResilienceCheckService);
             TimerTriggerBankDetailsRepeatReminderEmails = new HandleBankDetailsRepeatReminderEmails(host.Services.GetService(typeof(IEmailService)) as IEmailService, host.Services.GetService(typeof(IConfiguration)) as IConfiguration);
             HttpTriggerUpdateCollectionCalendarPeriod = new HandleUpdateCollectionCalendarPeriod(host.Services.GetService(typeof(ICollectionCalendarService)) as ICollectionCalendarService);

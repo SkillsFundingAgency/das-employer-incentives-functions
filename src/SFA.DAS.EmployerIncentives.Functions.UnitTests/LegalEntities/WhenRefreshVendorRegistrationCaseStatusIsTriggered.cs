@@ -24,7 +24,7 @@ namespace SFA.DAS.EmployerIncentives.Functions.UnitTests.LegalEntities
             await _sut.Run(null);
 
             // Assert
-            _mockIVrfCaseRefreshService.Verify(m => m.RefreshStatuses(), Times.Once);
+            _mockIVrfCaseRefreshService.Verify(m => m.Refresh(), Times.Once);
         }
 
     }
